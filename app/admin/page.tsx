@@ -83,9 +83,7 @@ export default function Admin() {
 
     const { data, error } = await supabase
       .from("citas")
-      .select(
-        "id,nombre,telefono,email,fecha,hora,motivo,estado"
-      )
+      .select("id,nombre,telefono,email,fecha,hora,motivo,estado")
       .order("fecha", { ascending: true })
       .order("hora", { ascending: true });
 
@@ -142,8 +140,7 @@ export default function Admin() {
   );
 
   const citasConfirmadas = useMemo(
-    () =>
-      citas.filter((cita) => cita.estado === "confirmada"),
+    () => citas.filter((cita) => cita.estado === "confirmada"),
     [citas]
   );
 
@@ -254,7 +251,6 @@ export default function Admin() {
             Administración
           </p>
 
-          {/* DASHBOARD */}
           <button
             onClick={() => router.push("/admin")}
             className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition ${
@@ -267,7 +263,6 @@ export default function Admin() {
             <span>Dashboard</span>
           </button>
 
-          {/* AGENDA */}
           <button
             onClick={() => router.push("/agenda")}
             className={`mt-2 flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition ${
@@ -280,7 +275,6 @@ export default function Admin() {
             <span>Agenda</span>
           </button>
 
-          {/* SOLICITUDES */}
           <button
             onClick={() =>
               router.push("/admin/solicitudes")
@@ -309,7 +303,6 @@ export default function Admin() {
             )}
           </button>
 
-          {/* PACIENTES */}
           <button
             onClick={() =>
               router.push("/admin/pacientes")
@@ -326,7 +319,6 @@ export default function Admin() {
 
           <div className="my-6 border-t border-slate-100" />
 
-          {/* WEB */}
           <button
             onClick={() => router.push("/")}
             className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 transition hover:bg-slate-50 hover:text-[#0A3653]"
@@ -335,7 +327,6 @@ export default function Admin() {
             <span>Ver página web</span>
           </button>
 
-          {/* CERRAR SESIÓN */}
           <button
             onClick={cerrarSesion}
             className="mt-2 flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-500 transition hover:bg-red-50 hover:text-[#B1263A]"
@@ -369,24 +360,96 @@ export default function Admin() {
       <section className="lg:pl-64">
         {/* HEADER */}
         <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/95 backdrop-blur">
-          <div className="flex h-20 items-center justify-between px-6 lg:px-10">
+          <div className="flex h-20 items-center justify-between px-4 sm:px-6 lg:px-10">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#B1263A]">
                 Panel privado
               </p>
 
-              <h1 className="mt-1 text-2xl font-semibold text-[#0A3653]">
+              <h1 className="mt-1 text-xl font-semibold text-[#0A3653] sm:text-2xl">
                 Dashboard
               </h1>
             </div>
 
-            <button
-              onClick={cargarCitas}
-              disabled={cargando}
-              className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-600 shadow-sm transition hover:border-[#0A3653] hover:text-[#0A3653] disabled:opacity-50"
-            >
-              {cargando ? "Actualizando..." : "Actualizar"}
-            </button>
+            <div className="flex items-center gap-2">
+              {/* MENÚ MÓVIL */}
+              <details className="relative lg:hidden">
+                <summary className="flex h-11 w-11 cursor-pointer list-none items-center justify-center rounded-xl border border-slate-200 bg-white text-xl text-[#0A3653] shadow-sm">
+                  ☰
+                </summary>
+
+                <div className="absolute right-0 top-14 z-50 w-64 overflow-hidden rounded-2xl border border-slate-200 bg-white p-2 shadow-xl">
+                  <button
+                    onClick={() => router.push("/admin")}
+                    className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-medium text-slate-700 hover:bg-slate-50"
+                  >
+                    ▦
+                    <span>Dashboard</span>
+                  </button>
+
+                  <button
+                    onClick={() => router.push("/agenda")}
+                    className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-medium text-slate-700 hover:bg-slate-50"
+                  >
+                    ◷
+                    <span>Agenda</span>
+                  </button>
+
+                  <button
+                    onClick={() =>
+                      router.push("/admin/solicitudes")
+                    }
+                    className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-medium text-slate-700 hover:bg-slate-50"
+                  >
+                    ◉
+                    <span>Solicitudes</span>
+
+                    {citasPendientes.length > 0 && (
+                      <span className="ml-auto rounded-full bg-[#B1263A] px-2 py-1 text-xs font-bold text-white">
+                        {citasPendientes.length}
+                      </span>
+                    )}
+                  </button>
+
+                  <button
+                    onClick={() =>
+                      router.push("/admin/pacientes")
+                    }
+                    className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-medium text-slate-700 hover:bg-slate-50"
+                  >
+                    ♙
+                    <span>Pacientes</span>
+                  </button>
+
+                  <div className="my-2 border-t border-slate-100" />
+
+                  <button
+                    onClick={() => router.push("/")}
+                    className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-medium text-slate-600 hover:bg-slate-50"
+                  >
+                    ↗
+                    <span>Ver página web</span>
+                  </button>
+
+                  <button
+                    onClick={cerrarSesion}
+                    className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-medium text-slate-500 hover:bg-red-50 hover:text-[#B1263A]"
+                  >
+                    ↪
+                    <span>Cerrar sesión</span>
+                  </button>
+                </div>
+              </details>
+
+              {/* ACTUALIZAR */}
+              <button
+                onClick={cargarCitas}
+                disabled={cargando}
+                className="rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-medium text-slate-600 shadow-sm transition hover:border-[#0A3653] hover:text-[#0A3653] disabled:opacity-50 sm:px-4"
+              >
+                {cargando ? "Actualizando..." : "Actualizar"}
+              </button>
+            </div>
           </div>
         </header>
 
@@ -525,6 +588,7 @@ export default function Admin() {
                     <p className="text-2xl font-semibold">
                       {proximaCita.hora}
                     </p>
+
                     <p className="text-xs text-white/60">
                       hora
                     </p>
