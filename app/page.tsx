@@ -8,559 +8,627 @@ const services = [
   {
     number: "01",
     title: "Osteopatía",
+    japanese: "調和",
+    concept: "Equilibrio",
     text: "Un enfoque personalizado para comprender tu cuerpo, identificar qué puede estar alterando su equilibrio y trabajar sobre ello.",
   },
   {
     number: "02",
     title: "Acupuntura",
+    japanese: "気",
+    concept: "Armonía",
     text: "Una técnica basada en la medicina tradicional china integrada dentro de una valoración individualizada.",
   },
   {
     number: "03",
     title: "Dietética",
+    japanese: "養",
+    concept: "Cuidado",
     text: "Orientación y acompañamiento para mejorar tus hábitos y cuidar tu bienestar desde la alimentación.",
   },
   {
     number: "04",
     title: "Moxibustión",
+    japanese: "温",
+    concept: "Calidez",
     text: "Una técnica tradicional que utiliza el calor para complementar el abordaje terapéutico.",
   },
   {
     number: "05",
     title: "Descargas",
+    japanese: "解",
+    concept: "Liberación",
     text: "Trabajo dirigido a liberar tensión y favorecer una mejor sensación corporal.",
   },
 ];
 
-const testimonials = [
+const process = [
+  ["01", "Escuchamos", "Nos cuentas qué te ocurre y cómo lo estás sintiendo."],
+  ["02", "Valoramos", "Observamos tu situación de forma individualizada."],
+  ["03", "Personalizamos", "Alberto determina el enfoque más adecuado para ti."],
+  ["04", "Acompañamos", "Trabajamos contigo respetando tu proceso."],
+];
+
+const faqs = [
   {
-    text: "Un trato cercano, profesional y totalmente personalizado.",
-    name: "Paciente",
+    question: "¿Tengo que elegir un tratamiento al reservar?",
+    answer:
+      "No. Cuéntanos qué te ocurre. Alberto valorará tu situación y determinará qué enfoque puede ser el más adecuado.",
   },
   {
-    text: "Desde el primer momento sentí que realmente escuchaba lo que necesitaba.",
-    name: "Paciente",
+    question: "¿Cuánto dura una sesión?",
+    answer:
+      "Las sesiones tienen una duración aproximada de una hora, permitiendo dedicar tiempo a la valoración y al trabajo personalizado.",
   },
   {
-    text: "Una experiencia muy agradable y un espacio donde te sientes cómodo desde que entras.",
-    name: "Paciente",
+    question: "¿Qué debo explicar al pedir mi cita?",
+    answer:
+      "Simplemente describe qué notas, dónde lo sientes y aquello que consideres importante. No necesitas saber qué técnica necesitas.",
   },
 ];
 
 export default function Home() {
   const [scrolled, setScrolled] = useState(false);
-  const [activeService, setActiveService] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [visibleSections, setVisibleSections] = useState<Set<string>>(
-    new Set()
-  );
+  const [activeService, setActiveService] = useState(0);
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 40);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => window.removeEventListener("scroll", handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 45);
+    onScroll();
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
-    const elements = document.querySelectorAll(".reveal");
+    const elements = document.querySelectorAll<HTMLElement>("[data-reveal]");
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            setVisibleSections((prev) => {
-              const next = new Set(prev);
-              next.add(entry.target.id);
-              return next;
-            });
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
           }
         });
       },
-      {
-        threshold: 0.15,
-      }
+      { threshold: 0.12 }
     );
 
-    elements.forEach((element, index) => {
-      if (!element.id) {
-        element.id = `reveal-${index}`;
-      }
-
-      observer.observe(element);
-    });
-
+    elements.forEach((element) => observer.observe(element));
     return () => observer.disconnect();
   }, []);
 
-  const closeMobileMenu = () => {
-    setMobileMenuOpen(false);
-  };
+  const closeMenu = () => setMobileMenuOpen(false);
 
   return (
-    <main className="overflow-hidden bg-white text-[#0A3653]">
-      {/* NAVBAR */}
-      <header
-        className={`fixed left-0 right-0 top-0 z-50 transition-all duration-500 ${
-          scrolled
-            ? "bg-white/95 shadow-sm backdrop-blur-md"
-            : "bg-transparent"
-        }`}
-      >
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 lg:px-10">
-          <a href="#" className="group" onClick={closeMobileMenu}>
-            <div className="text-xs font-semibold tracking-[0.28em] text-[#B1263A]">
-              CLÍNICA DE OSTEOPATÍA
+    <main>
+      {/* NAV */}
+      <header className={`lux-nav ${scrolled ? "lux-nav--scrolled" : ""}`}>
+        <div className="lux-nav__inner">
+          <a href="#" className="brand" onClick={closeMenu}>
+            <div className="brand__seal">
+              <span>AM</span>
             </div>
 
-            <div
-              className={`mt-1 text-lg font-bold tracking-tight ${
-                scrolled ? "text-[#0A3653]" : "text-white"
-              }`}
-            >
-              Alberto Matamoros
+            <div>
+              <span className="brand__small">CLÍNICA DE OSTEOPATÍA</span>
+              <strong>Alberto Matamoros</strong>
             </div>
           </a>
 
-          {/* MENÚ DESKTOP */}
-          <nav className="hidden items-center gap-8 md:flex">
-            <a href="#servicios" className="nav-link">
-              Servicios
-            </a>
-
-            <a href="#alberto" className="nav-link">
-              Alberto
-            </a>
-
-            <a href="#clinica" className="nav-link">
-              La clínica
-            </a>
-
-            <a href="#contacto" className="nav-link">
-              Contacto
-            </a>
-
-            <a
-              href={AGENDA_URL}
-              className="rounded-full bg-[#0A3653] px-6 py-3 text-sm font-semibold text-white transition duration-300 hover:-translate-y-0.5 hover:bg-[#B1263A]"
-            >
-              Reservar cita
-            </a>
+          <nav className="desktop-nav">
+            <a href="#filosofia">Filosofía</a>
+            <a href="#servicios">Servicios</a>
+            <a href="#alberto">Alberto</a>
+            <a href="#clinica">La clínica</a>
+            <a href="#contacto">Contacto</a>
           </nav>
 
-          {/* MENÚ MÓVIL */}
-          <div className="flex items-center gap-3 md:hidden">
-            <a
-              href={AGENDA_URL}
-              className="rounded-full bg-[#0A3653] px-5 py-3 text-sm font-semibold text-white"
-            >
-              Reservar
-            </a>
+          <a href={AGENDA_URL} className="nav-book">
+            <span>Reservar cita</span>
+            <i>↗</i>
+          </a>
 
-            <button
-              type="button"
-              aria-label="Abrir menú"
-              aria-expanded={mobileMenuOpen}
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className={`relative flex h-11 w-11 items-center justify-center rounded-full transition ${
-                scrolled
-                  ? "bg-[#0A3653] text-white"
-                  : "border border-white/30 bg-white/10 text-white backdrop-blur-sm"
-              }`}
-            >
-              <span
-                className={`absolute h-px w-5 transition-transform duration-300 ${
-                  mobileMenuOpen ? "rotate-45" : "-translate-y-1.5"
-                }`}
-                style={{ backgroundColor: "currentColor" }}
-              />
-
-              <span
-                className={`absolute h-px w-5 transition-transform duration-300 ${
-                  mobileMenuOpen ? "-rotate-45" : "translate-y-1.5"
-                }`}
-                style={{ backgroundColor: "currentColor" }}
-              />
-            </button>
-          </div>
+          <button
+            type="button"
+            className={`menu-button ${mobileMenuOpen ? "is-open" : ""}`}
+            onClick={() => setMobileMenuOpen((value) => !value)}
+            aria-label="Abrir menú"
+            aria-expanded={mobileMenuOpen}
+          >
+            <span />
+            <span />
+          </button>
         </div>
 
-        {/* PANEL MÓVIL */}
-        <div
-          className={`overflow-hidden border-t border-slate-200 bg-white transition-all duration-500 md:hidden ${
-            mobileMenuOpen
-              ? "max-h-[420px] opacity-100"
-              : "max-h-0 opacity-0"
-          }`}
-        >
-          <nav className="mx-auto max-w-7xl px-6 py-6">
-            <a
-              href="#servicios"
-              onClick={closeMobileMenu}
-              className="mobile-nav-link"
-            >
-              <span>01</span>
-              Servicios
-            </a>
-
-            <a
-              href="#alberto"
-              onClick={closeMobileMenu}
-              className="mobile-nav-link"
-            >
-              <span>02</span>
-              Alberto
-            </a>
-
-            <a
-              href="#clinica"
-              onClick={closeMobileMenu}
-              className="mobile-nav-link"
-            >
-              <span>03</span>
-              La clínica
-            </a>
-
-            <a
-              href="#contacto"
-              onClick={closeMobileMenu}
-              className="mobile-nav-link"
-            >
-              <span>04</span>
-              Contacto
-            </a>
-
-            <a
-              href={AGENDA_URL}
-              onClick={closeMobileMenu}
-              className="mt-4 flex items-center justify-between rounded-2xl bg-[#B1263A] px-5 py-4 font-semibold text-white"
-            >
-              Reservar cita
-              <span>→</span>
-            </a>
-          </nav>
+        <div className={`mobile-menu ${mobileMenuOpen ? "is-open" : ""}`}>
+          <a href="#filosofia" onClick={closeMenu}>Filosofía</a>
+          <a href="#servicios" onClick={closeMenu}>Servicios</a>
+          <a href="#alberto" onClick={closeMenu}>Alberto</a>
+          <a href="#clinica" onClick={closeMenu}>La clínica</a>
+          <a href="#contacto" onClick={closeMenu}>Contacto</a>
+          <a href={AGENDA_URL} onClick={closeMenu} className="mobile-menu__book">
+            Reservar cita <span>↗</span>
+          </a>
         </div>
       </header>
 
       {/* HERO */}
-      <section className="relative flex min-h-screen items-center">
-        <div className="absolute inset-0 bg-[#E9EEF1]">
-          <div className="flex h-full items-center justify-center">
-            <div className="image-placeholder image-placeholder-large">
-              <span>FOTOGRAFÍA PRINCIPAL</span>
-              <small>Imagen de Alberto / consulta</small>
-            </div>
-          </div>
+      <section className="lux-hero">
+        <div className="hero-noise" />
+        <div className="hero-glow hero-glow--blue" />
+        <div className="hero-glow hero-glow--wine" />
+
+        <div className="zen-sun zen-sun--hero">
+          <span />
         </div>
 
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0A3653]/90 via-[#0A3653]/55 to-transparent" />
+        <div className="japanese-grid japanese-grid--hero" />
 
-        <div className="relative z-10 mx-auto w-full max-w-7xl px-6 pt-24 lg:px-10">
-          <div className="max-w-3xl text-white">
-            <p className="hero-animation text-sm font-semibold uppercase tracking-[0.35em] text-white/75">
+        <div className="lux-container hero-grid">
+          <div className="hero-copy">
+            <div className="eyebrow hero-enter">
+              <span />
               Terapias Naturales y Equilibrio
-            </p>
+            </div>
 
-            <h1 className="hero-animation-delay mt-6 text-5xl font-bold leading-[0.98] tracking-tight sm:text-6xl lg:text-8xl">
-              Escucha tu cuerpo.
+            <h1 className="hero-enter hero-enter--2">
+              Tu cuerpo
               <br />
-              <span className="text-white/75">
-                Encuentra tu equilibrio.
-              </span>
+              <em>habla.</em>
+              <br />
+              <strong>Escuchémoslo.</strong>
             </h1>
 
-            <p className="hero-animation-delay-2 mt-8 max-w-xl text-lg leading-relaxed text-white/80">
-              Un espacio dedicado a entenderte, escucharte y acompañarte
-              desde un enfoque personalizado.
+            <p className="hero-description hero-enter hero-enter--3">
+              Un espacio donde la escucha, la experiencia y diferentes
+              herramientas terapéuticas se encuentran para ofrecerte un
+              acompañamiento verdaderamente personal.
             </p>
 
-            <div className="hero-animation-delay-3 mt-10 flex flex-col gap-4 sm:flex-row">
-              <a
-                href={AGENDA_URL}
-                className="group inline-flex items-center justify-center gap-4 rounded-full bg-white px-8 py-4 font-semibold text-[#0A3653] transition duration-500 hover:gap-6"
-              >
-                Reservar mi cita
-                <span className="transition-transform duration-500 group-hover:translate-x-1">
-                  →
-                </span>
+            <div className="hero-actions hero-enter hero-enter--4">
+              <a href={AGENDA_URL} className="button button--wine">
+                <span>Reservar mi cita</span>
+                <i>↗</i>
               </a>
 
-              <a
-                href="#filosofia"
-                className="inline-flex items-center justify-center rounded-full border border-white/40 px-8 py-4 font-semibold text-white backdrop-blur-sm transition duration-300 hover:bg-white/10"
-              >
-                Conocer la clínica
+              <a href="#filosofia" className="button button--glass">
+                <span>Descubrir la clínica</span>
+                <i>↓</i>
               </a>
+            </div>
+
+            <div className="hero-values hero-enter hero-enter--5">
+              <div>
+                <span>01</span>
+                <strong>Escucha</strong>
+              </div>
+              <div>
+                <span>02</span>
+                <strong>Equilibrio</strong>
+              </div>
+              <div>
+                <span>03</span>
+                <strong>Personalización</strong>
+              </div>
+            </div>
+          </div>
+
+          <div className="hero-art hero-enter hero-enter--3">
+            <div className="hero-arch">
+              <div className="photo-space">
+                <span>FOTOGRAFÍA PRINCIPAL</span>
+                <small>Alberto · Consulta · Espacio</small>
+              </div>
+
+              <div className="hero-arch__shine" />
+            </div>
+
+            <div className="hero-floating-card">
+              <div className="floating-symbol">和</div>
+              <div>
+                <span>Una mirada diferente</span>
+                <strong>Primero la persona.</strong>
+                <p>Después, la técnica.</p>
+              </div>
+              <i>↗</i>
+            </div>
+
+            <div className="hero-stamp">
+              <span>AM</span>
+              <small>EST. · 2026</small>
             </div>
           </div>
         </div>
 
-        <div className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2 text-center text-white/70">
-          <div className="text-[10px] uppercase tracking-[0.35em]">
-            Descubre
-          </div>
-          <div className="mx-auto mt-3 h-12 w-px animate-pulse bg-white/50" />
+        <div className="hero-bottom">
+          <span>SEVILLA</span>
+          <div />
+          <span>OSTEOPATÍA · ACUPUNTURA · BIENESTAR</span>
         </div>
       </section>
 
-      {/* FILOSOFÍA */}
-      <section
-        id="filosofia"
-        className={`section-padding reveal ${
-          visibleSections.has("filosofia") ? "visible" : ""
-        }`}
-      >
-        <div className="mx-auto grid max-w-7xl gap-16 lg:grid-cols-2 lg:items-center">
-          <div>
-            <p className="section-kicker">Nuestra filosofía</p>
+      {/* INTRO */}
+      <section id="filosofia" className="intro-section">
+        <div className="lux-container">
+          <div className="intro-top" data-reveal>
+            <div className="section-index">
+              <span>01</span>
+              <i />
+              <span>FILOSOFÍA</span>
+            </div>
 
-            <h2 className="section-title">
-              Cada cuerpo tiene
-              <br />
-              <span className="text-[#B1263A]">su propia historia.</span>
-            </h2>
+            <div className="enso-small">
+              <span>和</span>
+            </div>
           </div>
 
-          <div className="space-y-6 text-lg leading-relaxed text-slate-600">
-            <p>
-              No creemos en soluciones iguales para todo el mundo. Cada
-              persona llega con unas necesidades, unas circunstancias y una
-              historia diferente.
-            </p>
+          <div className="intro-grid">
+            <div data-reveal>
+              <p className="kicker">Nuestra manera de entender el cuidado</p>
 
-            <p>
-              Por eso, el primer paso es escucharte. Entender qué te ocurre,
-              cómo lo sientes y qué puede necesitar tu cuerpo.
-            </p>
+              <h2 className="display-title">
+                No empiezas
+                <br />
+                por una <em>técnica.</em>
+                <br />
+                Empiezas por ti.
+              </h2>
+            </div>
 
-            <p className="font-medium text-[#0A3653]">
-              A partir de ahí comienza el trabajo.
-            </p>
-          </div>
-        </div>
-      </section>
+            <div className="intro-copy" data-reveal>
+              <p className="intro-lead">
+                Cada cuerpo tiene una historia distinta. Por eso, una sesión
+                no debería empezar eligiendo un tratamiento de una lista.
+              </p>
 
-      {/* FOTO INTERMEDIA */}
-      <section className="parallax-section relative h-[70vh] min-h-[500px] overflow-hidden">
-        <div className="parallax-image absolute inset-[-8%]">
-          <div className="flex h-full items-center justify-center bg-[#E9EEF1]">
-            <div className="image-placeholder image-placeholder-wide">
-              <span>FOTOGRAFÍA</span>
-              <small>Detalle de la clínica / tratamiento</small>
+              <p>
+                El primer paso es escucharte: saber qué notas, cómo lo sientes
+                y qué está ocurriendo en tu día a día. A partir de esa
+                valoración, Alberto decide qué herramientas pueden encajar
+                mejor contigo.
+              </p>
+
+              <div className="quote-line">
+                <i />
+                <p>
+                  “La técnica es una herramienta.
+                  <br />
+                  <strong>La persona es siempre el centro.</strong>”
+                </p>
+              </div>
             </div>
           </div>
         </div>
+      </section>
 
-        <div className="absolute inset-0 bg-[#0A3653]/20" />
+      {/* STATEMENT */}
+      <section className="statement-section">
+        <div className="statement-pattern" />
 
-        <div className="absolute bottom-10 left-0 right-0 z-10">
-          <div className="mx-auto max-w-7xl px-6 lg:px-10">
-            <p className="max-w-xl text-3xl font-semibold leading-tight text-white sm:text-4xl">
-              Un espacio para parar,
-              <br />
-              respirar y volver a escucharte.
-            </p>
+        <div className="lux-container statement-inner" data-reveal>
+          <span className="statement-jp">聴</span>
+
+          <p>EL PRIMER PASO ES SENCILLO</p>
+
+          <h2>
+            Tú cuéntame
+            <br />
+            <em>qué te ocurre.</em>
+          </h2>
+
+          <div className="statement-bottom">
+            <span />
+            <p>Del resto nos ocupamos juntos.</p>
+            <span />
           </div>
         </div>
       </section>
 
-      {/* SERVICIOS */}
-      <section
-        id="servicios"
-        className={`section-padding bg-[#F5F7F8] reveal ${
-          visibleSections.has("servicios") ? "visible" : ""
-        }`}
-      >
-        <div className="mx-auto max-w-7xl">
-          <div className="max-w-3xl">
-            <p className="section-kicker">Servicios</p>
+      {/* SERVICES */}
+      <section id="servicios" className="services-section">
+        <div className="lux-container">
+          <div className="section-heading" data-reveal>
+            <div>
+              <div className="section-index section-index--dark">
+                <span>02</span>
+                <i />
+                <span>SERVICIOS</span>
+              </div>
 
-            <h2 className="section-title">
-              Un enfoque.
-              <br />
-              <span className="text-[#B1263A]">
-                Diferentes herramientas.
-              </span>
-            </h2>
+              <h2 className="display-title">
+                Diferentes caminos.
+                <br />
+                <em>Un mismo propósito.</em>
+              </h2>
+            </div>
 
-            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-slate-600">
-              Cada técnica tiene su lugar. Alberto valorará tu situación para
-              determinar el enfoque más adecuado para ti.
+            <p>
+              No necesitas saber cuál elegir. Cada herramienta tiene su lugar
+              dentro de una valoración individualizada.
             </p>
           </div>
 
-          <div className="mt-16 grid gap-4 lg:grid-cols-[1fr_1.3fr]">
-            <div className="space-y-3">
+          <div className="services-experience" data-reveal>
+            <div className="services-list">
               {services.map((service, index) => (
                 <button
+                  type="button"
                   key={service.title}
+                  onMouseEnter={() => setActiveService(index)}
                   onClick={() => setActiveService(index)}
-                  className={`service-button ${
-                    activeService === index ? "service-button-active" : ""
+                  className={`lux-service ${
+                    activeService === index ? "is-active" : ""
                   }`}
                 >
-                  <span className="text-sm opacity-50">
-                    {service.number}
-                  </span>
+                  <span className="lux-service__number">{service.number}</span>
 
-                  <span className="flex-1 text-left text-xl font-semibold">
-                    {service.title}
-                  </span>
+                  <div>
+                    <strong>{service.title}</strong>
+                    <small>{service.concept}</small>
+                  </div>
 
-                  <span className="text-xl">→</span>
+                  <span className="lux-service__arrow">↗</span>
                 </button>
               ))}
             </div>
 
-            <div className="relative min-h-[480px] overflow-hidden rounded-[2rem] bg-[#0A3653] p-10 text-white sm:p-14">
-              <div className="absolute -right-24 -top-24 h-64 w-64 rounded-full bg-[#B1263A]/30 blur-3xl" />
+            <div className="service-stage">
+              <div className="service-stage__pattern" />
+              <div className="service-stage__orb" />
 
-              <div className="relative flex h-full flex-col justify-between">
-                <div>
-                  <span className="text-sm tracking-[0.25em] text-white/50">
-                    {services[activeService].number}
-                  </span>
+              <div className="service-stage__top">
+                <span>{services[activeService].number}</span>
+                <span>ALBERTO MATAMOROS</span>
+              </div>
 
-                  <h3 className="mt-6 text-4xl font-bold">
-                    {services[activeService].title}
-                  </h3>
+              <div className="service-stage__symbol">
+                {services[activeService].japanese}
+              </div>
 
-                  <p className="mt-8 max-w-lg text-lg leading-relaxed text-white/70">
-                    {services[activeService].text}
-                  </p>
-                </div>
+              <div className="service-stage__content">
+                <span>{services[activeService].concept}</span>
+                <h3>{services[activeService].title}</h3>
+                <p>{services[activeService].text}</p>
+              </div>
 
-                <div className="mt-12 flex justify-between border-t border-white/10 pt-6">
-                  <span className="text-sm text-white/50">
-                    Alberto Matamoros
-                  </span>
-
-                  <span className="text-sm text-white/50">
-                    Terapias Naturales y Equilibrio
-                  </span>
-                </div>
+              <div className="service-stage__footer">
+                <span>Terapias Naturales</span>
+                <i />
+                <span>Equilibrio</span>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* EXPERIENCE IMAGE */}
+      <section className="experience-banner">
+        <div className="experience-photo">
+          <div className="photo-space photo-space--wide">
+            <span>FOTOGRAFÍA DE LA CLÍNICA</span>
+            <small>Detalle · Luz natural · Tratamiento</small>
+          </div>
+        </div>
+
+        <div className="experience-overlay" />
+
+        <div className="experience-copy" data-reveal>
+          <span>間</span>
+          <p>Un lugar donde el tiempo baja el ritmo.</p>
+          <h2>
+            Parar.
+            <br />
+            Respirar.
+            <br />
+            <em>Volver a escucharte.</em>
+          </h2>
+        </div>
+      </section>
+
+      {/* PROCESS */}
+      <section className="process-section">
+        <div className="process-circle" />
+
+        <div className="lux-container">
+          <div className="process-heading" data-reveal>
+            <div className="section-index section-index--light">
+              <span>03</span>
+              <i />
+              <span>EL PROCESO</span>
+            </div>
+
+            <h2>
+              Cuatro momentos.
+              <br />
+              <em>Una experiencia.</em>
+            </h2>
+          </div>
+
+          <div className="process-grid">
+            {process.map(([number, title, text], index) => (
+              <article
+                className="process-card"
+                key={number}
+                data-reveal
+                style={{ transitionDelay: `${index * 90}ms` }}
+              >
+                <div className="process-card__top">
+                  <span>{number}</span>
+                  <i>{index === 0 ? "聴" : index === 1 ? "観" : index === 2 ? "整" : "和"}</i>
+                </div>
+
+                <h3>{title}</h3>
+                <p>{text}</p>
+
+                <div className="process-card__line" />
+              </article>
+            ))}
           </div>
         </div>
       </section>
 
       {/* ALBERTO */}
-      <section
-        id="alberto"
-        className={`section-padding reveal ${
-          visibleSections.has("alberto") ? "visible" : ""
-        }`}
-      >
-        <div className="mx-auto grid max-w-7xl gap-16 lg:grid-cols-2 lg:items-center">
-          <div className="image-placeholder image-placeholder-portrait">
-            <span>FOTOGRAFÍA DE ALBERTO</span>
-            <small>Retrato profesional</small>
-          </div>
-
-          <div>
-            <p className="section-kicker">Conoce a Alberto</p>
-
-            <h2 className="section-title">
-              Más que una técnica,
-              <br />
-              <span className="text-[#B1263A]">
-                una forma de acompañarte.
-              </span>
-            </h2>
-
-            <div className="mt-8 space-y-5 text-lg leading-relaxed text-slate-600">
-              <p>
-                Detrás de cada consulta hay una persona. Por eso el trato
-                cercano y la escucha forman parte fundamental de cada sesión.
-              </p>
-
-              <p>
-                Aquí podremos añadir la formación de Alberto, su trayectoria,
-                especialidades y todo aquello que quieras contar sobre él.
-              </p>
+      <section id="alberto" className="alberto-section">
+        <div className="lux-container alberto-grid">
+          <div className="alberto-visual" data-reveal>
+            <div className="alberto-photo">
+              <div className="photo-space photo-space--portrait">
+                <span>RETRATO DE ALBERTO</span>
+                <small>Fotografía profesional</small>
+              </div>
             </div>
 
-            <div className="mt-10 h-px w-20 bg-[#B1263A]" />
+            <div className="alberto-seal">
+              <strong>AM</strong>
+              <span>ALBERTO MATAMOROS</span>
+            </div>
 
-            <p className="mt-6 text-sm font-medium uppercase tracking-[0.2em] text-[#0A3653]">
-              Cercanía · Profesionalidad · Personalización
-            </p>
+            <div className="alberto-line-art" />
           </div>
-        </div>
-      </section>
 
-      {/* PROCESO */}
-      <section className="bg-[#0A3653] py-24 text-white sm:py-32">
-        <div className="mx-auto max-w-7xl px-6 lg:px-10">
-          <div className="max-w-3xl">
-            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#B1263A]">
-              El proceso
-            </p>
+          <div className="alberto-copy" data-reveal>
+            <div className="section-index section-index--dark">
+              <span>04</span>
+              <i />
+              <span>ALBERTO</span>
+            </div>
 
-            <h2 className="mt-5 text-4xl font-bold tracking-tight sm:text-6xl">
-              Empieza por algo sencillo:
+            <p className="kicker">La persona detrás de la consulta</p>
+
+            <h2 className="display-title">
+              Conocimiento,
               <br />
-              <span className="text-white/60">
-                contarnos qué necesitas.
-              </span>
+              experiencia y
+              <br />
+              <em>escucha.</em>
             </h2>
-          </div>
 
-          <div className="mt-20 grid gap-0 border-t border-white/10 md:grid-cols-4">
-            {[
-              ["01", "Escuchamos", "Nos cuentas qué te ocurre."],
-              ["02", "Valoramos", "Entendemos tu situación."],
-              ["03", "Personalizamos", "Elegimos el enfoque adecuado."],
-              ["04", "Acompañamos", "Trabajamos contigo."],
-            ].map(([number, title, text]) => (
-              <div
-                key={number}
-                className="border-b border-white/10 py-10 md:border-b-0 md:border-r md:px-8 md:first:pl-0 md:last:border-r-0"
-              >
-                <span className="text-sm text-white/40">{number}</span>
+            <p className="alberto-lead">
+              Detrás de cada consulta hay una persona. Y detrás de cada
+              persona, una historia que merece ser escuchada.
+            </p>
 
-                <h3 className="mt-6 text-2xl font-semibold">{title}</h3>
+            <p>
+              El trabajo de Alberto parte de una atención cercana e
+              individualizada, integrando distintas herramientas según las
+              necesidades de cada caso.
+            </p>
 
-                <p className="mt-3 leading-relaxed text-white/50">
-                  {text}
-                </p>
+            <div className="credentials">
+              <div>
+                <span>FORMACIÓN</span>
+                <strong>Técnico Superior en Dietética</strong>
               </div>
-            ))}
+
+              <div>
+                <span>ÁREAS</span>
+                <strong>Osteopatía · Acupuntura · Moxibustión</strong>
+              </div>
+            </div>
+
+            <div className="alberto-signature">
+              <span>Alberto Matamoros</span>
+              <small>Terapias Naturales y Equilibrio</small>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* TESTIMONIOS */}
-      <section className="section-padding">
-        <div className="mx-auto max-w-7xl">
-          <div className="text-center">
-            <p className="section-kicker">La experiencia</p>
+      {/* CLINIC */}
+      <section id="clinica" className="clinic-section">
+        <div className="lux-container">
+          <div className="clinic-heading" data-reveal>
+            <div>
+              <div className="section-index section-index--dark">
+                <span>05</span>
+                <i />
+                <span>EL ESPACIO</span>
+              </div>
 
-            <h2 className="section-title">
-              Lo importante es cómo
-              <br />
-              <span className="text-[#B1263A]">te sientes al salir.</span>
-            </h2>
+              <h2 className="display-title">
+                Serenidad desde
+                <br />
+                <em>que entras.</em>
+              </h2>
+            </div>
+
+            <p>
+              Un entorno pensado para que la experiencia empiece antes de la
+              sesión: calma, privacidad, atención y tiempo.
+            </p>
           </div>
 
-          <div className="mt-16 grid gap-5 md:grid-cols-3">
-            {testimonials.map((testimonial, index) => (
+          <div className="clinic-gallery" data-reveal>
+            <div className="clinic-shot clinic-shot--large">
+              <div className="photo-space">
+                <span>CLÍNICA</span>
+                <small>Vista principal</small>
+              </div>
+              <span className="shot-number">01</span>
+            </div>
+
+            <div className="clinic-gallery__right">
+              <div className="clinic-shot">
+                <div className="photo-space">
+                  <span>DETALLE</span>
+                  <small>Espacio</small>
+                </div>
+                <span className="shot-number">02</span>
+              </div>
+
+              <div className="clinic-quote">
+                <span className="clinic-quote__jp">静</span>
+                <p>静けさ</p>
+                <h3>La calma también forma parte de la experiencia.</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="faq-section">
+        <div className="lux-container faq-grid">
+          <div data-reveal>
+            <div className="section-index section-index--dark">
+              <span>06</span>
+              <i />
+              <span>ANTES DE VENIR</span>
+            </div>
+
+            <h2 className="display-title">
+              Tu primera visita,
+              <br />
+              <em>sin dudas.</em>
+            </h2>
+
+            <p className="faq-intro">
+              Queremos que llegues sabiendo lo esencial y sin preocuparte por
+              escoger una técnica concreta.
+            </p>
+          </div>
+
+          <div className="faq-list" data-reveal>
+            {faqs.map((faq, index) => (
               <div
-                key={index}
-                className="rounded-[2rem] border border-slate-200 p-8 transition duration-500 hover:-translate-y-2 hover:shadow-xl"
+                key={faq.question}
+                className={`faq-item ${openFaq === index ? "is-open" : ""}`}
               >
-                <div className="text-4xl text-[#B1263A]">“</div>
+                <button
+                  type="button"
+                  onClick={() =>
+                    setOpenFaq(openFaq === index ? null : index)
+                  }
+                >
+                  <span>0{index + 1}</span>
+                  <strong>{faq.question}</strong>
+                  <i>+</i>
+                </button>
 
-                <p className="mt-4 text-lg leading-relaxed text-slate-600">
-                  {testimonial.text}
-                </p>
-
-                <div className="mt-8 text-sm font-semibold text-[#0A3653]">
-                  {testimonial.name}
+                <div className="faq-answer">
+                  <p>{faq.answer}</p>
                 </div>
               </div>
             ))}
@@ -568,131 +636,98 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CLÍNICA */}
-      <section id="clinica" className="section-padding bg-[#F5F7F8]">
-        <div className="mx-auto max-w-7xl">
-          <div className="grid gap-5 md:grid-cols-2">
-            <div className="image-placeholder image-placeholder-square">
-              <span>FOTOGRAFÍA</span>
-              <small>Interior de la clínica</small>
-            </div>
+      {/* FINAL CTA */}
+      <section className="final-cta">
+        <div className="final-cta__sun" />
+        <div className="final-cta__pattern" />
 
-            <div className="image-placeholder image-placeholder-square">
-              <span>FOTOGRAFÍA</span>
-              <small>Detalle del espacio</small>
-            </div>
-          </div>
+        <div className="lux-container final-cta__inner" data-reveal>
+          <span className="final-japanese">始</span>
 
-          <div className="mt-16 grid gap-10 lg:grid-cols-2 lg:items-end">
-            <div>
-              <p className="section-kicker">La clínica</p>
+          <p>CUANDO TÚ QUIERAS</p>
 
-              <h2 className="section-title">
-                Un espacio pensado
-                <br />
-                <span className="text-[#B1263A]">para ti.</span>
-              </h2>
-            </div>
-
-            <p className="max-w-xl text-lg leading-relaxed text-slate-600">
-              Aquí podremos contar cómo es la clínica, dónde se encuentra,
-              qué ambiente encontrará el paciente y cualquier información
-              que ayude a transmitir confianza antes de su primera visita.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA FINAL */}
-      <section className="relative overflow-hidden bg-[#B1263A] py-28 text-white sm:py-40">
-        <div className="absolute -left-32 -top-32 h-96 w-96 rounded-full bg-white/10 blur-3xl" />
-        <div className="absolute -bottom-40 -right-20 h-96 w-96 rounded-full bg-[#0A3653]/30 blur-3xl" />
-
-        <div className="relative mx-auto max-w-4xl px-6 text-center">
-          <p className="text-sm font-semibold uppercase tracking-[0.35em] text-white/70">
-            Tu próximo paso
-          </p>
-
-          <h2 className="mt-6 text-5xl font-bold tracking-tight sm:text-7xl">
-            ¿Empezamos?
+          <h2>
+            Tu bienestar puede
+            <br />
+            empezar <em>hoy.</em>
           </h2>
 
-          <p className="mx-auto mt-8 max-w-xl text-lg leading-relaxed text-white/80">
-            Reserva tu cita a través de nuestra agenda online y da el primer
-            paso para cuidar de ti.
+          <p className="final-description">
+            Cuéntanos qué te ocurre y reserva tu cita.
+            <br />
+            No necesitas saber qué técnica elegir.
           </p>
 
-          <a
-            href={AGENDA_URL}
-            className="mt-10 inline-flex items-center gap-5 rounded-full bg-white px-9 py-5 font-semibold text-[#0A3653] transition duration-500 hover:gap-7 hover:shadow-2xl"
-          >
-            Reservar cita
-            <span>→</span>
+          <a href={AGENDA_URL} className="button button--ivory">
+            <span>Reservar mi cita</span>
+            <i>↗</i>
           </a>
+
+          <div className="final-meta">
+            <span>Sesiones · 60 min aprox.</span>
+            <i />
+            <span>Atención personalizada</span>
+            <i />
+            <span>Reserva online</span>
+          </div>
         </div>
       </section>
 
-      {/* CONTACTO */}
-      <footer id="contacto" className="bg-[#071F31] text-white">
-        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10">
-          <div className="grid gap-12 lg:grid-cols-3">
-            <div>
-              <div className="text-xs font-semibold tracking-[0.28em] text-[#B1263A]">
-                CLÍNICA DE OSTEOPATÍA
+      {/* FOOTER */}
+      <footer id="contacto" className="lux-footer">
+        <div className="lux-container">
+          <div className="footer-top">
+            <div className="footer-brand">
+              <div className="brand__seal brand__seal--footer">
+                <span>AM</span>
               </div>
 
-              <h3 className="mt-3 text-2xl font-bold">
-                Alberto Matamoros
-              </h3>
-
-              <p className="mt-5 max-w-sm leading-relaxed text-white/50">
-                Terapias Naturales y Equilibrio.
-              </p>
-            </div>
-
-            <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-white/40">
-                Contacto
-              </p>
-
-              <div className="mt-5 space-y-3 text-white/70">
-                <p>📍 Dirección de la clínica</p>
-                <p>📞 Teléfono</p>
-                <p>✉️ Email</p>
-                <p>📱 WhatsApp</p>
+              <div>
+                <span>CLÍNICA DE OSTEOPATÍA</span>
+                <h3>Alberto Matamoros</h3>
+                <p>Terapias Naturales y Equilibrio</p>
               </div>
             </div>
 
-            <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-white/40">
-                Enlaces
-              </p>
+            <div className="footer-columns">
+              <div>
+                <span className="footer-label">NAVEGACIÓN</span>
+                <a href="#filosofia">Filosofía</a>
+                <a href="#servicios">Servicios</a>
+                <a href="#alberto">Alberto</a>
+                <a href="#clinica">La clínica</a>
+              </div>
 
-              <div className="mt-5 space-y-3">
-                <a href="#servicios" className="footer-link">
-                  Servicios
-                </a>
+              <div>
+                <span className="footer-label">CONTACTO</span>
+                <p>Dirección de la clínica</p>
+                <p>Teléfono</p>
+                <p>Email</p>
+                <p>WhatsApp</p>
+              </div>
 
-                <a href="#alberto" className="footer-link">
-                  Alberto
-                </a>
-
-                <a href="#clinica" className="footer-link">
-                  La clínica
-                </a>
-
-                <a href={AGENDA_URL} className="footer-link">
-                  Reservar cita
+              <div>
+                <span className="footer-label">CITA</span>
+                <p>Cuéntanos qué te ocurre.</p>
+                <a href={AGENDA_URL} className="footer-book">
+                  Reservar online <span>↗</span>
                 </a>
               </div>
             </div>
           </div>
 
-          <div className="mt-16 border-t border-white/10 pt-8 text-sm text-white/30">
-            © 2026 Clínica de Osteopatía Alberto Matamoros
+          <div className="footer-bottom">
+            <span>© 2026 Clínica de Osteopatía Alberto Matamoros</span>
+            <span className="footer-kanji">和</span>
+            <span>Terapias Naturales y Equilibrio</span>
           </div>
         </div>
       </footer>
+
+      <a href={AGENDA_URL} className="mobile-floating-book">
+        <span>Reservar cita</span>
+        <i>↗</i>
+      </a>
     </main>
   );
 }
