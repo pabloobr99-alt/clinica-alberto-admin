@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 const AGENDA_URL = "/reservar";
 
@@ -155,25 +156,30 @@ export default function Home() {
       </header>
 
       {/* HERO */}
-      <section className="lux-hero">
-        <div className="hero-noise" />
-        <div className="hero-glow hero-glow--blue" />
-        <div className="hero-glow hero-glow--wine" />
+      <section className="reference-hero">
+        <div className="reference-hero__glow" />
+        <div className="reference-hero__circle" />
 
-        <div className="zen-sun zen-sun--hero">
-          <span />
-        </div>
+        <div className="reference-hero__inner">
 
-        <div className="japanese-grid japanese-grid--hero" />
+          <div className="reference-hero__content">
 
-        <div className="lux-container hero-grid">
-          <div className="hero-copy">
-            <div className="eyebrow hero-enter">
-              <span />
-              Terapias Naturales y Equilibrio
+            <div className="reference-hero__logo">
+              <Image
+                src="/logo-alberto.png"
+                alt="Osteopatía Alberto Matamoros"
+                width={380}
+                height={380}
+                priority
+              />
             </div>
 
-            <h1 className="hero-enter hero-enter--2">
+            <div className="reference-hero__eyebrow">
+              <span />
+              TERAPIAS NATURALES · EQUILIBRIO
+            </div>
+
+            <h1>
               Tu cuerpo
               <br />
               <em>habla.</em>
@@ -181,71 +187,89 @@ export default function Home() {
               <strong>Escuchémoslo.</strong>
             </h1>
 
-            <p className="hero-description hero-enter hero-enter--3">
-              Un espacio donde la escucha, la experiencia y diferentes
-              herramientas terapéuticas se encuentran para ofrecerte un
-              acompañamiento verdaderamente personal.
+            <p className="reference-hero__description">
+              Osteopatía, acupuntura y terapias naturales desde una mirada
+              cercana, individualizada y centrada en ti.
             </p>
 
-            <div className="hero-actions hero-enter hero-enter--4">
-              <a href={AGENDA_URL} className="button button--wine">
+            <div className="reference-hero__actions">
+              <a href={AGENDA_URL} className="reference-button reference-button--red">
                 <span>Reservar mi cita</span>
                 <i>↗</i>
               </a>
 
-              <a href="#filosofia" className="button button--glass">
-                <span>Descubrir la clínica</span>
+              <a href="#servicios" className="reference-button reference-button--outline">
+                <span>Conocer tratamientos</span>
                 <i>↓</i>
               </a>
             </div>
 
-            <div className="hero-values hero-enter hero-enter--5">
+            <div className="reference-hero__meta">
               <div>
-                <span>01</span>
-                <strong>Escucha</strong>
+                <small>01</small>
+                <span>OSTEOPATÍA</span>
               </div>
+
               <div>
-                <span>02</span>
-                <strong>Equilibrio</strong>
+                <small>02</small>
+                <span>ACUPUNTURA</span>
               </div>
+
               <div>
-                <span>03</span>
-                <strong>Personalización</strong>
+                <small>03</small>
+                <span>BIENESTAR</span>
               </div>
             </div>
           </div>
 
-          <div className="hero-art hero-enter hero-enter--3">
-            <div className="hero-arch">
-              <div className="photo-space">
-                <span>FOTOGRAFÍA PRINCIPAL</span>
-                <small>Alberto · Consulta · Espacio</small>
-              </div>
+          <div className="reference-hero__visual">
 
-              <div className="hero-arch__shine" />
+            <div className="reference-hero__red-arc" />
+
+            <div className="reference-hero__photo">
+              <Image
+                src="/hero-espalda.png"
+                alt="Tratamiento de osteopatía"
+                fill
+                priority
+                sizes="(max-width: 1050px) 80vw, 45vw"
+                className="reference-hero__back-image"
+              />
+
+              <div className="reference-hero__photo-shade" />
             </div>
 
-            <div className="hero-floating-card">
-              <div className="floating-symbol">和</div>
-              <div>
-                <span>Una mirada diferente</span>
-                <strong>Primero la persona.</strong>
-                <p>Después, la técnica.</p>
-              </div>
-              <i>↗</i>
+            <div className="reference-hero__spine">
+              <span className="spine-dot spine-dot--1" />
+              <span className="spine-dot spine-dot--2" />
+              <span className="spine-dot spine-dot--3" />
+              <span className="spine-dot spine-dot--4" />
+              <span className="spine-dot spine-dot--5" />
+              <span className="spine-dot spine-dot--6" />
+              <span className="spine-dot spine-dot--7" />
+              <span className="spine-dot spine-dot--8" />
             </div>
 
-            <div className="hero-stamp">
-              <span>AM</span>
-              <small>EST. · 2026</small>
+            <div className="reference-hero__vertical">
+              <span>RESPIRA</span>
+              <span>ESCUCHA</span>
+              <span>EQUILIBRA</span>
             </div>
+
+            <div className="reference-hero__card">
+              <span>ATENCIÓN PERSONALIZADA</span>
+              <strong>Primero tú.</strong>
+              <p>Después, la técnica.</p>
+            </div>
+
           </div>
+
         </div>
 
-        <div className="hero-bottom">
-          <span>SEVILLA</span>
-          <div />
-          <span>OSTEOPATÍA · ACUPUNTURA · BIENESTAR</span>
+        <div className="reference-hero__bottom">
+          <span>ALBERTO MATAMOROS</span>
+          <i />
+          <span>OSTEOPATÍA · ACUPUNTURA · TERAPIAS NATURALES</span>
         </div>
       </section>
 
@@ -473,11 +497,12 @@ export default function Home() {
       <section id="alberto" className="alberto-section">
         <div className="lux-container alberto-grid">
           <div className="alberto-visual" data-reveal>
-            <div className="alberto-photo">
-              <div className="photo-space photo-space--portrait">
-                <span>RETRATO DE ALBERTO</span>
-                <small>Fotografía profesional</small>
-              </div>
+            <div className="alberto-photo alberto-photo--real">
+              <img
+                src="/alberto.png"
+                alt="Alberto Matamoros"
+                className="alberto-cutout"
+              />
             </div>
 
             <div className="alberto-seal">

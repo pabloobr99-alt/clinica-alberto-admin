@@ -2536,3 +2536,2196 @@ button {
     transition-duration: .01ms !important;
   }
 }
+
+
+/* =========================================================
+   RESERVAS — LUXURY ZEN
+   ========================================================= */
+
+.booking-page {
+  min-height: 100vh;
+  background:
+    radial-gradient(
+      circle at 85% 5%,
+      rgba(201, 173, 124, 0.18),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 5% 95%,
+      rgba(10, 54, 83, 0.08),
+      transparent 30%
+    ),
+    #f5f1e8;
+  color: #082f45;
+}
+
+.booking-header {
+  width: min(1400px, calc(100% - 80px));
+  height: 110px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(8, 47, 69, 0.12);
+}
+
+.booking-brand {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  text-decoration: none;
+  color: #082f45;
+}
+
+.booking-logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid rgba(8, 47, 69, 0.35);
+  display: grid;
+  place-items: center;
+  font-family: Georgia, serif;
+  font-size: 15px;
+  letter-spacing: 0.08em;
+}
+
+.booking-brand strong {
+  display: block;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 17px;
+  font-weight: 400;
+}
+
+.booking-brand small {
+  display: block;
+  margin-top: 3px;
+  color: #78878b;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.booking-back {
+  color: #082f45;
+  text-decoration: none;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+}
+
+.booking-hero {
+  width: min(1400px, calc(100% - 80px));
+  min-height: calc(100vh - 110px);
+  margin: 0 auto;
+  padding: 90px 0 110px;
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: clamp(70px, 9vw, 150px);
+  align-items: center;
+  position: relative;
+}
+
+.booking-intro {
+  position: relative;
+  z-index: 2;
+}
+
+.booking-eyebrow,
+.booking-widget-label {
+  display: block;
+  color: #a82238;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  margin-bottom: 25px;
+}
+
+.booking-intro h1 {
+  max-width: 620px;
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(58px, 7vw, 105px);
+  line-height: 0.9;
+  font-weight: 400;
+  letter-spacing: -0.055em;
+}
+
+.booking-intro h1 em {
+  display: block;
+  color: #a82238;
+  font-weight: 400;
+}
+
+.booking-intro > p {
+  max-width: 530px;
+  margin: 38px 0 0;
+  color: #66777d;
+  font-size: 17px;
+  line-height: 1.8;
+}
+
+.booking-details {
+  margin-top: 65px;
+  display: grid;
+  gap: 0;
+  border-top: 1px solid rgba(8, 47, 69, 0.13);
+}
+
+.booking-details > div {
+  display: grid;
+  grid-template-columns: 50px 1fr;
+  gap: 15px;
+  padding: 19px 0;
+  border-bottom: 1px solid rgba(8, 47, 69, 0.13);
+}
+
+.booking-details span {
+  color: #c9ad7c;
+  font-family: Georgia, serif;
+  font-size: 14px;
+}
+
+.booking-details p {
+  margin: 0;
+  color: #78878b;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.booking-details strong {
+  display: block;
+  margin-bottom: 2px;
+  color: #082f45;
+  font-family: Georgia, serif;
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.booking-widget-shell {
+  position: relative;
+  z-index: 2;
+  min-height: 650px;
+  padding: clamp(28px, 4vw, 55px);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.85),
+      rgba(255, 255, 255, 0.52)
+    );
+  border: 1px solid rgba(8, 47, 69, 0.1);
+  box-shadow:
+    0 40px 100px rgba(6, 26, 36, 0.11),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(18px);
+}
+
+.booking-widget-shell::before {
+  content: "";
+  position: absolute;
+  top: -13px;
+  right: 35px;
+  width: 90px;
+  height: 26px;
+  background: rgba(201, 173, 124, 0.28);
+  transform: rotate(2deg);
+}
+
+.booking-widget-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 25px;
+  align-items: flex-start;
+  padding-bottom: 30px;
+  border-bottom: 1px solid rgba(8, 47, 69, 0.1);
+}
+
+.booking-widget-label {
+  margin-bottom: 8px;
+}
+
+.booking-widget-top h2 {
+  margin: 0;
+  font-family: Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(30px, 3vw, 44px);
+}
+
+.booking-live {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #66777d;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.booking-live i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #789582;
+  box-shadow: 0 0 0 5px rgba(120, 149, 130, 0.12);
+}
+
+.booksy-placeholder {
+  min-height: 400px;
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border: 1px solid rgba(8, 47, 69, 0.09);
+  background:
+    radial-gradient(
+      circle at center,
+      rgba(201, 173, 124, 0.08),
+      transparent 45%
+    ),
+    rgba(245, 241, 232, 0.45);
+}
+
+.booksy-placeholder-symbol {
+  width: 85px;
+  height: 85px;
+  margin-bottom: 25px;
+  border: 1px solid rgba(8, 47, 69, 0.2);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+}
+
+.booksy-placeholder-symbol span {
+  font-family: Georgia, serif;
+  font-size: 20px;
+  letter-spacing: 0.1em;
+}
+
+.booksy-placeholder h3 {
+  margin: 0;
+  font-family: Georgia, serif;
+  font-size: 27px;
+  font-weight: 400;
+}
+
+.booksy-placeholder p {
+  margin: 12px 0 30px;
+  color: #78878b;
+  font-size: 14px;
+}
+
+.booksy-placeholder-line {
+  width: 55%;
+  height: 1px;
+  margin: 7px 0;
+  background: rgba(8, 47, 69, 0.12);
+}
+
+.booksy-placeholder-line.short {
+  width: 35%;
+}
+
+.booking-note {
+  display: flex;
+  gap: 13px;
+  margin-top: 25px;
+  color: #66777d;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.booking-note span {
+  color: #c9ad7c;
+}
+
+.booking-note p {
+  margin: 0;
+}
+
+.booking-note strong {
+  color: #082f45;
+  font-weight: 500;
+}
+
+.booking-decoration {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.booking-decoration-one {
+  width: 460px;
+  height: 460px;
+  left: -330px;
+  top: 80px;
+  border: 1px solid rgba(201, 173, 124, 0.2);
+}
+
+.booking-decoration-two {
+  width: 600px;
+  height: 600px;
+  right: -400px;
+  bottom: -200px;
+  border: 1px solid rgba(8, 47, 69, 0.08);
+}
+
+@media (max-width: 900px) {
+  .booking-header {
+    width: calc(100% - 40px);
+    height: 90px;
+  }
+
+  .booking-brand small {
+    display: none;
+  }
+
+  .booking-hero {
+    width: calc(100% - 40px);
+    min-height: auto;
+    padding: 70px 0 100px;
+    grid-template-columns: 1fr;
+    gap: 60px;
+  }
+
+  .booking-intro h1 {
+    font-size: clamp(54px, 15vw, 85px);
+  }
+
+  .booking-details {
+    margin-top: 45px;
+  }
+
+  .booking-widget-shell {
+    min-height: auto;
+    padding: 30px 20px;
+  }
+
+  .booking-widget-top {
+    flex-direction: column;
+  }
+
+  .booksy-placeholder {
+    min-height: 350px;
+  }
+}
+
+@media (max-width: 520px) {
+  .booking-brand strong {
+    font-size: 14px;
+  }
+
+  .booking-logo {
+    width: 42px;
+    height: 42px;
+  }
+
+  .booking-back {
+    font-size: 11px;
+  }
+
+  .booking-hero {
+    padding-top: 55px;
+  }
+
+  .booking-intro > p {
+    font-size: 15px;
+  }
+}
+
+
+/* =========================================================
+   LOGO OFICIAL ALBERTO MATAMOROS
+   ========================================================= */
+
+.hero-real-logo {
+  position: relative;
+  z-index: 20;
+  width: clamp(175px, 16vw, 245px);
+  margin: 0 0 30px 0;
+}
+
+.hero-real-logo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  mix-blend-mode: screen;
+  filter:
+    drop-shadow(0 20px 45px rgba(0, 0, 0, .22))
+    drop-shadow(0 0 30px rgba(201, 173, 124, .08));
+  transition: transform .45s ease, filter .45s ease;
+}
+
+.hero-real-logo:hover img {
+  transform: scale(1.035);
+  filter:
+    drop-shadow(0 25px 55px rgba(0, 0, 0, .28))
+    drop-shadow(0 0 35px rgba(201, 173, 124, .14));
+}
+
+
+/* LOGO PEQUEÑO DEL MENÚ */
+
+.brand-seal-logo {
+  width: 68px !important;
+  height: 68px !important;
+  border: none !important;
+  background: transparent !important;
+  overflow: visible !important;
+}
+
+.brand-seal-logo img {
+  display: block;
+  width: 68px;
+  height: 68px;
+  object-fit: contain;
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 8px 20px rgba(0, 0, 0, .18));
+}
+
+
+@media (max-width: 768px) {
+  .hero-real-logo {
+    width: 155px;
+    margin-bottom: 24px;
+  }
+
+  .brand-seal-logo,
+  .brand-seal-logo img {
+    width: 54px !important;
+    height: 54px !important;
+  }
+}
+
+
+/* =========================================================
+   LOGO OFICIAL ALBERTO MATAMOROS
+   ========================================================= */
+
+.hero-real-logo {
+  position: relative;
+  z-index: 20;
+  width: clamp(175px, 16vw, 245px);
+  margin: 0 0 30px 0;
+}
+
+.hero-real-logo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  mix-blend-mode: screen;
+  filter:
+    drop-shadow(0 20px 45px rgba(0, 0, 0, .22))
+    drop-shadow(0 0 30px rgba(201, 173, 124, .08));
+  transition: transform .45s ease, filter .45s ease;
+}
+
+.hero-real-logo:hover img {
+  transform: scale(1.035);
+  filter:
+    drop-shadow(0 25px 55px rgba(0, 0, 0, .28))
+    drop-shadow(0 0 35px rgba(201, 173, 124, .14));
+}
+
+
+/* LOGO PEQUEÑO DEL MENÚ */
+
+.brand-seal-logo {
+  width: 68px !important;
+  height: 68px !important;
+  border: none !important;
+  background: transparent !important;
+  overflow: visible !important;
+}
+
+.brand-seal-logo img {
+  display: block;
+  width: 68px;
+  height: 68px;
+  object-fit: contain;
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 8px 20px rgba(0, 0, 0, .18));
+}
+
+
+@media (max-width: 768px) {
+  .hero-real-logo {
+    width: 155px;
+    margin-bottom: 24px;
+  }
+
+  .brand-seal-logo,
+  .brand-seal-logo img {
+    width: 54px !important;
+    height: 54px !important;
+  }
+}
+
+
+/* ============================================================
+   PORTADA — ALBERTO MATAMOROS / REFERENCIA
+   ============================================================ */
+
+.reference-hero {
+  --hero-dark: #062b3d;
+  --hero-dark-2: #031d2a;
+  --hero-red: #a52a3f;
+  --hero-gold: #c5a46d;
+  --hero-cream: #f4efe6;
+
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  color: var(--hero-cream);
+
+  background:
+    radial-gradient(
+      circle at 72% 38%,
+      rgba(20, 76, 98, .38),
+      transparent 34%
+    ),
+    radial-gradient(
+      circle at 15% 15%,
+      rgba(197, 164, 109, .07),
+      transparent 26%
+    ),
+    linear-gradient(
+      120deg,
+      #041e2c 0%,
+      #062b3d 47%,
+      #073348 100%
+    );
+}
+
+
+/* TEXTURA */
+
+.reference-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: .055;
+  pointer-events: none;
+
+  background-image:
+    linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px);
+
+  background-size: 90px 90px;
+
+  mask-image:
+    linear-gradient(
+      to right,
+      transparent,
+      black 45%,
+      black
+    );
+}
+
+
+/* GLOW */
+
+.reference-hero__glow {
+  position: absolute;
+  width: 650px;
+  height: 650px;
+  right: -160px;
+  top: -180px;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(197,164,109,.14),
+      rgba(197,164,109,.02) 50%,
+      transparent 70%
+    );
+
+  filter: blur(10px);
+}
+
+
+/* CÍRCULO ZEN */
+
+.reference-hero__circle {
+  position: absolute;
+
+  width: 700px;
+  height: 700px;
+
+  right: -350px;
+  bottom: -350px;
+
+  border: 1px solid rgba(197,164,109,.13);
+  border-radius: 50%;
+}
+
+.reference-hero__circle::before,
+.reference-hero__circle::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+}
+
+.reference-hero__circle::before {
+  inset: 65px;
+  border: 1px solid rgba(197,164,109,.09);
+}
+
+.reference-hero__circle::after {
+  inset: 140px;
+  border: 1px solid rgba(197,164,109,.07);
+}
+
+
+/* LAYOUT */
+
+.reference-hero__inner {
+  width: min(1440px, calc(100% - 100px));
+  min-height: calc(100vh - 80px);
+
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: .92fr 1.08fr;
+
+  align-items: center;
+
+  gap: clamp(50px, 6vw, 110px);
+
+  padding:
+    clamp(140px, 14vh, 190px)
+    0
+    110px;
+
+  position: relative;
+  z-index: 2;
+}
+
+
+/* ============================================================
+   IZQUIERDA
+   ============================================================ */
+
+.reference-hero__content {
+  position: relative;
+  z-index: 5;
+}
+
+
+/* LOGO */
+
+.reference-hero__logo {
+  width: clamp(150px, 13vw, 205px);
+  margin-bottom: 28px;
+}
+
+.reference-hero__logo img {
+  width: 100%;
+  height: auto;
+
+  display: block;
+
+  object-fit: contain;
+
+  mix-blend-mode: screen;
+
+  filter:
+    drop-shadow(0 20px 40px rgba(0,0,0,.22))
+    brightness(1.05);
+}
+
+
+/* EYEBROW */
+
+.reference-hero__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+
+  margin-bottom: 22px;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  letter-spacing: .24em;
+
+  color: rgba(244,239,230,.64);
+}
+
+.reference-hero__eyebrow span {
+  display: block;
+
+  width: 36px;
+  height: 1px;
+
+  background: var(--hero-red);
+}
+
+
+/* TITULAR */
+
+.reference-hero h1 {
+  margin: 0;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-weight: 400;
+
+  font-size:
+    clamp(64px, 7.1vw, 112px);
+
+  line-height: .83;
+
+  letter-spacing: -.065em;
+
+  color: var(--hero-cream);
+}
+
+.reference-hero h1 em {
+  color: var(--hero-red);
+  font-weight: 400;
+}
+
+.reference-hero h1 strong {
+  font-weight: 400;
+  color: var(--hero-cream);
+}
+
+
+/* DESCRIPCIÓN */
+
+.reference-hero__description {
+  max-width: 520px;
+
+  margin:
+    35px
+    0
+    0;
+
+  padding-left: 22px;
+
+  border-left:
+    1px solid rgba(197,164,109,.55);
+
+  font-size: 15px;
+  line-height: 1.8;
+
+  color:
+    rgba(244,239,230,.65);
+}
+
+
+/* BOTONES */
+
+.reference-hero__actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  gap: 13px;
+
+  margin-top: 38px;
+}
+
+.reference-button {
+  min-height: 56px;
+
+  padding:
+    0
+    23px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 28px;
+
+  text-decoration: none;
+
+  text-transform: uppercase;
+
+  letter-spacing: .12em;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  transition:
+    transform .3s ease,
+    background .3s ease,
+    border-color .3s ease;
+}
+
+.reference-button i {
+  font-style: normal;
+  font-size: 15px;
+}
+
+.reference-button:hover {
+  transform: translateY(-3px);
+}
+
+.reference-button--red {
+  color: white;
+  background: var(--hero-red);
+  border: 1px solid var(--hero-red);
+
+  box-shadow:
+    0 20px 50px rgba(165,42,63,.22);
+}
+
+.reference-button--red:hover {
+  background: #b62e46;
+}
+
+.reference-button--outline {
+  color: var(--hero-cream);
+
+  border:
+    1px solid rgba(244,239,230,.22);
+
+  background:
+    rgba(255,255,255,.025);
+
+  backdrop-filter: blur(10px);
+}
+
+.reference-button--outline:hover {
+  border-color:
+    rgba(197,164,109,.55);
+}
+
+
+/* METADATOS */
+
+.reference-hero__meta {
+  max-width: 530px;
+
+  display: grid;
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  margin-top: 50px;
+
+  padding-top: 20px;
+
+  border-top:
+    1px solid rgba(244,239,230,.11);
+}
+
+.reference-hero__meta div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.reference-hero__meta small {
+  color: var(--hero-gold);
+
+  font-family: Georgia, serif;
+
+  font-size: 11px;
+}
+
+.reference-hero__meta span {
+  color:
+    rgba(244,239,230,.55);
+
+  font-size: 9px;
+
+  letter-spacing: .15em;
+}
+
+
+/* ============================================================
+   DERECHA
+   ============================================================ */
+
+.reference-hero__visual {
+  position: relative;
+
+  height:
+    clamp(570px, 72vh, 780px);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* ARCO ROJO */
+
+.reference-hero__red-arc {
+  position: absolute;
+
+  width: 76%;
+  aspect-ratio: 1;
+
+  right: -2%;
+  top: 3%;
+
+  border:
+    clamp(25px, 3.3vw, 52px)
+    solid
+    var(--hero-red);
+
+  border-left-color: transparent;
+  border-bottom-color: transparent;
+
+  border-radius: 50%;
+
+  transform:
+    rotate(-8deg);
+
+  opacity: .9;
+}
+
+
+/* FOTO */
+
+.reference-hero__photo {
+  position: relative;
+
+  width: 76%;
+  height: 92%;
+
+  overflow: hidden;
+
+  border-radius:
+    48% 48% 4px 4px /
+    27% 27% 4px 4px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #1d5a70,
+      #092f42
+    );
+
+  box-shadow:
+    0 60px 100px rgba(0,0,0,.28);
+
+  z-index: 2;
+}
+
+
+/* PLACEHOLDER PARA FOTO REAL */
+
+.reference-photo-placeholder {
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+  align-items: center;
+
+  gap: 9px;
+
+  background:
+    radial-gradient(
+      circle at 52% 26%,
+      rgba(117,183,204,.45),
+      transparent 21%
+    ),
+    radial-gradient(
+      ellipse at 48% 63%,
+      rgba(33,110,136,.75),
+      transparent 35%
+    ),
+    linear-gradient(
+      145deg,
+      #154d63,
+      #062b3d
+    );
+
+  color:
+    rgba(255,255,255,.48);
+
+  letter-spacing: .18em;
+
+  font-size: 10px;
+}
+
+.reference-photo-placeholder::before {
+  content: "";
+
+  width: 32%;
+  height: 65%;
+
+  position: absolute;
+
+  top: 16%;
+  left: 35%;
+
+  border-radius:
+    50% 50% 44% 44%;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(136,199,216,.50),
+      rgba(45,116,140,.35)
+    );
+
+  filter: blur(14px);
+
+  transform:
+    rotate(-5deg);
+}
+
+.reference-photo-placeholder span,
+.reference-photo-placeholder small {
+  position: relative;
+  z-index: 2;
+}
+
+.reference-photo-placeholder small {
+  font-size: 8px;
+  opacity: .65;
+}
+
+
+/* SOMBRA DE FOTO */
+
+.reference-hero__photo-shade {
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      to right,
+      rgba(6,43,61,.62),
+      transparent 40%,
+      transparent 70%,
+      rgba(6,43,61,.25)
+    ),
+    linear-gradient(
+      to top,
+      rgba(6,43,61,.55),
+      transparent 35%
+    );
+}
+
+
+/* COLUMNA VERTEBRAL ABSTRACTA */
+
+.reference-hero__spine {
+  position: absolute;
+
+  z-index: 5;
+
+  width: 95px;
+  height: 360px;
+
+  left: 48%;
+  top: 27%;
+
+  transform:
+    translateX(-50%)
+    rotate(-7deg);
+
+  filter:
+    drop-shadow(
+      0 0 18px rgba(201,228,235,.22)
+    );
+}
+
+.reference-hero__spine::before {
+  content: "";
+
+  position: absolute;
+
+  width: 4px;
+  height: 100%;
+
+  left: 50%;
+
+  transform:
+    translateX(-50%);
+
+  background:
+    linear-gradient(
+      transparent,
+      rgba(211,235,239,.55) 15%,
+      rgba(211,235,239,.75) 50%,
+      rgba(211,235,239,.35) 85%,
+      transparent
+    );
+
+  border-radius: 100%;
+}
+
+.spine-dot {
+  position: absolute;
+
+  left: 50%;
+
+  width: 28px;
+  height: 18px;
+
+  transform:
+    translateX(-50%);
+
+  border:
+    1px solid rgba(220,241,244,.65);
+
+  border-radius: 50%;
+
+  background:
+    rgba(195,225,231,.10);
+
+  backdrop-filter: blur(4px);
+}
+
+.spine-dot--1 { top: 3%; }
+.spine-dot--2 { top: 15%; transform: translateX(-48%) rotate(4deg); }
+.spine-dot--3 { top: 27%; transform: translateX(-52%) rotate(-3deg); }
+.spine-dot--4 { top: 39%; transform: translateX(-47%) rotate(5deg); }
+.spine-dot--5 { top: 51%; transform: translateX(-53%) rotate(-4deg); }
+.spine-dot--6 { top: 63%; transform: translateX(-48%) rotate(3deg); }
+.spine-dot--7 { top: 75%; transform: translateX(-52%) rotate(-3deg); }
+.spine-dot--8 { top: 87%; transform: translateX(-48%) rotate(4deg); }
+
+
+/* PALABRAS VERTICALES */
+
+.reference-hero__vertical {
+  position: absolute;
+
+  right: -10px;
+  top: 24%;
+
+  z-index: 5;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 28px;
+}
+
+.reference-hero__vertical span {
+  writing-mode:
+    vertical-rl;
+
+  font-size: 8px;
+
+  letter-spacing: .32em;
+
+  color:
+    rgba(244,239,230,.38);
+}
+
+
+/* TARJETA */
+
+.reference-hero__card {
+  position: absolute;
+
+  z-index: 8;
+
+  left: -4%;
+  bottom: 8%;
+
+  width: 235px;
+
+  padding:
+    22px 24px;
+
+  background:
+    rgba(5,31,44,.78);
+
+  border:
+    1px solid rgba(244,239,230,.12);
+
+  backdrop-filter:
+    blur(18px);
+
+  box-shadow:
+    0 25px 60px rgba(0,0,0,.25);
+}
+
+.reference-hero__card span {
+  display: block;
+
+  margin-bottom: 12px;
+
+  color: var(--hero-gold);
+
+  font-size: 8px;
+
+  letter-spacing: .17em;
+}
+
+.reference-hero__card strong {
+  display: block;
+
+  font-family:
+    Georgia,
+    serif;
+
+  font-size: 23px;
+
+  font-weight: 400;
+}
+
+.reference-hero__card p {
+  margin:
+    5px
+    0
+    0;
+
+  color:
+    rgba(244,239,230,.55);
+
+  font-size: 12px;
+}
+
+
+/* ============================================================
+   BOTTOM
+   ============================================================ */
+
+.reference-hero__bottom {
+  position: absolute;
+
+  z-index: 5;
+
+  bottom: 28px;
+  left: 50%;
+
+  transform:
+    translateX(-50%);
+
+  width:
+    min(1440px, calc(100% - 100px));
+
+  display: flex;
+  align-items: center;
+
+  gap: 25px;
+
+  color:
+    rgba(244,239,230,.34);
+
+  font-size: 8px;
+
+  letter-spacing: .18em;
+}
+
+.reference-hero__bottom i {
+  flex: 1;
+
+  height: 1px;
+
+  background:
+    rgba(244,239,230,.10);
+}
+
+
+/* ============================================================
+   ANIMACIÓN
+   ============================================================ */
+
+.reference-hero__content {
+  animation:
+    referenceFadeUp
+    .9s
+    cubic-bezier(.2,.7,.2,1)
+    both;
+}
+
+.reference-hero__visual {
+  animation:
+    referenceFade
+    1.2s
+    ease
+    .15s
+    both;
+}
+
+@keyframes referenceFadeUp {
+  from {
+    opacity: 0;
+    transform:
+      translateY(25px);
+  }
+
+  to {
+    opacity: 1;
+    transform:
+      translateY(0);
+  }
+}
+
+@keyframes referenceFade {
+  from {
+    opacity: 0;
+    transform:
+      translateX(25px);
+  }
+
+  to {
+    opacity: 1;
+    transform:
+      translateX(0);
+  }
+}
+
+
+/* ============================================================
+   TABLET
+   ============================================================ */
+
+@media (max-width: 1050px) {
+
+  .reference-hero__inner {
+    width:
+      min(100% - 50px, 900px);
+
+    grid-template-columns: 1fr;
+
+    padding-top: 145px;
+  }
+
+  .reference-hero__content {
+    max-width: 700px;
+  }
+
+  .reference-hero__visual {
+    height: 650px;
+    margin-top: 10px;
+  }
+
+  .reference-hero__photo {
+    width: min(520px, 80%);
+  }
+
+  .reference-hero__red-arc {
+    width: 500px;
+    right: 5%;
+  }
+
+  .reference-hero__card {
+    left: 10%;
+  }
+
+  .reference-hero__vertical {
+    right: 8%;
+  }
+
+  .reference-hero__bottom {
+    position: relative;
+
+    width:
+      calc(100% - 50px);
+
+    left: auto;
+    bottom: auto;
+
+    transform: none;
+
+    margin:
+      0 auto;
+
+    padding-bottom: 28px;
+  }
+}
+
+
+/* ============================================================
+   MÓVIL
+   ============================================================ */
+
+@media (max-width: 650px) {
+
+  .reference-hero__inner {
+    width:
+      calc(100% - 36px);
+
+    padding:
+      125px
+      0
+      60px;
+
+    gap: 50px;
+  }
+
+  .reference-hero__logo {
+    width: 145px;
+    margin-bottom: 22px;
+  }
+
+  .reference-hero h1 {
+    font-size:
+      clamp(55px, 17vw, 78px);
+  }
+
+  .reference-hero__description {
+    font-size: 14px;
+  }
+
+  .reference-hero__actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .reference-button {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .reference-hero__meta {
+    gap: 12px;
+  }
+
+  .reference-hero__meta span {
+    font-size: 7px;
+  }
+
+  .reference-hero__visual {
+    height: 510px;
+  }
+
+  .reference-hero__photo {
+    width: 88%;
+    height: 100%;
+  }
+
+  .reference-hero__red-arc {
+    width: 390px;
+    right: -130px;
+  }
+
+  .reference-hero__card {
+    left: 0;
+    bottom: 4%;
+
+    width: 200px;
+  }
+
+  .reference-hero__vertical {
+    right: 0;
+  }
+
+  .reference-hero__spine {
+    height: 290px;
+  }
+
+  .reference-hero__bottom {
+    display: none;
+  }
+}
+
+/* FOTO REAL PORTADA */
+
+.reference-hero__photo {
+  position: relative;
+}
+
+.reference-hero__back-image {
+  object-fit: cover;
+  object-position: 57% center;
+  transform: scale(1.03);
+  filter:
+    saturate(.82)
+    contrast(1.06)
+    brightness(.88);
+}
+
+.reference-hero__photo-shade {
+  z-index: 2;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(6,43,61,.48) 0%,
+      rgba(6,43,61,.10) 38%,
+      transparent 65%
+    ),
+    linear-gradient(
+      0deg,
+      rgba(3,29,42,.38) 0%,
+      transparent 42%
+    );
+}
+
+/* Ocultamos la columna CSS porque la foto ya lleva
+   la columna integrada */
+.reference-hero__spine {
+  display: none;
+}
+
+
+/* ============================================================
+   HERO — ESPALDA GIGANTE EN TODA LA ZONA DERECHA
+   ============================================================ */
+
+.reference-hero__visual {
+  position: relative;
+  height: calc(100vh - 90px);
+  min-height: 700px;
+  align-self: stretch;
+  overflow: visible;
+}
+
+/* Eliminamos el marco/arco que encerraba la fotografía */
+.reference-hero__photo {
+  position: absolute;
+  z-index: 3;
+
+  top: -40px;
+  right: -12vw;
+  bottom: -60px;
+
+  width: 68vw;
+  height: auto;
+
+  overflow: visible;
+  border-radius: 0;
+
+  background: transparent;
+  box-shadow: none;
+}
+
+/* Imagen transparente: enorme */
+.reference-hero__back-image {
+  object-fit: contain !important;
+  object-position: right bottom !important;
+
+  transform: scale(1.08);
+  transform-origin: right bottom;
+
+  filter:
+    saturate(.72)
+    contrast(1.08)
+    brightness(.80)
+    drop-shadow(-35px 20px 55px rgba(0,0,0,.28));
+
+  z-index: 2;
+}
+
+/* Ya no necesitamos oscurecer la foto como si fuese rectangular */
+.reference-hero__photo-shade {
+  display: none;
+}
+
+/* La imagen ya incorpora la columna */
+.reference-hero__spine {
+  display: none !important;
+}
+
+/* Círculo rojo detrás del cuerpo */
+.reference-hero__red-arc {
+  z-index: 1;
+
+  width: 650px;
+  height: 650px;
+
+  top: 7%;
+  right: -4%;
+
+  border: none;
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle at 40% 35%,
+      #b62f43 0%,
+      #9b2035 55%,
+      #761527 100%
+    );
+
+  opacity: .92;
+
+  transform: none;
+
+  box-shadow:
+    0 0 100px rgba(165,42,63,.12);
+}
+
+/* La tarjeta por encima del cuerpo */
+.reference-hero__card {
+  z-index: 10;
+  left: -2%;
+  bottom: 9%;
+}
+
+/* Palabras a la derecha */
+.reference-hero__vertical {
+  z-index: 10;
+  right: -3%;
+}
+
+/* Que el texto izquierdo permanezca por encima */
+.reference-hero__content {
+  z-index: 20;
+}
+
+
+/* TABLET */
+
+@media (max-width: 1050px) {
+
+  .reference-hero__visual {
+    height: 720px;
+    min-height: 0;
+  }
+
+  .reference-hero__photo {
+    width: 100vw;
+
+    right: -20vw;
+    top: 0;
+    bottom: -50px;
+  }
+
+  .reference-hero__back-image {
+    transform: scale(1.02);
+  }
+
+  .reference-hero__red-arc {
+    width: 570px;
+    height: 570px;
+
+    right: -8%;
+    top: 8%;
+  }
+}
+
+
+/* MÓVIL */
+
+@media (max-width: 650px) {
+
+  .reference-hero__visual {
+    height: 570px;
+  }
+
+  .reference-hero__photo {
+    width: 135vw;
+
+    right: -39vw;
+    top: -20px;
+    bottom: -30px;
+  }
+
+  .reference-hero__back-image {
+    transform: scale(1);
+    object-position: right bottom !important;
+  }
+
+  .reference-hero__red-arc {
+    width: 430px;
+    height: 430px;
+
+    right: -42%;
+    top: 8%;
+  }
+
+  .reference-hero__card {
+    left: 0;
+    bottom: 4%;
+  }
+
+  .reference-hero__vertical {
+    right: 0;
+  }
+}
+
+
+
+/* ============================================================
+   FOTO REAL DE ALBERTO
+   ============================================================ */
+
+.alberto-visual {
+  overflow: visible;
+}
+
+.alberto-photo--real {
+  position: relative;
+  overflow: visible !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.alberto-real-image {
+  object-fit: contain !important;
+  object-position: center bottom !important;
+
+  filter:
+    saturate(.90)
+    contrast(1.03)
+    drop-shadow(0 35px 45px rgba(6, 43, 61, .16));
+}
+
+/* Círculo decorativo detrás de Alberto */
+
+.alberto-photo--real::before {
+  content: "";
+  position: absolute;
+
+  width: 78%;
+  aspect-ratio: 1;
+
+  left: 50%;
+  top: 48%;
+
+  transform: translate(-50%, -50%);
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle at 35% 30%,
+      #b83a4e,
+      #9c2338 58%,
+      #791829
+    );
+
+  opacity: .96;
+
+  z-index: -1;
+}
+
+/* Línea exterior elegante */
+
+.alberto-photo--real::after {
+  content: "";
+  position: absolute;
+
+  width: 88%;
+  aspect-ratio: 1;
+
+  left: 50%;
+  top: 48%;
+
+  transform: translate(-50%, -50%);
+
+  border-radius: 50%;
+
+  border: 1px solid rgba(165, 42, 63, .25);
+
+  z-index: -2;
+}
+
+
+/* MÓVIL */
+
+@media (max-width: 768px) {
+
+  .alberto-photo--real {
+    min-height: 520px;
+  }
+
+  .alberto-real-image {
+    object-position: center bottom !important;
+  }
+
+  .alberto-photo--real::before {
+    width: 85%;
+  }
+
+}
+
+
+/* ============================================================
+   FIX DEFINITIVO — ALTURA FOTO ALBERTO
+   ============================================================ */
+
+.alberto-visual {
+  position: relative !important;
+  min-height: 720px !important;
+}
+
+.alberto-photo.alberto-photo--real {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 720px !important;
+  overflow: visible !important;
+  background: transparent !important;
+}
+
+.alberto-photo--real .alberto-real-image {
+  position: absolute !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  object-position: center bottom !important;
+  z-index: 2;
+}
+
+/* Círculo burdeos detrás */
+.alberto-photo--real::before {
+  z-index: 0 !important;
+}
+
+/* Línea decorativa */
+.alberto-photo--real::after {
+  z-index: 0 !important;
+}
+
+.alberto-seal,
+.alberto-line-art {
+  z-index: 5;
+}
+
+
+/* TABLET */
+
+@media (max-width: 1000px) {
+
+  .alberto-visual {
+    min-height: 650px !important;
+  }
+
+  .alberto-photo.alberto-photo--real {
+    min-height: 650px !important;
+  }
+
+}
+
+
+/* MÓVIL */
+
+@media (max-width: 650px) {
+
+  .alberto-visual {
+    min-height: 540px !important;
+  }
+
+  .alberto-photo.alberto-photo--real {
+    min-height: 540px !important;
+  }
+
+  .alberto-real-image {
+    object-position: center bottom !important;
+  }
+
+}
+
+
+
+/* ============================================================
+   ALBERTO — FIX FINAL
+   ============================================================ */
+
+.alberto-visual {
+  position: relative !important;
+  min-height: 720px !important;
+  overflow: visible !important;
+}
+
+.alberto-photo.alberto-photo--real {
+  position: absolute !important;
+
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  bottom: 0 !important;
+
+  width: 100% !important;
+  height: 720px !important;
+
+  display: flex !important;
+  align-items: flex-end !important;
+  justify-content: center !important;
+
+  overflow: visible !important;
+
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.alberto-real-image {
+  position: relative !important;
+
+  display: block !important;
+
+  width: auto !important;
+  height: 100% !important;
+
+  max-width: 100% !important;
+  max-height: 720px !important;
+
+  object-fit: contain !important;
+  object-position: center bottom !important;
+
+  z-index: 3 !important;
+
+  filter:
+    saturate(.92)
+    contrast(1.03)
+    drop-shadow(0 35px 50px rgba(6,43,61,.18)) !important;
+}
+
+
+/* CÍRCULO DETRÁS */
+
+.alberto-photo.alberto-photo--real::before {
+  content: "" !important;
+
+  position: absolute !important;
+
+  display: block !important;
+
+  width: 480px !important;
+  height: 480px !important;
+
+  left: 50% !important;
+  top: 50% !important;
+
+  transform: translate(-50%, -50%) !important;
+
+  border-radius: 50% !important;
+
+  background:
+    radial-gradient(
+      circle at 35% 30%,
+      #b93a4f 0%,
+      #a52a3f 55%,
+      #791829 100%
+    ) !important;
+
+  z-index: 1 !important;
+}
+
+
+/* ARO FINO */
+
+.alberto-photo.alberto-photo--real::after {
+  content: "" !important;
+
+  position: absolute !important;
+
+  display: block !important;
+
+  width: 550px !important;
+  height: 550px !important;
+
+  left: 50% !important;
+  top: 50% !important;
+
+  transform: translate(-50%, -50%) !important;
+
+  border-radius: 50% !important;
+
+  border:
+    1px solid rgba(165,42,63,.25) !important;
+
+  background: transparent !important;
+
+  z-index: 0 !important;
+}
+
+
+/* ELEMENTOS DECORATIVOS */
+
+.alberto-seal {
+  position: absolute !important;
+  z-index: 10 !important;
+}
+
+.alberto-line-art {
+  z-index: 0 !important;
+}
+
+
+/* TABLET */
+
+@media (max-width: 1000px) {
+
+  .alberto-visual {
+    min-height: 650px !important;
+  }
+
+  .alberto-photo.alberto-photo--real {
+    height: 650px !important;
+  }
+
+  .alberto-real-image {
+    max-height: 650px !important;
+  }
+
+}
+
+
+/* MÓVIL */
+
+@media (max-width: 650px) {
+
+  .alberto-visual {
+    min-height: 520px !important;
+  }
+
+  .alberto-photo.alberto-photo--real {
+    height: 520px !important;
+  }
+
+  .alberto-real-image {
+    height: 520px !important;
+    max-height: 520px !important;
+    max-width: 115% !important;
+  }
+
+  .alberto-photo.alberto-photo--real::before {
+    width: 330px !important;
+    height: 330px !important;
+  }
+
+  .alberto-photo.alberto-photo--real::after {
+    width: 380px !important;
+    height: 380px !important;
+  }
+
+}
+
+
+/* ==========================================================
+   ALBERTO V3 — LIMPIO
+   ========================================================== */
+
+.alberto-visual {
+  position: relative !important;
+  min-height: 720px !important;
+  height: 720px !important;
+  overflow: visible !important;
+}
+
+/* Contenedor */
+.alberto-photo.alberto-photo--real {
+  position: absolute !important;
+  inset: 0 !important;
+
+  width: 100% !important;
+  height: 100% !important;
+
+  display: flex !important;
+  justify-content: center !important;
+  align-items: flex-end !important;
+
+  overflow: visible !important;
+
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* ALBERTO */
+.alberto-photo.alberto-photo--real .alberto-cutout {
+  position: absolute !important;
+
+  display: block !important;
+
+  z-index: 20 !important;
+
+  bottom: 0 !important;
+  left: 50% !important;
+
+  width: auto !important;
+  height: 690px !important;
+
+  max-width: none !important;
+  max-height: none !important;
+
+  transform: translateX(-50%) !important;
+
+  object-fit: contain !important;
+
+  filter:
+    drop-shadow(0 30px 35px rgba(6,43,61,.18)) !important;
+}
+
+/* CÍRCULO BURDEOS */
+.alberto-photo.alberto-photo--real::before {
+  content: "" !important;
+
+  position: absolute !important;
+
+  z-index: 1 !important;
+
+  width: 470px !important;
+  height: 470px !important;
+
+  left: 50% !important;
+  top: 48% !important;
+
+  transform: translate(-50%, -50%) !important;
+
+  border-radius: 50% !important;
+
+  background:
+    linear-gradient(
+      145deg,
+      #bd344b,
+      #8c1c31
+    ) !important;
+}
+
+/* ARO EXTERIOR */
+.alberto-photo.alberto-photo--real::after {
+  content: "" !important;
+
+  position: absolute !important;
+
+  z-index: 0 !important;
+
+  width: 520px !important;
+  height: 520px !important;
+
+  left: 50% !important;
+  top: 48% !important;
+
+  transform: translate(-50%, -50%) !important;
+
+  border-radius: 50% !important;
+
+  background: transparent !important;
+
+  border:
+    1px solid rgba(165,42,63,.25) !important;
+}
+
+/* SELLO AM */
+.alberto-seal {
+  z-index: 30 !important;
+}
+
+
+/* MÓVIL */
+
+@media (max-width: 700px) {
+
+  .alberto-visual {
+    min-height: 570px !important;
+    height: 570px !important;
+  }
+
+  .alberto-photo.alberto-photo--real .alberto-cutout {
+    height: 540px !important;
+  }
+
+  .alberto-photo.alberto-photo--real::before {
+    width: 350px !important;
+    height: 350px !important;
+  }
+
+  .alberto-photo.alberto-photo--real::after {
+    width: 390px !important;
+    height: 390px !important;
+  }
+
+}
+
