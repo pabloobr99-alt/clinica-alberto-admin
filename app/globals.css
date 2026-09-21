@@ -7460,3 +7460,156 @@ body {
   color: #062B3D;
 }
 
+
+
+/* ==========================================================
+   ALBERTO MATAMOROS
+   DESPLEGABLE / SERVICIO SELECCIONADO COMPLETO EN ROJO
+   ========================================================== */
+
+/*
+  El elemento seleccionado pasa COMPLETO a rojo corporativo.
+  No solamente el título.
+*/
+
+.service-row.active,
+.service-row.is-active,
+.service-item.active,
+.service-item.is-active,
+.service-card.active,
+.service-card.is-active,
+.services-list .active,
+.services-list .is-active {
+  background: #B1263A !important;
+  border-color: #B1263A !important;
+}
+
+
+/* TÍTULO DENTRO DEL ROJO */
+
+.service-row.active h3,
+.service-row.is-active h3,
+.service-item.active h3,
+.service-item.is-active h3,
+.service-card.active h3,
+.service-card.is-active h3,
+.services-list .active h3,
+.services-list .is-active h3,
+
+.service-row.active .service-title,
+.service-row.is-active .service-title,
+.service-item.active .service-title,
+.service-item.is-active .service-title {
+  color: #FFFFFF !important;
+}
+
+
+/* NÚMERO 01 / 02 / 03... */
+
+.service-row.active .service-number,
+.service-row.is-active .service-number,
+.service-item.active .service-number,
+.service-item.is-active .service-number,
+.service-card.active .service-number,
+.service-card.is-active .service-number,
+.services-list .active .service-number,
+.services-list .is-active .service-number {
+  color: #FFFFFF !important;
+}
+
+
+/* EQUILIBRIO / ARMONÍA / CUIDADO... */
+
+.service-row.active .service-concept,
+.service-row.is-active .service-concept,
+.service-item.active .service-concept,
+.service-item.is-active .service-concept,
+.service-card.active .service-concept,
+.service-card.is-active .service-concept,
+.services-list .active .service-concept,
+.services-list .is-active .service-concept {
+  color: rgba(255,255,255,.72) !important;
+}
+
+
+/* TEXTO DEL DESPLEGABLE */
+
+.service-row.active p,
+.service-row.is-active p,
+.service-item.active p,
+.service-item.is-active p,
+.service-card.active p,
+.service-card.is-active p,
+.services-list .active p,
+.services-list .is-active p {
+  color: rgba(255,255,255,.82) !important;
+}
+
+
+/* KANJI / DETALLES */
+
+.service-row.active .service-japanese,
+.service-row.is-active .service-japanese,
+.service-item.active .service-japanese,
+.service-item.is-active .service-japanese,
+.services-list .active .service-japanese,
+.services-list .is-active .service-japanese {
+  color: rgba(255,255,255,.20) !important;
+}
+
+
+/* BARRA LATERAL */
+
+.service-row.active::before,
+.service-row.is-active::before,
+.service-item.active::before,
+.service-item.is-active::before,
+.services-list .active::before,
+.services-list .is-active::before {
+  background: #FFFFFF !important;
+}
+
+
+/* BOTÓN DE FLECHA */
+
+.service-row.active .service-arrow,
+.service-row.is-active .service-arrow,
+.service-item.active .service-arrow,
+.service-item.is-active .service-arrow,
+.service-card.active .service-arrow,
+.service-card.is-active .service-arrow,
+.services-list .active .service-arrow,
+.services-list .is-active .service-arrow {
+  background: #FFFFFF !important;
+  border-color: #FFFFFF !important;
+  color: #B1263A !important;
+}
+
+
+/* HOVER DEL SERVICIO ACTIVO */
+
+.service-row.active:hover,
+.service-row.is-active:hover,
+.service-item.active:hover,
+.service-item.is-active:hover,
+.service-card.active:hover,
+.service-card.is-active:hover,
+.services-list .active:hover,
+.services-list .is-active:hover {
+  background: #9D2034 !important;
+}
+
+
+/* TRANSICIÓN */
+
+.service-row,
+.service-item,
+.service-card,
+.services-list > * {
+  transition:
+    background-color .35s ease,
+    color .35s ease,
+    border-color .35s ease !important;
+}
+
+
