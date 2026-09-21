@@ -1,4 +1,7 @@
 "use client";
+import ServiciosPremium from "./components/ServiciosPremium";
+import QueNecesitas from "./components/QueNecesitas";
+
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
@@ -756,6 +759,10 @@ export default function Home() {
       </section>
 
       {/* FOOTER */}
+      
+      <QueNecesitas />
+      <ServiciosPremium />
+
       <footer id="contacto" className="lux-footer">
         <div className="lux-container">
           <div className="footer-top">
