@@ -6529,3 +6529,856 @@ body {
 
 }
 
+
+
+/* ==========================================================
+   ALBERTO MATAMOROS — RESERVAS V2
+   ========================================================== */
+
+.reserva-v2 {
+  --rv-ink: #062b3d;
+  --rv-red: #a52a3f;
+  --rv-gold: #c5a46d;
+  --rv-cream: #f4efe6;
+  --rv-paper: #faf7f1;
+
+  min-height: 100svh;
+  background:
+    radial-gradient(
+      circle at 8% 5%,
+      rgba(197,164,109,.16),
+      transparent 28rem
+    ),
+    linear-gradient(
+      135deg,
+      #062b3d 0%,
+      #082f40 45%,
+      #041f2d 100%
+    );
+  color: white;
+}
+
+.reserva-v2__header {
+  width: min(1420px, calc(100% - 80px));
+  height: 116px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255,255,255,.12);
+}
+
+.reserva-v2__brand {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: white;
+  text-decoration: none;
+}
+
+.reserva-v2__brand img {
+  width: 54px;
+  height: 54px;
+  object-fit: contain;
+}
+
+.reserva-v2__brand span {
+  display: grid;
+  gap: 3px;
+}
+
+.reserva-v2__brand strong {
+  font-size: 15px;
+  letter-spacing: .07em;
+}
+
+.reserva-v2__brand small {
+  color: rgba(255,255,255,.58);
+  font-size: 10px;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+
+.reserva-v2__back {
+  color: rgba(255,255,255,.7);
+  text-decoration: none;
+  font-size: 13px;
+  letter-spacing: .06em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: .25s ease;
+}
+
+.reserva-v2__back:hover {
+  color: white;
+}
+
+.reserva-v2__layout {
+  width: min(1420px, calc(100% - 80px));
+  margin: auto;
+  min-height: calc(100svh - 116px);
+  padding: 75px 0 90px;
+  display: grid;
+  grid-template-columns:
+    minmax(300px, .75fr)
+    minmax(560px, 1.25fr);
+  align-items: center;
+  gap: clamp(60px, 8vw, 140px);
+}
+
+.reserva-v2__intro {
+  position: relative;
+}
+
+.reserva-v2__kanji {
+  position: absolute;
+  right: 0;
+  top: -85px;
+  font-family: serif;
+  font-size: 160px;
+  color: rgba(255,255,255,.025);
+  line-height: 1;
+  pointer-events: none;
+}
+
+.reserva-v2__eyebrow {
+  display: block;
+  color: var(--rv-gold);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .28em;
+  margin-bottom: 22px;
+}
+
+.reserva-v2__intro h1 {
+  max-width: 620px;
+  margin: 0;
+  font-size: clamp(50px, 5vw, 84px);
+  line-height: .93;
+  letter-spacing: -.055em;
+  font-weight: 600;
+}
+
+.reserva-v2__intro h1 em {
+  display: block;
+  color: var(--rv-gold);
+  font-family: Georgia, serif;
+  font-weight: 400;
+}
+
+.reserva-v2__lead {
+  max-width: 550px;
+  margin: 30px 0 42px;
+  color: rgba(255,255,255,.65);
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.reserva-v2__steps {
+  border-top: 1px solid rgba(255,255,255,.12);
+}
+
+.reserva-v2__steps > div {
+  min-height: 77px;
+  display: grid;
+  grid-template-columns: 45px 1fr;
+  align-items: center;
+  border-bottom: 1px solid rgba(255,255,255,.09);
+  opacity: .35;
+  transition: .3s ease;
+}
+
+.reserva-v2__steps > div.active {
+  opacity: 1;
+}
+
+.reserva-v2__steps > div > span {
+  color: var(--rv-gold);
+  font-family: Georgia, serif;
+  font-size: 12px;
+}
+
+.reserva-v2__steps p {
+  margin: 0;
+  display: grid;
+  gap: 4px;
+  color: rgba(255,255,255,.55);
+  font-size: 12px;
+}
+
+.reserva-v2__steps strong {
+  color: white;
+  font-size: 14px;
+}
+
+.reserva-v2__philosophy {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  margin-top: 36px;
+}
+
+.reserva-v2__philosophy > span {
+  font-family: serif;
+  font-size: 37px;
+  color: var(--rv-gold);
+}
+
+.reserva-v2__philosophy p {
+  margin: 0;
+  display: grid;
+  gap: 5px;
+  color: rgba(255,255,255,.58);
+  font-size: 12px;
+}
+
+.reserva-v2__philosophy small {
+  color: rgba(255,255,255,.35);
+  font-size: 8px;
+  letter-spacing: .2em;
+}
+
+.reserva-v2__card {
+  position: relative;
+  background: var(--rv-paper);
+  color: var(--rv-ink);
+  min-height: 640px;
+  border-radius: 3px;
+  padding: clamp(32px, 4vw, 60px);
+  box-shadow: 0 35px 100px rgba(0,0,0,.28);
+  overflow: hidden;
+}
+
+.reserva-v2__card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--rv-red);
+}
+
+.reserva-v2__cardhead {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: flex-start;
+  margin-bottom: 42px;
+}
+
+.reserva-v2__cardhead > div:first-child > span {
+  color: var(--rv-red);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .22em;
+}
+
+.reserva-v2__cardhead h2 {
+  margin: 7px 0 0;
+  font-family: Georgia, serif;
+  font-size: clamp(30px, 3vw, 45px);
+  font-weight: 400;
+  letter-spacing: -.03em;
+}
+
+.reserva-v2__live {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 9px;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  color: #537064;
+}
+
+.reserva-v2__live i {
+  width: 7px;
+  height: 7px;
+  background: #5b8f6b;
+  border-radius: 50%;
+  box-shadow: 0 0 0 5px rgba(91,143,107,.1);
+}
+
+.reserva-v2__month {
+  margin-bottom: 16px;
+  color: #7b807d;
+  font-size: 11px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.reserva-v2__days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+}
+
+.reserva-v2__days button {
+  appearance: none;
+  min-width: 0;
+  height: 91px;
+  border: 1px solid #ded9cf;
+  background: transparent;
+  color: var(--rv-ink);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 4px;
+  transition: .22s ease;
+}
+
+.reserva-v2__days button:hover,
+.reserva-v2__days button.selected {
+  border-color: var(--rv-ink);
+  background: var(--rv-ink);
+  color: white;
+  transform: translateY(-2px);
+}
+
+.reserva-v2__days small,
+.reserva-v2__days span {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  opacity: .6;
+}
+
+.reserva-v2__days strong {
+  font-family: Georgia, serif;
+  font-size: 24px;
+  font-weight: 400;
+}
+
+.reserva-v2__hint {
+  margin-top: 30px;
+  padding-top: 23px;
+  border-top: 1px solid #e2ddd3;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.reserva-v2__hint span {
+  color: var(--rv-gold);
+  font-family: serif;
+  font-size: 27px;
+}
+
+.reserva-v2__hint p {
+  margin: 0;
+  color: #7c817e;
+  font-size: 12px;
+}
+
+.reserva-v2__change {
+  appearance: none;
+  border: 0;
+  background: none;
+  color: #7c817e;
+  padding: 0;
+  margin-bottom: 25px;
+  cursor: pointer;
+  font-size: 11px;
+  letter-spacing: .05em;
+}
+
+.reserva-v2__selecteddate {
+  display: grid;
+  gap: 7px;
+  margin-bottom: 27px;
+}
+
+.reserva-v2__selecteddate small {
+  color: var(--rv-red);
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: .2em;
+}
+
+.reserva-v2__selecteddate strong {
+  font-family: Georgia, serif;
+  font-size: 27px;
+  font-weight: 400;
+  text-transform: capitalize;
+}
+
+.reserva-v2__times {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.reserva-v2__times button {
+  appearance: none;
+  height: 61px;
+  border: 1px solid #dcd7cd;
+  background: white;
+  color: var(--rv-ink);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 14px;
+  transition: .2s ease;
+}
+
+.reserva-v2__times button:hover,
+.reserva-v2__times button.selected {
+  color: white;
+  background: var(--rv-ink);
+  border-color: var(--rv-ink);
+  transform: translateY(-2px);
+}
+
+.reserva-v2__loading,
+.reserva-v2__empty {
+  min-height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.reserva-v2__loading {
+  gap: 13px;
+  color: #7c817e;
+  font-size: 13px;
+}
+
+.reserva-v2__loading i {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #d8d2c7;
+  border-top-color: var(--rv-red);
+  border-radius: 50%;
+  animation: reservaSpin .8s linear infinite;
+}
+
+@keyframes reservaSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.reserva-v2__empty {
+  flex-direction: column;
+  text-align: center;
+}
+
+.reserva-v2__empty > span {
+  color: var(--rv-gold);
+  font-family: serif;
+  font-size: 55px;
+}
+
+.reserva-v2__empty h3 {
+  margin: 8px 0;
+  font-family: Georgia, serif;
+  font-size: 25px;
+  font-weight: 400;
+}
+
+.reserva-v2__empty p {
+  color: #7c817e;
+}
+
+.reserva-v2__empty button {
+  margin-top: 10px;
+  border: 0;
+  background: var(--rv-ink);
+  color: white;
+  padding: 13px 22px;
+  cursor: pointer;
+}
+
+.reserva-v2__summary {
+  padding: 17px 20px;
+  background: #eee8dd;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.reserva-v2__summary > span {
+  color: var(--rv-gold);
+  font-family: serif;
+  font-size: 30px;
+}
+
+.reserva-v2__summary p {
+  margin: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.reserva-v2__summary small {
+  color: #8b8174;
+  font-size: 8px;
+  letter-spacing: .18em;
+}
+
+.reserva-v2__summary strong {
+  font-family: Georgia, serif;
+  font-size: 18px;
+  font-weight: 400;
+  text-transform: capitalize;
+}
+
+.reserva-v2__form {
+  display: grid;
+  gap: 18px;
+}
+
+.reserva-v2__form label {
+  display: grid;
+  gap: 8px;
+}
+
+.reserva-v2__form label > span {
+  color: #536069;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .06em;
+}
+
+.reserva-v2__formrow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.reserva-v2__form input,
+.reserva-v2__form textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #d8d3ca;
+  background: white;
+  border-radius: 0;
+  color: var(--rv-ink);
+  padding: 15px 16px;
+  font: inherit;
+  font-size: 14px;
+  outline: none;
+  transition: .2s ease;
+}
+
+.reserva-v2__form textarea {
+  resize: vertical;
+  min-height: 115px;
+}
+
+.reserva-v2__form input:focus,
+.reserva-v2__form textarea:focus {
+  border-color: var(--rv-gold);
+  box-shadow: 0 0 0 3px rgba(197,164,109,.1);
+}
+
+.reserva-v2__privacy {
+  margin: -4px 0 0;
+  color: #8a8e8b;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.reserva-v2__error {
+  background: rgba(165,42,63,.08);
+  border: 1px solid rgba(165,42,63,.18);
+  color: var(--rv-red);
+  padding: 12px 14px;
+  font-size: 12px;
+}
+
+.reserva-v2__error--outside {
+  margin-top: 25px;
+}
+
+.reserva-v2__submit {
+  appearance: none;
+  min-height: 59px;
+  border: 0;
+  background: var(--rv-red);
+  color: white;
+  padding: 0 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .07em;
+  cursor: pointer;
+  transition: .25s ease;
+}
+
+.reserva-v2__submit:hover:not(:disabled) {
+  background: #8f2034;
+  transform: translateY(-2px);
+}
+
+.reserva-v2__submit:disabled {
+  opacity: .55;
+  cursor: wait;
+}
+
+.reserva-v2__submit span {
+  font-size: 20px;
+}
+
+.reserva-v2__success {
+  min-height: 520px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+}
+
+.reserva-v2__successmark {
+  width: 68px;
+  height: 68px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--rv-gold);
+  border-radius: 50%;
+  margin-bottom: 26px;
+}
+
+.reserva-v2__successmark span {
+  color: var(--rv-red);
+  font-size: 23px;
+}
+
+.reserva-v2__successkanji {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-family: serif;
+  font-size: 110px;
+  color: rgba(197,164,109,.09);
+}
+
+.reserva-v2__success > small {
+  color: var(--rv-red);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .24em;
+}
+
+.reserva-v2__success h2 {
+  margin: 12px 0 16px;
+  font-family: Georgia, serif;
+  font-size: clamp(38px, 4vw, 55px);
+  font-weight: 400;
+  letter-spacing: -.04em;
+}
+
+.reserva-v2__success > p {
+  max-width: 450px;
+  color: #69716f;
+  line-height: 1.7;
+  font-size: 14px;
+}
+
+.reserva-v2__successdata {
+  width: 100%;
+  margin: 28px 0;
+  padding: 22px 0;
+  border-top: 1px solid #ddd7cd;
+  border-bottom: 1px solid #ddd7cd;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.reserva-v2__successdata span {
+  display: grid;
+  gap: 6px;
+  font-family: Georgia, serif;
+  font-size: 16px;
+  text-transform: capitalize;
+}
+
+.reserva-v2__successdata small {
+  color: #979087;
+  font-family: Arial, sans-serif;
+  font-size: 7px;
+  letter-spacing: .2em;
+}
+
+.reserva-v2__home {
+  min-width: 220px;
+  min-height: 53px;
+  background: var(--rv-ink);
+  color: white;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+@media (max-width: 1000px) {
+  .reserva-v2__header {
+    width: min(100% - 40px, 900px);
+    height: 90px;
+  }
+
+  .reserva-v2__layout {
+    width: min(100% - 40px, 760px);
+    min-height: auto;
+    grid-template-columns: 1fr;
+    gap: 50px;
+    padding: 55px 0 70px;
+  }
+
+  .reserva-v2__intro h1 {
+    font-size: clamp(48px, 10vw, 74px);
+  }
+
+  .reserva-v2__steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .reserva-v2__steps > div {
+    grid-template-columns: 35px 1fr;
+    padding-right: 15px;
+  }
+
+  .reserva-v2__philosophy {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .reserva-v2__header {
+    width: calc(100% - 28px);
+    height: 78px;
+  }
+
+  .reserva-v2__brand {
+    gap: 10px;
+  }
+
+  .reserva-v2__brand img {
+    width: 39px;
+    height: 39px;
+  }
+
+  .reserva-v2__brand strong {
+    font-size: 12px;
+  }
+
+  .reserva-v2__brand small {
+    font-size: 7px;
+  }
+
+  .reserva-v2__back {
+    font-size: 0;
+  }
+
+  .reserva-v2__back span {
+    font-size: 19px;
+  }
+
+  .reserva-v2__layout {
+    width: 100%;
+    padding: 42px 0 0;
+    gap: 40px;
+  }
+
+  .reserva-v2__intro {
+    padding: 0 20px;
+  }
+
+  .reserva-v2__kanji {
+    top: -35px;
+    right: 15px;
+    font-size: 100px;
+  }
+
+  .reserva-v2__eyebrow {
+    margin-bottom: 16px;
+  }
+
+  .reserva-v2__intro h1 {
+    font-size: 49px;
+  }
+
+  .reserva-v2__lead {
+    margin: 23px 0 30px;
+    font-size: 14px;
+  }
+
+  .reserva-v2__steps > div {
+    display: block;
+    min-height: auto;
+    padding: 13px 5px 13px 0;
+  }
+
+  .reserva-v2__steps > div > span {
+    display: block;
+    margin-bottom: 7px;
+  }
+
+  .reserva-v2__steps p {
+    font-size: 9px;
+  }
+
+  .reserva-v2__steps p strong {
+    font-size: 11px;
+  }
+
+  .reserva-v2__card {
+    min-height: 620px;
+    border-radius: 0;
+    padding: 31px 20px 45px;
+  }
+
+  .reserva-v2__cardhead {
+    margin-bottom: 30px;
+  }
+
+  .reserva-v2__cardhead h2 {
+    font-size: 31px;
+  }
+
+  .reserva-v2__live {
+    font-size: 7px;
+  }
+
+  .reserva-v2__days {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 7px;
+  }
+
+  .reserva-v2__days button {
+    height: 78px;
+  }
+
+  .reserva-v2__days strong {
+    font-size: 21px;
+  }
+
+  .reserva-v2__times {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .reserva-v2__times button {
+    height: 57px;
+  }
+
+  .reserva-v2__formrow {
+    grid-template-columns: 1fr;
+  }
+
+  .reserva-v2__successdata {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+}
+
+
