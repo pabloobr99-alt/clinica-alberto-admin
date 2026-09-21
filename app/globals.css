@@ -5651,3 +5651,559 @@ body {
   }
 }
 
+
+
+/* ============================================================
+   CLÍNICA ALBERTO — V7 MOBILE EXPERIENCE
+   Solo afecta a móvil
+   ============================================================ */
+
+@media (max-width: 700px) {
+
+  /* ==========================================================
+     BASE
+     ========================================================== */
+
+  html {
+    scroll-padding-top: 76px;
+  }
+
+  body {
+    overflow-x: hidden;
+    padding-bottom: 74px;
+  }
+
+
+  /* ==========================================================
+     HEADER
+     ========================================================== */
+
+  .site-header,
+  .lux-header,
+  .reference-header {
+    min-height: 76px;
+  }
+
+  .mobile-menu-button,
+  .menu-toggle {
+    width: 54px;
+    height: 54px;
+    min-height: 54px;
+    border-radius: 50%;
+  }
+
+
+  /* ==========================================================
+     MENÚ MÓVIL
+     ========================================================== */
+
+  .mobile-menu {
+    position: fixed;
+    z-index: 900;
+    inset: 76px 0 auto 0;
+
+    max-height: calc(100svh - 76px);
+    overflow-y: auto;
+
+    padding:
+      22px
+      max(24px, env(safe-area-inset-right))
+      30px
+      max(24px, env(safe-area-inset-left));
+
+    background:
+      radial-gradient(
+        circle at 100% 0%,
+        rgba(168,34,56,.10),
+        transparent 35%
+      ),
+      rgba(244,239,230,.98);
+
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+
+    box-shadow: 0 30px 60px rgba(6,26,36,.12);
+  }
+
+  .mobile-menu nav,
+  .mobile-menu__nav {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mobile-menu a {
+    min-height: 54px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 7px 0;
+
+    border-bottom: 1px solid rgba(6,26,36,.10);
+
+    color: #061a24;
+
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(25px, 7vw, 32px);
+    line-height: 1;
+    letter-spacing: -.025em;
+
+    text-decoration: none;
+  }
+
+  .mobile-menu a:last-child {
+    margin-top: 13px;
+    min-height: 56px;
+
+    justify-content: space-between;
+
+    padding: 0 21px;
+
+    border: 0;
+    border-radius: 999px;
+
+    background: #a82238;
+    color: white;
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: 800;
+  }
+
+
+  /* ==========================================================
+     HERO
+     ========================================================== */
+
+  .reference-hero {
+    position: relative;
+    min-height: 760px;
+    overflow: hidden;
+  }
+
+  /*
+   * El contenido principal debe ocupar la parte superior.
+   */
+
+  .reference-hero__inner,
+  .reference-hero__content {
+    position: relative;
+    z-index: 5;
+  }
+
+  /*
+   * Imagen: dejamos de hacer un zoom brutal.
+   */
+
+  .reference-hero__visual {
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    width: 100%;
+    height: 57%;
+
+    overflow: hidden;
+  }
+
+  .reference-hero__back-image {
+    object-fit: contain !important;
+    object-position: center bottom !important;
+
+    transform: scale(1.02) !important;
+  }
+
+  /*
+   * Círculo burdeos.
+   */
+
+  .reference-hero__circle,
+  .reference-hero__red-circle {
+    width: 310px !important;
+    height: 310px !important;
+
+    right: -115px !important;
+    top: 20px !important;
+
+    opacity: .92;
+  }
+
+
+  /* ==========================================================
+     TARJETA "PRIMERO TÚ"
+     ========================================================== */
+
+  .reference-hero__card,
+  .hero-attention-card,
+  .reference-card {
+    position: absolute !important;
+
+    z-index: 8 !important;
+
+    left: 24px !important;
+    right: auto !important;
+    bottom: 32px !important;
+
+    width: min(78%, 310px) !important;
+
+    padding: 22px 22px 20px !important;
+
+    background: rgba(6,43,61,.94) !important;
+
+    border: 1px solid rgba(197,164,109,.22) !important;
+
+    box-shadow:
+      0 20px 50px rgba(0,0,0,.18) !important;
+
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .reference-hero__card span,
+  .hero-attention-card span,
+  .reference-card span {
+    font-size: 8px !important;
+    letter-spacing: .19em !important;
+  }
+
+  .reference-hero__card strong,
+  .hero-attention-card strong,
+  .reference-card strong {
+    display: block;
+
+    margin-top: 12px;
+
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 30px !important;
+    line-height: 1 !important;
+    font-weight: 400 !important;
+  }
+
+  .reference-hero__card p,
+  .hero-attention-card p,
+  .reference-card p {
+    margin-top: 9px !important;
+
+    font-size: 13px !important;
+    line-height: 1.4 !important;
+
+    opacity: .64;
+  }
+
+
+  /* ==========================================================
+     FILOSOFÍA
+     El hueco enorme de la captura desaparece.
+     ========================================================== */
+
+  .intro-section {
+    min-height: 0 !important;
+
+    padding-top: 76px !important;
+    padding-bottom: 80px !important;
+  }
+
+  .intro-section .lux-container {
+    min-height: 0 !important;
+  }
+
+  .intro-section__top,
+  .intro-top {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+
+  .intro-section [data-reveal] {
+    margin-top: 0;
+  }
+
+
+  /* ==========================================================
+     SECCIONES
+     ========================================================== */
+
+  .needs-section,
+  .services-section,
+  .process-section,
+  .alberto-section,
+  .clinic-section,
+  .google-reviews,
+  .reviews-v6,
+  .faq-section {
+    scroll-margin-top: 76px;
+  }
+
+  .section-kicker {
+    font-size: 9px;
+    letter-spacing: .19em;
+  }
+
+
+  /* ==========================================================
+     SERVICIOS TÁCTILES
+     ========================================================== */
+
+  .services-list,
+  .lux-services-list {
+    touch-action: pan-y;
+  }
+
+  .lux-service {
+    min-height: 66px;
+  }
+
+  .lux-service button {
+    min-height: 66px;
+  }
+
+  .service-stage {
+    min-height: 310px;
+  }
+
+
+  /* ==========================================================
+     ALBERTO
+     ========================================================== */
+
+  .alberto-grid {
+    gap: 35px !important;
+  }
+
+  .alberto-photo,
+  .alberto-photo--real {
+    min-height: 420px;
+  }
+
+  .alberto-cutout {
+    object-fit: contain;
+    object-position: center bottom;
+  }
+
+
+  /* ==========================================================
+     RESEÑAS
+     ========================================================== */
+
+  .reviews-v6__head,
+  .google-reviews__heading {
+    margin-bottom: 35px !important;
+  }
+
+  .reviews-v6__card,
+  .google-reviews__panel {
+    border-radius: 2px;
+  }
+
+  .reviews-v6__button,
+  .google-reviews__button {
+    min-height: 56px;
+  }
+
+
+  /* ==========================================================
+     FAQ
+     ========================================================== */
+
+  .faq-item button {
+    min-height: 70px;
+    padding-top: 18px;
+    padding-bottom: 18px;
+  }
+
+
+  /* ==========================================================
+     BOTÓN FIJO RESERVAR
+     ========================================================== */
+
+  .mobile-book,
+  .mobile-booking,
+  .mobile-floating-book,
+  .floating-book,
+  .floating-book-mobile {
+    position: fixed !important;
+
+    z-index: 950 !important;
+
+    left: 14px !important;
+    right: 14px !important;
+    bottom:
+      max(
+        10px,
+        env(safe-area-inset-bottom)
+      ) !important;
+
+    width: auto !important;
+    height: 56px !important;
+    min-height: 56px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+
+    padding: 0 19px 0 22px !important;
+
+    border-radius: 999px !important;
+
+    background:
+      linear-gradient(
+        100deg,
+        #8f1c2e,
+        #a82238
+      ) !important;
+
+    color: white !important;
+
+    box-shadow:
+      0 14px 35px rgba(92,14,29,.24) !important;
+
+    font-size: 13px !important;
+    font-weight: 800 !important;
+
+    text-decoration: none !important;
+  }
+
+
+  /* ==========================================================
+     QUITAR EL EMOJI AZUL ↗
+     ========================================================== */
+
+  .mobile-book span:last-child,
+  .mobile-booking span:last-child,
+  .mobile-floating-book span:last-child,
+  .floating-book span:last-child,
+  .floating-book-mobile span:last-child {
+    font-family: Arial, Helvetica, sans-serif !important;
+    font-variant-emoji: text !important;
+
+    width: 34px !important;
+    height: 34px !important;
+
+    display: grid !important;
+    place-items: center !important;
+
+    border-radius: 50% !important;
+
+    background: rgba(255,255,255,.10) !important;
+
+    color: white !important;
+
+    font-size: 0 !important;
+  }
+
+  .mobile-book span:last-child::after,
+  .mobile-booking span:last-child::after,
+  .mobile-floating-book span:last-child::after,
+  .floating-book span:last-child::after,
+  .floating-book-mobile span:last-child::after {
+    content: "↗";
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 17px;
+    font-weight: 400;
+
+    color: white;
+  }
+
+
+  /* ==========================================================
+     TRANSICIONES MÁS LIGERAS EN MÓVIL
+     ========================================================== */
+
+  [data-reveal] {
+    filter: none !important;
+
+    transform: translateY(16px);
+
+    transition:
+      opacity 650ms cubic-bezier(.22,1,.36,1),
+      transform 650ms cubic-bezier(.22,1,.36,1);
+  }
+
+  [data-reveal].is-visible {
+    transform: translateY(0);
+  }
+
+  .identity-orbit {
+    opacity: .55;
+  }
+
+}
+
+
+/* ============================================================
+   IPHONE / MÓVILES ESTRECHOS
+   ============================================================ */
+
+@media (max-width: 430px) {
+
+  .reference-hero {
+    min-height: 720px;
+  }
+
+  .reference-hero__visual {
+    height: 55%;
+  }
+
+  .reference-hero__card,
+  .hero-attention-card,
+  .reference-card {
+    left: 20px !important;
+    bottom: 25px !important;
+
+    width: min(76%, 285px) !important;
+
+    padding: 20px !important;
+  }
+
+  .reference-hero__card strong,
+  .hero-attention-card strong,
+  .reference-card strong {
+    font-size: 27px !important;
+  }
+
+  .intro-section {
+    padding-top: 68px !important;
+  }
+
+}
+
+
+/* ============================================================
+   IPHONE MUY PEQUEÑO
+   ============================================================ */
+
+@media (max-width: 375px) {
+
+  .reference-hero {
+    min-height: 680px;
+  }
+
+  .reference-hero__card,
+  .hero-attention-card,
+  .reference-card {
+    width: 270px !important;
+  }
+
+  .mobile-menu a {
+    font-size: 25px;
+  }
+
+}
+
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+}
+
