@@ -4729,3 +4729,925 @@ button {
 
 }
 
+
+
+/* ============================================================
+   CLÍNICA ALBERTO — V5 MOTION & IDENTITY
+   ============================================================ */
+
+
+/* SCROLL PROGRESS */
+
+.scroll-progress {
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  pointer-events: none;
+  transform: scaleX(0);
+  transform-origin: left center;
+  background:
+    linear-gradient(
+      90deg,
+      var(--wine),
+      #d15365 55%,
+      var(--champagne)
+    );
+  box-shadow: 0 0 16px rgba(168,34,56,.35);
+  will-change: transform;
+}
+
+
+/* ============================================================
+   ACTIVE NAV
+   ============================================================ */
+
+.desktop-nav a.is-active {
+  opacity: 1;
+}
+
+.desktop-nav a.is-active::after {
+  width: 100%;
+}
+
+.desktop-nav a.is-active {
+  color: inherit;
+}
+
+
+/* ============================================================
+   AM IDENTITY SYSTEM
+   ============================================================ */
+
+.enso-small span {
+  position: relative;
+  z-index: 2;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .12em;
+}
+
+.service-stage__symbol {
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: clamp(100px, 13vw, 190px) !important;
+  font-style: italic;
+  letter-spacing: -.08em;
+}
+
+.statement-jp,
+.final-japanese {
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-style: italic;
+  letter-spacing: -.12em;
+}
+
+
+/* ============================================================
+   ORBITS
+   ============================================================ */
+
+.identity-orbit {
+  position: absolute;
+  z-index: 1;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.identity-orbit--one {
+  width: 650px;
+  height: 650px;
+  right: -310px;
+  top: 9%;
+  border: 1px solid rgba(201,173,124,.14);
+  animation: orbitFloat 14s ease-in-out infinite alternate;
+}
+
+.identity-orbit--two {
+  width: 470px;
+  height: 470px;
+  right: -220px;
+  top: 19%;
+  border: 1px solid rgba(168,34,56,.17);
+  animation: orbitFloat 18s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes orbitFloat {
+  from {
+    transform: translate3d(0,0,0) rotate(0deg);
+  }
+
+  to {
+    transform: translate3d(-18px,22px,0) rotate(8deg);
+  }
+}
+
+
+/* ============================================================
+   PREMIUM REVEALS
+   ============================================================ */
+
+[data-reveal] {
+  filter: blur(4px);
+  transition:
+    opacity 1000ms cubic-bezier(.22,1,.36,1),
+    transform 1000ms cubic-bezier(.22,1,.36,1),
+    filter 1000ms cubic-bezier(.22,1,.36,1);
+}
+
+[data-reveal].is-visible {
+  filter: blur(0);
+}
+
+
+/* ============================================================
+   BUTTON MOTION
+   ============================================================ */
+
+.reference-button,
+.needs-book,
+.nav-book,
+.button,
+.footer-book {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.reference-button::before,
+.needs-book::before,
+.nav-book::before,
+.button::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  width: 140%;
+  height: 250%;
+  left: -160%;
+  top: -75%;
+  transform: rotate(18deg);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,.17),
+    transparent
+  );
+  transition: left 700ms cubic-bezier(.22,1,.36,1);
+}
+
+.reference-button:hover::before,
+.needs-book:hover::before,
+.nav-book:hover::before,
+.button:hover::before {
+  left: 120%;
+}
+
+
+/* ============================================================
+   SECTION TRANSITIONS
+   ============================================================ */
+
+.intro-section,
+.needs-section,
+.services-section,
+.process-section,
+.alberto-section,
+.clinic-section,
+.faq-section {
+  isolation: isolate;
+}
+
+.intro-section::after,
+.needs-section::after,
+.services-section::after,
+.alberto-section::after,
+.faq-section::after {
+  pointer-events: none;
+}
+
+
+/* ============================================================
+   NEED CARDS
+   ============================================================ */
+
+.need-card__top i {
+  will-change: transform;
+}
+
+.need-card:hover h3 {
+  color: var(--wine);
+}
+
+
+/* ============================================================
+   SERVICES
+   ============================================================ */
+
+.lux-service {
+  position: relative;
+  overflow: hidden;
+}
+
+.lux-service::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 3px;
+  height: 0;
+  transform: translateY(-50%);
+  border-radius: 999px;
+  background: var(--wine);
+  transition: height 400ms cubic-bezier(.22,1,.36,1);
+}
+
+.lux-service.is-active::before {
+  height: 52%;
+}
+
+.lux-service__arrow {
+  transition:
+    transform 350ms ease,
+    color 350ms ease;
+}
+
+.lux-service.is-active .lux-service__arrow {
+  transform: rotate(45deg);
+  color: var(--wine);
+}
+
+.service-stage {
+  isolation: isolate;
+}
+
+.service-stage__orb {
+  animation: serviceOrb 8s ease-in-out infinite alternate;
+}
+
+@keyframes serviceOrb {
+  to {
+    transform: translate(22px,-15px) scale(1.08);
+  }
+}
+
+
+/* ============================================================
+   PROCESS
+   ============================================================ */
+
+.process-card__top > span {
+  transition: color 350ms ease;
+}
+
+.process-card:hover .process-card__top > span {
+  color: var(--champagne);
+}
+
+.process-card__line {
+  transform-origin: left;
+  transition: transform 500ms cubic-bezier(.22,1,.36,1);
+}
+
+.process-card:hover .process-card__line {
+  transform: scaleX(.68);
+}
+
+
+/* ============================================================
+   ALBERTO
+   ============================================================ */
+
+.alberto-seal {
+  transition:
+    transform 600ms cubic-bezier(.22,1,.36,1),
+    box-shadow 600ms ease;
+}
+
+.alberto-visual:hover .alberto-seal {
+  transform: rotate(-6deg) translateY(-5px);
+  box-shadow: 0 20px 50px rgba(6,26,36,.12);
+}
+
+
+/* ============================================================
+   FAQ
+   ============================================================ */
+
+.faq-item {
+  transition:
+    background 350ms ease,
+    padding 350ms ease;
+}
+
+.faq-item.is-open {
+  background: rgba(255,255,255,.42);
+}
+
+.faq-item button strong {
+  transition: color 300ms ease;
+}
+
+.faq-item.is-open button strong {
+  color: var(--wine);
+}
+
+
+/* ============================================================
+   TRUST STRIP
+   ============================================================ */
+
+.trust-strip {
+  position: relative;
+  overflow: hidden;
+  padding: 0;
+  color: white;
+  background: var(--ink);
+}
+
+.trust-strip::before {
+  content: "";
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  left: -230px;
+  top: -250px;
+  border: 1px solid rgba(201,173,124,.12);
+  border-radius: 50%;
+}
+
+.trust-strip__inner {
+  min-height: 190px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto 1fr;
+  align-items: center;
+  gap: 45px;
+}
+
+.trust-strip__inner > i {
+  width: 1px;
+  height: 55px;
+  background: rgba(255,255,255,.10);
+}
+
+.trust-strip__inner > div {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 15px;
+  align-items: baseline;
+}
+
+.trust-strip__inner span {
+  grid-row: 1 / 3;
+  color: var(--wine);
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: .15em;
+}
+
+.trust-strip__inner strong {
+  color: var(--ivory);
+  font-family: Georgia, serif;
+  font-size: 21px;
+  font-weight: 400;
+}
+
+.trust-strip__inner small {
+  margin-top: 5px;
+  color: rgba(255,255,255,.43);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+
+/* ============================================================
+   FINAL CTA
+   ============================================================ */
+
+.final-cta__sun {
+  animation: finalSun 12s ease-in-out infinite alternate;
+}
+
+@keyframes finalSun {
+  to {
+    transform: translate(25px,-16px) scale(1.05);
+  }
+}
+
+
+/* ============================================================
+   DESKTOP POINTER EFFECTS ONLY
+   ============================================================ */
+
+@media (hover: hover) and (pointer: fine) {
+
+  .need-card,
+  .process-card,
+  .lux-service {
+    cursor: default;
+  }
+
+  .need-card:hover,
+  .process-card:hover {
+    box-shadow: 0 25px 70px rgba(6,26,36,.08);
+  }
+}
+
+
+/* ============================================================
+   TABLET
+   ============================================================ */
+
+@media (max-width: 900px) {
+
+  .trust-strip__inner {
+    min-height: auto;
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding-top: 30px;
+    padding-bottom: 30px;
+  }
+
+  .trust-strip__inner > div {
+    padding: 25px 0;
+  }
+
+  .trust-strip__inner > i {
+    width: 100%;
+    height: 1px;
+  }
+}
+
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+
+@media (max-width: 650px) {
+
+  .scroll-progress {
+    height: 2px;
+  }
+
+  [data-reveal] {
+    filter: none;
+    transform: translateY(22px);
+  }
+
+  .identity-orbit--one {
+    width: 370px;
+    height: 370px;
+    right: -250px;
+    top: 25%;
+  }
+
+  .identity-orbit--two {
+    width: 290px;
+    height: 290px;
+    right: -205px;
+    top: 29%;
+  }
+
+  .service-stage__symbol {
+    font-size: 100px !important;
+  }
+
+  .trust-strip__inner {
+    width: calc(100% - 40px);
+  }
+
+  .trust-strip__inner strong {
+    font-size: 20px;
+  }
+
+  .trust-strip__inner small {
+    font-size: 11px;
+  }
+
+  .reference-button::before,
+  .needs-book::before,
+  .nav-book::before,
+  .button::before {
+    display: none;
+  }
+
+  .alberto-visual:hover .alberto-seal,
+  .need-card:hover,
+  .process-card:hover {
+    transform: none;
+  }
+}
+
+
+/* ============================================================
+   ACCESSIBILITY
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .identity-orbit,
+  .service-stage__orb,
+  .final-cta__sun {
+    animation: none !important;
+  }
+
+  [data-reveal] {
+    filter: none !important;
+  }
+}
+
+
+
+/* ============================================================
+   CLÍNICA ALBERTO — V6 REVIEWS + MOBILE
+   ============================================================ */
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 90px;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+
+/* REVIEWS */
+
+.reviews-v6 {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(90px, 10vw, 150px) 0;
+  color: #061a24;
+  background:
+    radial-gradient(
+      circle at 90% 5%,
+      rgba(168,34,56,.08),
+      transparent 28%
+    ),
+    #f4efe6;
+}
+
+.reviews-v6::before {
+  content: "";
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  right: -380px;
+  top: -330px;
+  border: 1px solid rgba(10,54,83,.09);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.reviews-v6__head {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 50px;
+  margin-bottom: clamp(45px,6vw,75px);
+}
+
+.reviews-v6__head h2 {
+  max-width: 760px;
+  margin: 14px 0 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(44px,6vw,82px);
+  line-height: .95;
+  font-weight: 400;
+  letter-spacing: -.055em;
+}
+
+.reviews-v6__enso {
+  position: relative;
+  width: 130px;
+  height: 130px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(168,34,56,.18);
+  border-radius: 50%;
+}
+
+.reviews-v6__enso::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border-top: 2px solid #a82238;
+  border-right: 2px solid transparent;
+  border-bottom: 2px solid #a82238;
+  border-left: 2px solid transparent;
+  border-radius: 50%;
+  transform: rotate(-24deg);
+}
+
+.reviews-v6__enso span {
+  position: relative;
+  z-index: 2;
+  color: #a82238;
+  font-family: serif;
+  font-size: 40px;
+}
+
+.reviews-v6__card {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns:
+    minmax(190px,.9fr)
+    auto
+    minmax(280px,1.35fr)
+    auto;
+  align-items: center;
+  gap: clamp(28px,4vw,60px);
+  padding: clamp(34px,5vw,58px);
+  border: 1px solid rgba(6,26,36,.08);
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,.86),
+      rgba(255,255,255,.45)
+    );
+  box-shadow: 0 30px 90px rgba(6,26,36,.07);
+  backdrop-filter: blur(16px);
+}
+
+.reviews-v6__brand {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.reviews-v6__g {
+  flex: 0 0 auto;
+  width: 50px;
+  height: 50px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 8px 30px rgba(6,26,36,.08);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 25px;
+  font-weight: 800;
+}
+
+.reviews-v6__brand strong {
+  display: block;
+  font-size: 13px;
+}
+
+.reviews-v6__brand p {
+  max-width: 190px;
+  margin: 5px 0 0;
+  color: rgba(6,26,36,.50);
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.reviews-v6__stars {
+  display: flex;
+  gap: 4px;
+  color: #b48a45;
+  font-size: 20px;
+  white-space: nowrap;
+}
+
+.reviews-v6__copy {
+  position: relative;
+  padding-left: 28px;
+  border-left: 1px solid rgba(6,26,36,.12);
+}
+
+.reviews-v6__quote {
+  position: absolute;
+  left: 22px;
+  top: -29px;
+  color: rgba(168,34,56,.15);
+  font-family: Georgia, serif;
+  font-size: 80px;
+  line-height: 1;
+}
+
+.reviews-v6__copy p {
+  position: relative;
+  z-index: 2;
+  max-width: 420px;
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(18px,1.7vw,24px);
+  line-height: 1.28;
+  letter-spacing: -.025em;
+}
+
+.reviews-v6__copy small {
+  display: block;
+  margin-top: 12px;
+  color: rgba(6,26,36,.45);
+  font-size: 10px;
+}
+
+.reviews-v6__button {
+  min-height: 58px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 0 25px;
+  border-radius: 999px;
+  background: #a82238;
+  color: white;
+  text-decoration: none;
+  font-size: 10px;
+  font-weight: 800;
+  white-space: nowrap;
+  transition:
+    transform .35s cubic-bezier(.22,1,.36,1),
+    box-shadow .35s ease,
+    background .35s ease;
+}
+
+.reviews-v6__button:hover {
+  transform: translateY(-3px);
+  background: #8f1c2e;
+  box-shadow: 0 18px 40px rgba(168,34,56,.22);
+}
+
+.reviews-v6__signature {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 27px;
+}
+
+.reviews-v6__signature span {
+  color: #a82238;
+  font-family: serif;
+  font-size: 20px;
+}
+
+.reviews-v6__signature p {
+  margin: 0;
+  color: rgba(6,26,36,.40);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .17em;
+  text-transform: uppercase;
+}
+
+
+/* TABLET */
+
+@media (max-width: 1050px) {
+
+  .reviews-v6__card {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .reviews-v6__button {
+    justify-self: end;
+  }
+}
+
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+
+  html {
+    scroll-padding-top: 72px;
+  }
+
+  body {
+    padding-bottom: 74px;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  button,
+  .nav-book,
+  .reference-button,
+  .needs-book,
+  .reviews-v6__button {
+    min-height: 48px;
+  }
+
+  .reviews-v6 {
+    padding: 82px 0 90px;
+  }
+
+  .reviews-v6__head {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    margin-bottom: 40px;
+  }
+
+  .reviews-v6__head h2 {
+    max-width: 340px;
+    font-size: clamp(42px,13vw,60px);
+  }
+
+  .reviews-v6__enso {
+    width: 88px;
+    height: 88px;
+  }
+
+  .reviews-v6__enso span {
+    font-size: 29px;
+  }
+
+  .reviews-v6__card {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 30px 24px;
+  }
+
+  .reviews-v6__brand {
+    padding-bottom: 24px;
+  }
+
+  .reviews-v6__stars {
+    padding: 20px 0;
+    border-top: 1px solid rgba(6,26,36,.08);
+    border-bottom: 1px solid rgba(6,26,36,.08);
+    font-size: 22px;
+  }
+
+  .reviews-v6__copy {
+    margin: 0;
+    padding: 32px 0;
+    border-left: 0;
+  }
+
+  .reviews-v6__quote {
+    left: -4px;
+    top: 7px;
+  }
+
+  .reviews-v6__copy p {
+    padding-left: 20px;
+    font-size: 22px;
+  }
+
+  .reviews-v6__copy small {
+    padding-left: 20px;
+  }
+
+  .reviews-v6__button {
+    width: 100%;
+    min-height: 58px;
+    justify-content: space-between;
+    padding: 0 23px;
+  }
+
+  .reviews-v6__signature {
+    align-items: flex-start;
+    margin-top: 22px;
+  }
+
+  .reviews-v6__signature p {
+    line-height: 1.6;
+  }
+
+  .faq-item button {
+    min-height: 70px;
+  }
+}
+
+
+/* SMALL MOBILE */
+
+@media (max-width: 390px) {
+
+  .reviews-v6__head h2 {
+    font-size: 42px;
+  }
+
+  .reviews-v6__card {
+    padding: 27px 20px;
+  }
+
+  .reviews-v6__copy p {
+    font-size: 20px;
+  }
+}
+
+
+/* ACCESSIBILITY */
+
+@media (prefers-reduced-motion: reduce) {
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reviews-v6__button {
+    transition: none;
+  }
+}
+

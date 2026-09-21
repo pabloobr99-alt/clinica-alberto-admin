@@ -73,6 +73,7 @@ export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeService, setActiveService] = useState(0);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [activeSection, setActiveSection] = useState("filosofia");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 45);
@@ -100,10 +101,65 @@ export default function Home() {
     return () => observer.disconnect();
   }, []);
 
+
+  useEffect(() => {
+    const progress = document.querySelector<HTMLElement>(".scroll-progress");
+
+    const updateProgress = () => {
+      if (!progress) return;
+
+      const scrollable =
+        document.documentElement.scrollHeight - window.innerHeight;
+
+      const percentage =
+        scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0;
+
+      progress.style.transform = `scaleX(${percentage / 100})`;
+    };
+
+    updateProgress();
+    window.addEventListener("scroll", updateProgress, { passive: true });
+
+    return () => window.removeEventListener("scroll", updateProgress);
+  }, []);
+
+  useEffect(() => {
+    const ids = ["filosofia", "necesitas", "servicios", "alberto", "clinica"];
+
+    const sections = ids
+      .map((id) => document.getElementById(id))
+      .filter((section): section is HTMLElement => Boolean(section));
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort(
+            (a, b) =>
+              Math.abs(a.boundingClientRect.top) -
+              Math.abs(b.boundingClientRect.top)
+          );
+
+        if (visible[0]) {
+          setActiveSection(visible[0].target.id);
+        }
+      },
+      {
+        rootMargin: "-25% 0px -58% 0px",
+        threshold: 0,
+      }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+
+    return () => observer.disconnect();
+  }, []);
+
   const closeMenu = () => setMobileMenuOpen(false);
 
   return (
     <main>
+      <div className="scroll-progress" aria-hidden="true" />
       {/* NAV */}
       <header className={`lux-nav ${scrolled ? "lux-nav--scrolled" : ""}`}>
         <div className="lux-nav__inner">
@@ -119,11 +175,12 @@ export default function Home() {
           </a>
 
           <nav className="desktop-nav">
-            <a href="#filosofia">Filosofía</a>
-            <a href="#servicios">Servicios</a>
-            <a href="#alberto">Alberto</a>
-            <a href="#clinica">La clínica</a>
+            <a href="#filosofia" className={activeSection === "filosofia" ? "is-active" : ""}>Filosofía</a>
+            <a href="#servicios" className={activeSection === "servicios" ? "is-active" : ""}>Servicios</a>
+            <a href="#alberto" className={activeSection === "alberto" ? "is-active" : ""}>Alberto</a>
+            <a href="#clinica" className={activeSection === "clinica" ? "is-active" : ""}>La clínica</a>
             <a href="#contacto">Contacto</a>
+              <a href="#resenas">Reseñas</a>
           </nav>
 
           <a href={AGENDA_URL} className="nav-book">
@@ -753,6 +810,82 @@ export default function Home() {
         <span>Reservar cita</span>
         <i>↗</i>
       </a>
-    </main>
+    
+        {/* GOOGLE REVIEWS */}
+        <section id="resenas" className="reviews-v6">
+          <div className="lux-container">
+
+            <div className="reviews-v6__head" data-reveal>
+              <div>
+                <span className="section-kicker">EXPERIENCIAS</span>
+
+                <h2>
+                  Lo que dicen
+                  <br />
+                  quienes nos visitan.
+                </h2>
+              </div>
+
+              <div className="reviews-v6__enso" aria-hidden="true">
+                <span>声</span>
+              </div>
+            </div>
+
+            <div className="reviews-v6__card" data-reveal>
+
+              <div className="reviews-v6__brand">
+                <div className="reviews-v6__g">G</div>
+
+                <div>
+                  <strong>Reseñas de Google</strong>
+                  <p>Opiniones publicadas en la ficha de la clínica.</p>
+                </div>
+              </div>
+
+              <div
+                className="reviews-v6__stars"
+                aria-label="Reseñas de Google"
+              >
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+              </div>
+
+              <div className="reviews-v6__copy">
+                <span className="reviews-v6__quote">“</span>
+
+                <p>
+                  La mejor forma de conocer una experiencia
+                  es escuchar a quienes ya la han vivido.
+                </p>
+
+                <small>
+                  Consulta las opiniones directamente en Google.
+                </small>
+              </div>
+
+              <a
+                href="https://share.google/fF431NLhjKsC85KBc"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="reviews-v6__button"
+              >
+                <span>Ver reseñas en Google</span>
+                <span aria-hidden="true">↗</span>
+              </a>
+
+            </div>
+
+            <div className="reviews-v6__signature" data-reveal>
+              <span>信頼</span>
+              <p>Confianza · Cercanía · Atención personalizada</p>
+            </div>
+
+          </div>
+        </section>
+
+</main>
   );
 }
