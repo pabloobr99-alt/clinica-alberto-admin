@@ -6207,3 +6207,325 @@ body {
 
 }
 
+
+
+/* ============================================================
+   CLÍNICA ALBERTO — V8 MOBILE MENU FINAL
+   ============================================================ */
+
+@media (max-width: 760px) {
+
+  /* HEADER */
+
+  .lux-nav__inner {
+    min-height: 70px !important;
+  }
+
+
+  /* BOTÓN HAMBURGUESA */
+
+  .menu-button {
+    width: 42px !important;
+    height: 42px !important;
+    min-width: 42px !important;
+    min-height: 42px !important;
+
+    flex: 0 0 42px;
+
+    padding: 0 !important;
+
+    border-radius: 50% !important;
+  }
+
+
+  /* ========================================================
+     MENÚ CERRADO
+     ======================================================== */
+
+  .mobile-menu {
+    position: absolute !important;
+
+    top: 70px !important;
+    left: 12px !important;
+    right: 12px !important;
+
+    width: auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: 0 !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+
+    gap: 0 !important;
+
+    padding: 0 20px !important;
+
+    overflow: hidden !important;
+
+    border: 1px solid transparent !important;
+    border-radius: 22px !important;
+
+    color: #061a24 !important;
+
+    background: rgba(250,248,243,.97) !important;
+
+    box-shadow: none !important;
+
+    opacity: 0 !important;
+
+    visibility: hidden !important;
+
+    transform: translateY(-10px) scale(.98) !important;
+
+    transform-origin: top center;
+
+    backdrop-filter: blur(22px) !important;
+    -webkit-backdrop-filter: blur(22px) !important;
+
+    transition:
+      max-height .42s cubic-bezier(.22,1,.36,1),
+      opacity .25s ease,
+      transform .42s cubic-bezier(.22,1,.36,1),
+      padding .42s cubic-bezier(.22,1,.36,1),
+      visibility .25s ease !important;
+  }
+
+
+  /* ========================================================
+     MENÚ ABIERTO
+     ======================================================== */
+
+  .mobile-menu.is-open {
+    max-height: 470px !important;
+
+    padding:
+      14px
+      20px
+      18px !important;
+
+    border-color: rgba(8,47,69,.09) !important;
+
+    box-shadow:
+      0 22px 60px rgba(6,26,36,.16) !important;
+
+    opacity: 1 !important;
+
+    visibility: visible !important;
+
+    transform: translateY(0) scale(1) !important;
+  }
+
+
+  /* ENLACES */
+
+  .mobile-menu a {
+    flex: none !important;
+
+    width: 100% !important;
+    min-height: 0 !important;
+
+    display: flex !important;
+    align-items: center !important;
+
+    margin: 0 !important;
+
+    padding: 0 !important;
+
+    overflow: visible !important;
+
+    border: 0 !important;
+    border-bottom:
+      1px solid rgba(8,47,69,.08) !important;
+
+    color: #061a24 !important;
+
+    font-family:
+      Georgia,
+      "Times New Roman",
+      serif !important;
+
+    font-size: 18px !important;
+    font-weight: 400 !important;
+
+    line-height: 1 !important;
+
+    letter-spacing: -.015em !important;
+
+    opacity: 0 !important;
+
+    transform: translateY(-5px);
+
+    transition:
+      opacity .25s ease,
+      transform .35s cubic-bezier(.22,1,.36,1),
+      color .2s ease !important;
+  }
+
+
+  .mobile-menu.is-open a {
+    min-height: 46px !important;
+
+    padding: 13px 2px !important;
+
+    opacity: 1 !important;
+
+    transform: translateY(0);
+  }
+
+
+  /* ENTRADA ESCALONADA */
+
+  .mobile-menu.is-open a:nth-child(1) {
+    transition-delay: .03s !important;
+  }
+
+  .mobile-menu.is-open a:nth-child(2) {
+    transition-delay: .06s !important;
+  }
+
+  .mobile-menu.is-open a:nth-child(3) {
+    transition-delay: .09s !important;
+  }
+
+  .mobile-menu.is-open a:nth-child(4) {
+    transition-delay: .12s !important;
+  }
+
+  .mobile-menu.is-open a:nth-child(5) {
+    transition-delay: .15s !important;
+  }
+
+
+  /* RESERVAR CITA DENTRO DEL MENÚ */
+
+  .mobile-menu .mobile-menu__book {
+    min-height: 50px !important;
+
+    margin-top: 12px !important;
+
+    padding:
+      0
+      17px !important;
+
+    justify-content: space-between !important;
+
+    border: 0 !important;
+    border-radius: 999px !important;
+
+    background:
+      linear-gradient(
+        110deg,
+        #8f1c2e,
+        #a82238
+      ) !important;
+
+    color: white !important;
+
+    font-family:
+      Arial,
+      Helvetica,
+      sans-serif !important;
+
+    font-size: 12px !important;
+    font-weight: 800 !important;
+
+    letter-spacing: .01em !important;
+  }
+
+
+  .mobile-menu .mobile-menu__book span {
+    width: 29px;
+    height: 29px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 50%;
+
+    background: rgba(255,255,255,.12);
+
+    font-family:
+      Arial,
+      Helvetica,
+      sans-serif;
+
+    font-size: 15px;
+    font-style: normal;
+  }
+
+
+  /* ========================================================
+     MARCA DEL HEADER
+     ======================================================== */
+
+  .brand {
+    gap: 10px !important;
+  }
+
+  .brand__seal {
+    width: 38px !important;
+    height: 38px !important;
+  }
+
+  .brand strong {
+    font-size: 11px !important;
+  }
+
+  .brand__small {
+    margin-bottom: 2px !important;
+
+    font-size: 5.5px !important;
+
+    letter-spacing: .16em !important;
+  }
+
+}
+
+
+/* IPHONE ESTRECHO */
+
+@media (max-width: 390px) {
+
+  .mobile-menu {
+    left: 8px !important;
+    right: 8px !important;
+
+    border-radius: 19px !important;
+  }
+
+  .mobile-menu.is-open {
+    padding:
+      12px
+      18px
+      16px !important;
+  }
+
+  .mobile-menu.is-open a {
+    min-height: 43px !important;
+
+    padding:
+      11px
+      2px !important;
+
+    font-size: 17px !important;
+  }
+
+  .brand__small {
+    display: none !important;
+  }
+
+}
+
+
+/* REDUCED MOTION */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .mobile-menu,
+  .mobile-menu a {
+    transition: none !important;
+  }
+
+}
+
