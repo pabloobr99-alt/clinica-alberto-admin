@@ -7382,3 +7382,81 @@ body {
 }
 
 
+
+
+/* ==========================================================
+   ALBERTO MATAMOROS — SERVICIO ACTIVO ROJO
+   Corrección final de contraste
+   ========================================================== */
+
+/* Servicio seleccionado: nunca blanco sobre fondo crema */
+.services-list .service-row.active .service-title,
+.services-list .service-row.is-active .service-title,
+.service-row.active h3,
+.service-row.is-active h3,
+.service-item.active .service-title,
+.service-item.is-active .service-title,
+.service-item.active h3,
+.service-item.is-active h3 {
+  color: #B1263A !important;
+}
+
+/* Número del servicio seleccionado */
+.services-list .service-row.active .service-number,
+.services-list .service-row.is-active .service-number,
+.service-row.active .service-number,
+.service-row.is-active .service-number,
+.service-item.active .service-number,
+.service-item.is-active .service-number {
+  color: #B1263A !important;
+}
+
+/* Concepto: EQUILIBRIO, ARMONÍA, etc. */
+.services-list .service-row.active .service-concept,
+.services-list .service-row.is-active .service-concept,
+.service-row.active .service-concept,
+.service-row.is-active .service-concept,
+.service-item.active .service-concept,
+.service-item.is-active .service-concept {
+  color: #667985 !important;
+}
+
+/* Barra lateral del seleccionado */
+.services-list .service-row.active::before,
+.services-list .service-row.is-active::before,
+.service-row.active::before,
+.service-row.is-active::before,
+.service-item.active::before,
+.service-item.is-active::before {
+  background: #B1263A !important;
+}
+
+/* Flecha seleccionada */
+.services-list .service-row.active .service-arrow,
+.services-list .service-row.is-active .service-arrow,
+.service-row.active .service-arrow,
+.service-row.is-active .service-arrow,
+.service-item.active .service-arrow,
+.service-item.is-active .service-arrow {
+  background: #B1263A !important;
+  border-color: #B1263A !important;
+  color: #ffffff !important;
+}
+
+/* Evitar que hover vuelva a poner el título blanco */
+.services-list .service-row.active:hover .service-title,
+.services-list .service-row.is-active:hover .service-title,
+.service-row.active:hover h3,
+.service-row.is-active:hover h3,
+.service-item.active:hover h3,
+.service-item.is-active:hover h3 {
+  color: #B1263A !important;
+}
+
+/* Los servicios NO seleccionados permanecen oscuros */
+.services-list .service-row:not(.active):not(.is-active) .service-title,
+.service-row:not(.active):not(.is-active) h3,
+.service-item:not(.active):not(.is-active) h3 {
+  color: #062B3D;
+}
+
