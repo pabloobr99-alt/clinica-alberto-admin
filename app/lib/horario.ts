@@ -1,103 +1,169 @@
-export type DiaSemana =
-  | "lunes"
-  | "martes"
-  | "miercoles"
-  | "jueves"
-  | "viernes"
-  | "sabado"
-  | "domingo";
+/*
+=========================================================
+ HORARIO — CLÍNICA ALBERTO MATAMOROS
+=========================================================
+
+Este es el ÚNICO archivo que tendrás que modificar
+cuando Alberto te diga su horario real.
+
+IMPORTANTE:
+El horario actual es PROVISIONAL.
+
+0 = Domingo
+1 = Lunes
+2 = Martes
+3 = Miércoles
+4 = Jueves
+5 = Viernes
+6 = Sábado
+=========================================================
+*/
 
 export const DURACION_CITA = 60;
 
-/*
-  HORARIO PROVISIONAL.
-
-  Cuando Alberto te dé el horario real,
-  SOLO tendremos que modificar este objeto.
-
-  Ejemplo:
-  lunes: ["09:00", "10:00", "11:00"]
-*/
-
-export const HORARIO: Record<DiaSemana, string[]> = {
-  lunes: [
-    "09:00",
-    "10:00",
-    "11:00",
-    "12:00",
-    "13:00",
-    "16:00",
-    "17:00",
-    "18:00",
-    "19:00",
-  ],
-
-  martes: [
-    "09:00",
-    "10:00",
-    "11:00",
-    "12:00",
-    "13:00",
-    "16:00",
-    "17:00",
-    "18:00",
-    "19:00",
-  ],
-
-  miercoles: [
-    "09:00",
-    "10:00",
-    "11:00",
-    "12:00",
-    "13:00",
-    "16:00",
-    "17:00",
-    "18:00",
-    "19:00",
-  ],
-
-  jueves: [
-    "09:00",
-    "10:00",
-    "11:00",
-    "12:00",
-    "13:00",
-    "16:00",
-    "17:00",
-    "18:00",
-    "19:00",
-  ],
-
-  viernes: [
-    "09:00",
-    "10:00",
-    "11:00",
-    "12:00",
-    "13:00",
-    "16:00",
-    "17:00",
-    "18:00",
-    "19:00",
-  ],
-
-  sabado: [],
-
-  domingo: [],
+export type TramoHorario = {
+  inicio: string;
+  fin: string;
 };
 
-const DIAS: DiaSemana[] = [
-  "domingo",
-  "lunes",
-  "martes",
-  "miercoles",
-  "jueves",
-  "viernes",
-  "sabado",
+export type HorarioSemanal = Record<number, TramoHorario[]>;
+
+/*
+---------------------------------------------------------
+ HORARIO PROVISIONAL
+---------------------------------------------------------
+*/
+
+export const HORARIO_SEMANAL: HorarioSemanal = {
+  0: [],
+
+  1: [
+    { inicio: "09:00", fin: "14:00" },
+    { inicio: "16:00", fin: "20:00" },
+  ],
+
+  2: [
+    { inicio: "09:00", fin: "14:00" },
+    { inicio: "16:00", fin: "20:00" },
+  ],
+
+  3: [
+    { inicio: "09:00", fin: "14:00" },
+    { inicio: "16:00", fin: "20:00" },
+  ],
+
+  4: [
+    { inicio: "09:00", fin: "14:00" },
+    { inicio: "16:00", fin: "20:00" },
+  ],
+
+  5: [
+    { inicio: "09:00", fin: "14:00" },
+    { inicio: "16:00", fin: "20:00" },
+  ],
+
+  6: [],
+};
+
+/*
+---------------------------------------------------------
+ DÍAS COMPLETOS SIN CITAS
+---------------------------------------------------------
+
+Formato:
+
+"AAAA-MM-DD"
+
+Ejemplo:
+
+export const DIAS_BLOQUEADOS = [
+  "2026-12-24",
+  "2026-12-25",
 ];
 
-export function obtenerHorarios(fecha: string) {
-  const date = new Date(`${fecha}T12:00:00`);
-  const dia = DIAS[date.getDay()];
+*/
 
-  return HORARIO[dia] ?? [];
+export const DIAS_BLOQUEADOS: string[] = [];
+
+/*
+---------------------------------------------------------
+ GENERACIÓN AUTOMÁTICA DE HORAS
+---------------------------------------------------------
+*/
+
+function horaAMinutos(hora: string) {
+  const [h, m] = hora.split(":").map(Number);
+
+  return h * 60 + m;
+}
+
+function minutosAHora(minutos: number) {
+  const h = Math.floor(minutos / 60);
+  const m = minutos % 60;
+
+  return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
+}
+
+export function generarHorasTramo(
+  inicio: string,
+  fin: string
+) {
+  const resultado: string[] = [];
+
+  let actual = horaAMinutos(inicio);
+  const limite = horaAMinutos(fin);
+
+  while (actual + DURACION_CITA <= limite) {
+    resultado.push(minutosAHora(actual));
+    actual += DURACION_CITA;
+  }
+
+  return resultado;
+}
+
+/*
+---------------------------------------------------------
+ OBTENER HORARIO DE UNA FECHA
+---------------------------------------------------------
+*/
+
+export function obtenerHorarios(fecha: string) {
+  if (!fecha) return [];
+
+  if (DIAS_BLOQUEADOS.includes(fecha)) {
+    return [];
+  }
+
+  /*
+    Añadimos T12:00:00 para evitar que una fecha pura
+    pueda desplazarse de día por cuestiones de zona
+    horaria.
+  */
+
+  const fechaLocal = new Date(`${fecha}T12:00:00`);
+
+  if (Number.isNaN(fechaLocal.getTime())) {
+    return [];
+  }
+
+  const diaSemana = fechaLocal.getDay();
+
+  const tramos = HORARIO_SEMANAL[diaSemana] ?? [];
+
+  return tramos.flatMap((tramo) =>
+    generarHorasTramo(tramo.inicio, tramo.fin)
+  );
+}
+
+/*
+---------------------------------------------------------
+ COMPROBAR SI UNA HORA PERTENECE AL HORARIO
+---------------------------------------------------------
+*/
+
+export function horaPermitida(
+  fecha: string,
+  hora: string
+) {
+  return obtenerHorarios(fecha).includes(hora);
 }
