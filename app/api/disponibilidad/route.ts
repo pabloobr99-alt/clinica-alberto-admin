@@ -47,6 +47,11 @@ export async function GET(request: Request) {
       .eq("fecha", fecha);
 
     if (error) {
+      console.error("ERROR_SUPABASE:", {
+        code: error.code,
+        message: error.message,
+        hint: error.hint,
+      });
 
       throw new Error(
         "No se ha podido consultar la agenda de Supabase."
