@@ -1,17 +1,15 @@
+import { crearEventoGoogle } from "@/app/lib/google-eventos";
+import { obtenerSupabasePrivado } from "@/app/lib/google-calendar-security";
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { obtenerHorarios } from "@/app/lib/horario";
+import {
+  consultarHorasOcupadas,
+} from "@/app/lib/google-disponibilidad";
+
 
 function supabaseServer() {
-  return createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
-    {
-      auth: {
-        persistSession: false,
-      },
-    }
-  );
+  return obtenerSupabasePrivado();
 }
 
 function limpiar(valor: unknown, max = 500) {
@@ -84,6 +82,38 @@ export async function POST(request: Request) {
       return NextResponse.json(
         { error: "No puedes reservar una hora pasada." },
         { status: 400 }
+      );
+    }
+
+
+    // Comprobar Google Calendar antes de aceptar la reserva.
+    try {
+      const ocupadasGoogle = await consultarHorasOcupadas(
+        fecha,
+        [hora]
+      );
+
+      if (ocupadasGoogle.has(hora)) {
+        return NextResponse.json(
+          {
+            error:
+              "Este horario está ocupado en la agenda. Elige otro.",
+          },
+          { status: 409 }
+        );
+      }
+    } catch (error) {
+      console.error(
+        "No se ha podido comprobar Google Calendar:",
+        error instanceof Error ? error.message : "Error"
+      );
+
+      return NextResponse.json(
+        {
+          error:
+            "No podemos comprobar la disponibilidad ahora mismo. Inténtalo más tarde.",
+        },
+        { status: 503 }
       );
     }
 
@@ -166,10 +196,65 @@ export async function POST(request: Request) {
       );
     }
 
-    return NextResponse.json({
-      ok: true,
-      cita: data,
-    });
+    // Crear el evento de Google para la cita registrada.
+    try {
+      const eventId = await crearEventoGoogle({
+        id: String(data.id),
+        fecha: data.fecha,
+        hora: data.hora,
+      });
+
+      const privado = obtenerSupabasePrivado();
+
+      const { error: syncError } = await privado
+        .from("citas")
+        .update({
+          google_event_id: eventId,
+          google_sync_status: "sincronizado",
+        })
+        .eq("id", data.id);
+
+      if (syncError) {
+        throw new Error(
+          "El evento existe, pero falta actualizar Supabase."
+        );
+      }
+
+      return NextResponse.json({
+        ok: true,
+        cita: data,
+      });
+    } catch (error) {
+      console.error(
+        "Sincronización con Google:",
+        error instanceof Error ? error.message : "Error"
+      );
+
+      // Conservamos la reserva por si Google creó
+      // el evento antes de producirse el error.
+      const privado = obtenerSupabasePrivado();
+
+      const { error: estadoError } = await privado
+        .from("citas")
+        .update({
+          google_sync_status: "error",
+        })
+        .eq("id", data.id);
+
+      if (estadoError) {
+        console.error(
+          "No se pudo registrar el error de sincronización."
+        );
+      }
+
+      return NextResponse.json(
+        {
+          error:
+            "La cita se ha registrado, pero necesita verificación. Contacta con la clínica antes de repetir la reserva.",
+        },
+        { status: 503 }
+      );
+    }
   } catch (error) {
     console.error(error);
 

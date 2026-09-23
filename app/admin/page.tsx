@@ -105,14 +105,35 @@ export default function Admin() {
     setActualizando(true);
     setError("");
 
-    const { error } = await supabase
-      .from("citas")
-      .update({ estado: nuevoEstado })
-      .eq("id", id);
+    try {
+      const respuesta = await fetch(
+        "/api/admin/citas/estado",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            id,
+            estado: nuevoEstado,
+          }),
+        }
+      );
 
-    if (error) {
-      console.error(error);
-      setError("No se ha podido actualizar la cita.");
+      const resultado = await respuesta.json();
+
+      if (!respuesta.ok) {
+        setError(
+          resultado.error ||
+          "No se ha podido actualizar la cita."
+        );
+        setActualizando(false);
+        return;
+      }
+    } catch {
+      setError(
+        "No se ha podido contactar con el servidor."
+      );
       setActualizando(false);
       return;
     }

@@ -1,149 +1,98 @@
 import { NextRequest, NextResponse } from "next/server";
-import crypto from "crypto";
+import crypto from "node:crypto";
 
 import {
   getGoogleOAuthClient,
 } from "@/app/lib/google-calendar";
 
+import {
+  verificarAdministrador,
+  obtenerSupabasePrivado,
+  cifrarToken,
+} from "@/app/lib/google-calendar-security";
+
 export const dynamic = "force-dynamic";
 
-function validarState(state: string) {
-  const secret = process.env.GOOGLE_OAUTH_STATE_SECRET;
-
-  if (!secret) {
-    return false;
-  }
-
-  const partes = state.split(".");
-
-  if (partes.length !== 2) {
-    return false;
-  }
-
-  const [nonce, receivedSignature] = partes;
-
-  if (!nonce || !receivedSignature) {
-    return false;
-  }
-
-  const expectedSignature = crypto
-    .createHmac("sha256", secret)
-    .update(nonce)
-    .digest("hex");
-
-  try {
-    const received = Buffer.from(
-      receivedSignature,
-      "utf8"
-    );
-
-    const expected = Buffer.from(
-      expectedSignature,
-      "utf8"
-    );
-
-    if (received.length !== expected.length) {
-      return false;
-    }
-
-    return crypto.timingSafeEqual(
-      received,
-      expected
-    );
-  } catch {
-    return false;
-  }
-}
-
 export async function GET(request: NextRequest) {
+  const destino = new URL("/admin", request.url);
+
   try {
-    const code =
-      request.nextUrl.searchParams.get("code");
-
-    const state =
-      request.nextUrl.searchParams.get("state");
-
-    const googleError =
-      request.nextUrl.searchParams.get("error");
-
-    if (googleError) {
-      return NextResponse.redirect(
-        new URL(
-          "/admin?google=cancelado",
-          request.url
-        )
+    if (!(await verificarAdministrador())) {
+      return NextResponse.json(
+        { error: "Acceso no autorizado." },
+        { status: 403 }
       );
     }
 
-    if (!code || !state) {
+    const code = request.nextUrl.searchParams.get("code");
+    const state = request.nextUrl.searchParams.get("state");
+    const savedState = request.cookies.get(
+      "google_oauth_state"
+    )?.value;
+
+    if (
+      !code ||
+      !state ||
+      !savedState ||
+      state.length !== savedState.length ||
+      !crypto.timingSafeEqual(
+        Buffer.from(state),
+        Buffer.from(savedState)
+      )
+    ) {
       return NextResponse.json(
-        {
-          ok: false,
-          error: "Faltan datos de autorización.",
-        },
+        { error: "Autorización no válida o caducada." },
         { status: 400 }
       );
     }
 
-    if (!validarState(state)) {
-      return NextResponse.json(
-        {
-          ok: false,
-          error: "Estado OAuth no válido.",
-        },
-        { status: 400 }
-      );
-    }
+    const oauth = getGoogleOAuthClient();
 
-    const oauth2Client =
-      getGoogleOAuthClient();
-
-    const { tokens } =
-      await oauth2Client.getToken(code);
-
-    /*
-      IMPORTANTE:
-
-      En esta primera prueba NO mostramos,
-      imprimimos ni enviamos el refresh_token
-      al navegador.
-
-      Solo comprobamos que Google lo haya
-      proporcionado correctamente.
-    */
+    const { tokens } = await oauth.getToken(code);
 
     if (!tokens.refresh_token) {
-      return NextResponse.json(
-        {
-          ok: false,
-          error:
-            "Google no ha proporcionado acceso offline. Vuelve a realizar la autorización.",
-        },
-        { status: 400 }
+      throw new Error(
+        "Google no ha proporcionado un refresh token."
       );
     }
 
-    return NextResponse.redirect(
-      new URL(
-        "/admin?google=autorizado",
-        request.url
-      )
-    );
+    const supabase = obtenerSupabasePrivado();
+
+    const { error } = await supabase
+      .from("google_calendar_config")
+      .upsert({
+        id: 1,
+        refresh_token_encrypted: cifrarToken(
+          tokens.refresh_token
+        ),
+        calendar_id:
+          process.env.GOOGLE_CALENDAR_ID || "primary",
+        connected_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      });
+
+    if (error) {
+      throw new Error("No se ha podido guardar la conexión.");
+    }
+
+    destino.searchParams.set("google", "conectado");
+
+    const response = NextResponse.redirect(destino);
+
+    response.cookies.delete("google_oauth_state");
+
+    return response;
   } catch (error) {
     console.error(
-      "Error completando Google OAuth:",
-      error instanceof Error
-        ? error.message
-        : "Error desconocido"
+      "Google callback:",
+      error instanceof Error ? error.message : "Error"
     );
 
-    return NextResponse.json(
-      {
-        ok: false,
-        error:
-          "No se ha podido completar la conexión con Google Calendar.",
-      },
-      { status: 500 }
-    );
+    destino.searchParams.set("google", "error");
+
+    const response = NextResponse.redirect(destino);
+    response.cookies.delete("google_oauth_state");
+
+    return response;
   }
 }

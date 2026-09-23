@@ -146,15 +146,35 @@ export default function Agenda() {
   ) => {
     setActualizando(cita.id);
 
-    const { error: supabaseError } = await supabase
-      .from("citas")
-      .update({
-        estado: nuevoEstado,
-      })
-      .eq("id", cita.id);
+    try {
+      const respuesta = await fetch(
+        "/api/admin/citas/estado",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            id: cita.id,
+            estado: nuevoEstado,
+          }),
+        }
+      );
 
-    if (supabaseError) {
-      alert("No se ha podido actualizar la cita.");
+      const resultado = await respuesta.json();
+
+      if (!respuesta.ok) {
+        alert(
+          resultado.error ||
+          "No se ha podido actualizar la cita."
+        );
+        setActualizando(null);
+        return;
+      }
+    } catch {
+      alert(
+        "No se ha podido contactar con el servidor."
+      );
       setActualizando(null);
       return;
     }

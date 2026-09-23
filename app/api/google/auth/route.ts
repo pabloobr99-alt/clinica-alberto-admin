@@ -1,35 +1,31 @@
 import { NextResponse } from "next/server";
-import crypto from "crypto";
+import crypto from "node:crypto";
 
 import {
   getGoogleOAuthClient,
   GOOGLE_SCOPES,
 } from "@/app/lib/google-calendar";
 
+import {
+  verificarAdministrador,
+} from "@/app/lib/google-calendar-security";
+
 export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
-    const secret = process.env.GOOGLE_OAUTH_STATE_SECRET;
-
-    if (!secret) {
-      throw new Error(
-        "GOOGLE_OAUTH_STATE_SECRET no está configurado"
+    if (!(await verificarAdministrador())) {
+      return NextResponse.json(
+        { error: "Acceso no autorizado." },
+        { status: 403 }
       );
     }
 
-    const oauth2Client = getGoogleOAuthClient();
+    const state = crypto.randomBytes(32).toString("hex");
 
-    const nonce = crypto.randomBytes(24).toString("hex");
+    const oauth = getGoogleOAuthClient();
 
-    const signature = crypto
-      .createHmac("sha256", secret)
-      .update(nonce)
-      .digest("hex");
-
-    const state = `${nonce}.${signature}`;
-
-    const authorizationUrl = oauth2Client.generateAuthUrl({
+    const url = oauth.generateAuthUrl({
       access_type: "offline",
       prompt: "consent",
       include_granted_scopes: true,
@@ -37,18 +33,25 @@ export async function GET() {
       state,
     });
 
-    return NextResponse.redirect(authorizationUrl);
+    const response = NextResponse.redirect(url);
+
+    response.cookies.set("google_oauth_state", state, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/api/google",
+      maxAge: 600,
+    });
+
+    return response;
   } catch (error) {
     console.error(
-      "Error iniciando Google OAuth:",
-      error instanceof Error ? error.message : "Error desconocido"
+      "Google OAuth:",
+      error instanceof Error ? error.message : "Error"
     );
 
     return NextResponse.json(
-      {
-        ok: false,
-        error: "No se ha podido iniciar Google Calendar.",
-      },
+      { error: "No se ha podido iniciar la conexión." },
       { status: 500 }
     );
   }

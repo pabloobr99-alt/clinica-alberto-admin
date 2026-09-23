@@ -83,21 +83,37 @@ export default function SolicitudesPage() {
   ) => {
     setProcesando(true);
 
-    const { error: supabaseError } =
-      await supabase
-        .from("citas")
-        .update({
-          estado: nuevoEstado,
-        })
-        .eq("id", cita.id);
+    let respuesta: Response;
 
-    if (supabaseError) {
-      console.error(supabaseError);
-
+    try {
+      respuesta = await fetch(
+        "/api/admin/citas/estado",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            id: cita.id,
+            estado: nuevoEstado,
+          }),
+        }
+      );
+    } catch {
       alert(
+        "No se ha podido contactar con el servidor."
+      );
+      setProcesando(false);
+      return;
+    }
+
+    const resultado = await respuesta.json();
+
+    if (!respuesta.ok) {
+      alert(
+        resultado.error ||
         "No se ha podido actualizar la cita."
       );
-
       setProcesando(false);
       return;
     }
