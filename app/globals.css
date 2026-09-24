@@ -8053,3 +8053,475 @@ body {
     box-sizing: border-box;
   }
 }
+
+/* =========================================================
+   REVISIÓN CENTRO — LEGIBILIDAD, HORARIO Y AGENDA
+   ========================================================= */
+
+/* Escala ligeramente mayor para textos pequeños de la web pública. */
+.lux-nav .desktop-nav a { font-size: 12px; }
+.brand__small { font-size: 10px; }
+.reference-hero__eyebrow { font-size: 12px; }
+.reference-hero__description { font-size: 18px; line-height: 1.75; }
+.reference-button { font-size: 12px; }
+.reference-hero__meta span { font-size: 11px; }
+.section-index { font-size: 11px; }
+.kicker { font-size: 12px; }
+.intro-copy p,
+.section-heading > p,
+.alberto-copy > p,
+.clinic-heading > p,
+.faq-intro { font-size: 16px; line-height: 1.8; }
+.process-card p { font-size: 14px; line-height: 1.7; }
+.process-card__top span { font-size: 11px; }
+.credentials span { font-size: 9px; }
+.credentials strong { font-size: 15px; }
+.alberto-signature small { font-size: 9px; }
+.footer-columns a,
+.footer-columns p { font-size: 13px; }
+.footer-label { font-size: 9px; }
+
+.schedule-section {
+  padding: clamp(90px, 10vw, 150px) 0;
+  background: #f4efe6;
+  color: #062b3d;
+  border-top: 1px solid rgba(6,43,61,.08);
+}
+.schedule-grid {
+  display: grid;
+  grid-template-columns: 1.05fr .95fr;
+  gap: clamp(50px, 8vw, 120px);
+  align-items: center;
+}
+.schedule-intro {
+  max-width: 620px;
+  margin: 28px 0 0;
+  color: #66777d;
+  font-size: 17px;
+  line-height: 1.8;
+}
+.schedule-card {
+  padding: clamp(28px, 4vw, 48px);
+  background: #062b3d;
+  color: #fff;
+  box-shadow: 0 28px 70px rgba(6,43,61,.13);
+}
+.schedule-card > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 25px;
+  padding: 20px 0;
+  border-bottom: 1px solid rgba(255,255,255,.12);
+}
+.schedule-card strong { font-family: Georgia, serif; font-size: 18px; font-weight: 400; }
+.schedule-card div span { color: rgba(255,255,255,.65); font-size: 15px; }
+.schedule-card > a {
+  margin-top: 28px;
+  min-height: 58px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #a52a3f;
+  color: white;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .04em;
+}
+
+.reserva-v2__lead { font-size: 18px; }
+.reserva-v2__steps p { font-size: 14px; }
+.reserva-v2__steps strong { font-size: 16px; }
+.reserva-v2__cardhead > div:first-child > span { font-size: 11px; }
+.reserva-v2__month { font-size: 13px; }
+.reserva-v2__days small,
+.reserva-v2__days span { font-size: 10px; }
+.reserva-v2__hint p { font-size: 14px; }
+.reserva-v2__selecteddate small { font-size: 10px; }
+.reserva-v2__form label > span { font-size: 12px; }
+.reserva-v2__form input,
+.reserva-v2__form textarea { font-size: 16px; }
+.reserva-v2__privacy { font-size: 12px; }
+
+.reserva-v2__times button {
+  height: 68px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  font-size: 15px;
+}
+.reserva-v2__times button small {
+  font-size: 9px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.reserva-v2__times button.occupied,
+.reserva-v2__times button.occupied:hover {
+  cursor: not-allowed;
+  color: #9b9891;
+  background: #ece8e0;
+  border-color: #ddd8ce;
+  text-decoration: none;
+  transform: none;
+  opacity: .8;
+}
+.reserva-v2__times button.occupied small { color: #a52a3f; }
+.reserva-v2__legend {
+  display: flex;
+  gap: 22px;
+  margin-top: 20px;
+  color: #777d79;
+  font-size: 11px;
+}
+.reserva-v2__legend span { display: flex; align-items: center; gap: 7px; }
+.reserva-v2__legend i { width: 8px; height: 8px; border-radius: 50%; background: #5b8f6b; }
+.reserva-v2__legend span:last-child i { background: #a52a3f; opacity: .65; }
+
+@media (max-width: 900px) {
+  .schedule-grid { grid-template-columns: 1fr; }
+  .schedule-card > div { align-items: flex-start; flex-direction: column; gap: 7px; }
+  .reference-hero__description { font-size: 16px; }
+}
+
+/* Fotografías reales · Centro */
+.clinic-shot--photo {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.clinic-real-photo {
+  object-fit: cover;
+  object-position: center;
+  transition: transform 900ms cubic-bezier(.22, 1, .36, 1);
+}
+
+.clinic-shot--large .clinic-real-photo {
+  object-position: center 55%;
+}
+
+.clinic-shot--photo:hover .clinic-real-photo {
+  transform: scale(1.035);
+}
+
+.clinic-photo-overlay {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(to top, rgba(4, 21, 30, .58), transparent 42%),
+    linear-gradient(120deg, rgba(8, 47, 69, .10), transparent 45%);
+}
+
+.clinic-photo-caption {
+  position: absolute;
+  z-index: 3;
+  left: 28px;
+  bottom: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  color: #fff;
+}
+
+.clinic-photo-caption span {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .2em;
+}
+
+.clinic-photo-caption small {
+  color: rgba(255,255,255,.75);
+  font-size: 12px;
+  letter-spacing: .04em;
+}
+
+.clinic-shot--photo .shot-number {
+  z-index: 4;
+}
+
+@media (max-width: 760px) {
+  .clinic-photo-caption {
+    left: 20px;
+    bottom: 20px;
+  }
+}
+
+/* Navegación mensual de reservas */
+.reserva-v2__monthnav {
+  display: grid;
+  grid-template-columns: 44px 1fr 44px;
+  align-items: center;
+  gap: 12px;
+}
+
+.reserva-v2__monthnav strong {
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+}
+
+.reserva-v2__monthnav button {
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(8, 47, 69, .16);
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+  transition: .2s ease;
+}
+
+.reserva-v2__monthnav button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  background: rgba(8, 47, 69, .06);
+}
+
+.reserva-v2__monthnav button:disabled {
+  opacity: .2;
+  cursor: not-allowed;
+}
+
+/* Calendario mensual */
+.reserva-v2__calendar {
+  width: 100%;
+  margin-top: 22px;
+}
+
+.reserva-v2__weekdays,
+.reserva-v2__calendargrid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.reserva-v2__weekdays {
+  margin-bottom: 10px;
+}
+
+.reserva-v2__weekdays span {
+  text-align: center;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  opacity: .55;
+}
+
+.reserva-v2__calendargrid button,
+.reserva-v2__emptyday {
+  aspect-ratio: 1 / .82;
+  min-width: 0;
+}
+
+.reserva-v2__calendargrid button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(8, 47, 69, .12);
+  border-radius: 12px;
+  background: rgba(255,255,255,.55);
+  color: inherit;
+  cursor: pointer;
+  transition:
+    transform .2s ease,
+    background .2s ease,
+    border-color .2s ease;
+}
+
+.reserva-v2__calendargrid button strong {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.reserva-v2__calendargrid button:hover {
+  transform: translateY(-2px);
+  border-color: rgba(8, 47, 69, .35);
+}
+
+.reserva-v2__calendargrid button.selected {
+  background: #082f45;
+  border-color: #082f45;
+  color: #fff;
+}
+
+.reserva-v2__emptyday {
+  pointer-events: none;
+}
+
+@media (max-width: 600px) {
+  .reserva-v2__weekdays,
+  .reserva-v2__calendargrid {
+    gap: 5px;
+  }
+
+  .reserva-v2__calendargrid button {
+    border-radius: 9px;
+  }
+
+  .reserva-v2__calendargrid button strong {
+    font-size: 13px;
+  }
+
+  .reserva-v2__weekdays span {
+    font-size: 9px;
+  }
+}
+
+/* =========================================================
+   RESERVAS · VERSIÓN MÓVIL
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+  /* Contenedor principal */
+  .reserva-v2__card {
+    width: 100%;
+    border-radius: 20px;
+  }
+
+  .reserva-v2__cardhead {
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .reserva-v2__cardhead h2 {
+    font-size: clamp(26px, 8vw, 36px);
+    line-height: 1.05;
+  }
+
+  .reserva-v2__live {
+    flex-shrink: 0;
+    font-size: 10px;
+  }
+
+  /* Navegación del mes */
+  .reserva-v2__monthnav {
+    grid-template-columns: 42px 1fr 42px;
+    gap: 6px;
+    margin-top: 20px;
+  }
+
+  .reserva-v2__monthnav strong {
+    font-size: 13px;
+    letter-spacing: .08em;
+    white-space: nowrap;
+  }
+
+  .reserva-v2__monthnav button {
+    width: 42px;
+    height: 42px;
+    font-size: 25px;
+  }
+
+  /* Calendario: SIEMPRE 7 columnas */
+  .reserva-v2__calendar {
+    width: 100%;
+    margin-top: 18px;
+    overflow: visible;
+  }
+
+  .reserva-v2__weekdays,
+  .reserva-v2__calendargrid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 4px;
+  }
+
+  .reserva-v2__weekdays {
+    margin-bottom: 7px;
+  }
+
+  .reserva-v2__weekdays span {
+    min-width: 0;
+    text-align: center;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0;
+  }
+
+  .reserva-v2__calendargrid button,
+  .reserva-v2__emptyday {
+    width: 100%;
+    min-width: 0;
+    aspect-ratio: 1 / 1;
+  }
+
+  .reserva-v2__calendargrid button {
+    padding: 0;
+    border-radius: 9px;
+    touch-action: manipulation;
+  }
+
+  .reserva-v2__calendargrid button strong {
+    font-size: 13px;
+  }
+
+  /* Horas */
+  .reserva-v2__times {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .reserva-v2__times button {
+    width: 100%;
+    min-height: 54px;
+    padding: 10px 6px;
+    touch-action: manipulation;
+  }
+
+  /* Formularios */
+  .reserva-v2 input,
+  .reserva-v2 textarea,
+  .reserva-v2 select {
+    width: 100%;
+    font-size: 16px !important;
+  }
+
+  /* 16px evita el zoom automático de Safari/iPhone */
+  .reserva-v2 textarea {
+    min-height: 120px;
+  }
+
+  /* Botones cómodos para el dedo */
+  .reserva-v2 button,
+  .reserva-v2 a {
+    touch-action: manipulation;
+  }
+
+  .reserva-v2__hint {
+    margin-top: 18px;
+  }
+}
+
+@media (max-width: 390px) {
+
+  .reserva-v2__weekdays,
+  .reserva-v2__calendargrid {
+    gap: 3px;
+  }
+
+  .reserva-v2__calendargrid button {
+    border-radius: 7px;
+  }
+
+  .reserva-v2__calendargrid button strong {
+    font-size: 12px;
+  }
+
+  .reserva-v2__weekdays span {
+    font-size: 8px;
+  }
+
+  .reserva-v2__monthnav strong {
+    font-size: 12px;
+  }
+}

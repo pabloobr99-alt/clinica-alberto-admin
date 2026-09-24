@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { FormEvent, useEffect, useMemo, useState } from "react";
+import { obtenerHorarios } from "@/app/lib/horario";
 
 type Paso = 1 | 2 | 3 | 4;
 
@@ -57,6 +58,10 @@ export default function ReservarPage() {
   const [paso, setPaso] = useState<Paso>(1);
 
   const [fecha, setFecha] = useState("");
+  const [mesVisible, setMesVisible] = useState(() => {
+    const hoy = new Date();
+    return new Date(hoy.getFullYear(), hoy.getMonth(), 1);
+  });
   const [hora, setHora] = useState("");
 
   const [horarios, setHorarios] = useState<string[]>([]);
@@ -72,26 +77,54 @@ export default function ReservarPage() {
     motivo: "",
   });
 
+  const horasDelDia = useMemo(() => fecha ? obtenerHorarios(fecha) : [], [fecha]);
+
   const dias = useMemo(() => {
     const resultado = [];
     const hoy = new Date();
+    hoy.setHours(0, 0, 0, 0);
 
-    hoy.setHours(12, 0, 0, 0);
+    const year = mesVisible.getFullYear();
+    const month = mesVisible.getMonth();
+    const ultimoDia = new Date(year, month + 1, 0).getDate();
 
-    for (let i = 0; i < 21; i++) {
-      const date = new Date(hoy);
-      date.setDate(hoy.getDate() + i);
+    for (let numero = 1; numero <= ultimoDia; numero++) {
+      const date = new Date(year, month, numero, 12, 0, 0, 0);
+
+      if (date < hoy) continue;
+
+      const diaSemana = date.getDay();
 
       resultado.push({
         value: fechaLocal(date),
         numero: date.getDate(),
-        dia: DIAS[date.getDay()].slice(0, 3),
-        mes: MESES[date.getMonth()].slice(0, 3),
+        dia: DIAS[diaSemana].slice(0, 3),
+        mes: MESES[month].slice(0, 3),
+        posicionSemana: diaSemana === 0 ? 6 : diaSemana - 1,
       });
     }
 
     return resultado;
-  }, []);
+  }, [mesVisible]);
+
+  const mesActual = useMemo(() => {
+    const hoy = new Date();
+    return (
+      mesVisible.getFullYear() === hoy.getFullYear() &&
+      mesVisible.getMonth() === hoy.getMonth()
+    );
+  }, [mesVisible]);
+
+  function cambiarMes(direccion: number) {
+    setMesVisible((actual) =>
+      new Date(
+        actual.getFullYear(),
+        actual.getMonth() + direccion,
+        1
+      )
+    );
+    setFecha("");
+  }
 
   useEffect(() => {
     if (!fecha) {
@@ -260,8 +293,8 @@ export default function ReservarPage() {
 
           <p className="reserva-v2__lead">
             Escoge cuándo venir. No necesitas saber qué
-            tratamiento elegir: primero escuchamos qué te
-            ocurre y después valoramos el abordaje.
+            tratamiento elegir: primero conocemos el motivo de tu
+            consulta y después valoramos el abordaje.
           </p>
 
           <div className="reserva-v2__steps">
@@ -285,7 +318,7 @@ export default function ReservarPage() {
               <span>03</span>
               <p>
                 <strong>Tú</strong>
-                Cuéntanos qué necesitas.
+                Indica el motivo de consulta.
               </p>
             </div>
           </div>
@@ -309,7 +342,7 @@ export default function ReservarPage() {
                 <h2>
                   {paso === 1 && "Elige tu día"}
                   {paso === 2 && "Elige tu hora"}
-                  {paso === 3 && "Cuéntanos sobre ti"}
+                  {paso === 3 && "Datos de la cita"}
                 </h2>
               </div>
 
@@ -322,29 +355,67 @@ export default function ReservarPage() {
 
           {paso === 1 && (
             <>
-              <div className="reserva-v2__month">
-                Próximas 3 semanas
+              <div className="reserva-v2__month reserva-v2__monthnav">
+                <button
+                  type="button"
+                  onClick={() => cambiarMes(-1)}
+                  disabled={mesActual}
+                  aria-label="Mes anterior"
+                >
+                  ‹
+                </button>
+
+                <strong>
+                  {MESES[mesVisible.getMonth()]}{" "}
+                  {mesVisible.getFullYear()}
+                </strong>
+
+                <button
+                  type="button"
+                  onClick={() => cambiarMes(1)}
+                  aria-label="Mes siguiente"
+                >
+                  ›
+                </button>
               </div>
 
-              <div className="reserva-v2__days">
-                {dias.map((dia) => (
-                  <button
-                    key={dia.value}
-                    type="button"
-                    className={
-                      fecha === dia.value
-                        ? "selected"
-                        : ""
-                    }
-                    onClick={() =>
-                      elegirFecha(dia.value)
-                    }
-                  >
-                    <small>{dia.dia}</small>
-                    <strong>{dia.numero}</strong>
-                    <span>{dia.mes}</span>
-                  </button>
-                ))}
+              <div className="reserva-v2__calendar">
+                <div className="reserva-v2__weekdays">
+                  <span>Lun</span>
+                  <span>Mar</span>
+                  <span>Mié</span>
+                  <span>Jue</span>
+                  <span>Vie</span>
+                  <span>Sáb</span>
+                  <span>Dom</span>
+                </div>
+
+                <div className="reserva-v2__calendargrid">
+                  {dias.length > 0 &&
+                    Array.from({
+                      length: dias[0].posicionSemana,
+                    }).map((_, index) => (
+                      <div
+                        key={`empty-${index}`}
+                        className="reserva-v2__emptyday"
+                      />
+                    ))}
+
+                  {dias.map((dia) => (
+                    <button
+                      key={dia.value}
+                      type="button"
+                      className={
+                        fecha === dia.value
+                          ? "selected"
+                          : ""
+                      }
+                      onClick={() => elegirFecha(dia.value)}
+                    >
+                      <strong>{dia.numero}</strong>
+                    </button>
+                  ))}
+                </div>
               </div>
 
               <div className="reserva-v2__hint">
@@ -378,25 +449,28 @@ export default function ReservarPage() {
                   <i />
                   Consultando agenda...
                 </div>
-              ) : horarios.length ? (
-                <div className="reserva-v2__times">
-                  {horarios.map((item) => (
-                    <button
-                      type="button"
-                      key={item}
-                      className={
-                        hora === item
-                          ? "selected"
-                          : ""
-                      }
-                      onClick={() =>
-                        elegirHora(item)
-                      }
-                    >
-                      {item}
-                    </button>
-                  ))}
-                </div>
+              ) : horasDelDia.length ? (
+                <>
+                  <div className="reserva-v2__times">
+                    {horasDelDia.map((item) => {
+                      const disponible = horarios.includes(item);
+                      return (
+                        <button
+                          type="button"
+                          key={item}
+                          disabled={!disponible}
+                          aria-label={`${item} ${disponible ? "disponible" : "ocupada"}`}
+                          className={`${hora === item ? "selected" : ""} ${!disponible ? "occupied" : ""}`}
+                          onClick={() => disponible && elegirHora(item)}
+                        >
+                          <span>{item}</span>
+                          {!disponible && <small>Ocupada</small>}
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <div className="reserva-v2__legend"><span><i /> Disponible</span><span><i /> Ocupada</span></div>
+                </>
               ) : (
                 <div className="reserva-v2__empty">
                   <span>静</span>
@@ -498,7 +572,7 @@ export default function ReservarPage() {
               </div>
 
               <label>
-                <span>¿Qué te ocurre?</span>
+                <span>Motivo de la consulta</span>
 
                 <textarea
                   required
@@ -581,7 +655,7 @@ export default function ReservarPage() {
                 href="/"
                 className="reserva-v2__home"
               >
-                Volver a la clínica
+                Volver al centro
                 <span>→</span>
               </Link>
             </div>

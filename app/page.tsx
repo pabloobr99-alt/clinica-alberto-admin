@@ -47,7 +47,7 @@ const services = [
 ];
 
 const process = [
-  ["01", "Escuchamos", "Nos cuentas qué te ocurre y cómo lo estás sintiendo."],
+  ["01", "Escuchamos", "Nos explicas el motivo de tu consulta y cómo lo estás sintiendo."],
   ["02", "Valoramos", "Observamos tu situación de forma individualizada."],
   ["03", "Personalizamos", "Alberto determina el enfoque más adecuado para ti."],
   ["04", "Acompañamos", "Trabajamos contigo respetando tu proceso."],
@@ -57,7 +57,7 @@ const faqs = [
   {
     question: "¿Tengo que elegir un tratamiento al reservar?",
     answer:
-      "No. Cuéntanos qué te ocurre. Alberto valorará tu situación y determinará qué enfoque puede ser el más adecuado.",
+      "No. Indica brevemente el motivo de tu consulta. Alberto valorará tu situación y determinará qué enfoque puede ser el más adecuado.",
   },
   {
     question: "¿Cuánto dura una sesión?",
@@ -127,7 +127,7 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    const ids = ["filosofia", "necesitas", "servicios", "alberto", "clinica"];
+    const ids = ["filosofia", "necesitas", "servicios", "alberto", "centro", "horario"];
 
     const sections = ids
       .map((id) => document.getElementById(id))
@@ -172,7 +172,7 @@ export default function Home() {
             </div>
 
             <div>
-              <span className="brand__small">CLÍNICA DE OSTEOPATÍA</span>
+              <span className="brand__small">CENTRO DE OSTEOPATÍA</span>
               <strong>Alberto Matamoros</strong>
             </div>
           </a>
@@ -181,7 +181,7 @@ export default function Home() {
             <a href="#filosofia" className={activeSection === "filosofia" ? "is-active" : ""}>Filosofía</a>
             <a href="#servicios" className={activeSection === "servicios" ? "is-active" : ""}>Servicios</a>
             <a href="#alberto" className={activeSection === "alberto" ? "is-active" : ""}>Alberto</a>
-            <a href="#clinica" className={activeSection === "clinica" ? "is-active" : ""}>La clínica</a>
+            <a href="#centro" className={activeSection === "centro" ? "is-active" : ""}>Centro</a>
             <a href="#contacto">Contacto</a>
               <a href="#resenas">Reseñas</a>
           </nav>
@@ -207,7 +207,7 @@ export default function Home() {
           <a href="#filosofia" onClick={closeMenu}>Filosofía</a>
           <a href="#servicios" onClick={closeMenu}>Servicios</a>
           <a href="#alberto" onClick={closeMenu}>Alberto</a>
-          <a href="#clinica" onClick={closeMenu}>La clínica</a>
+          <a href="#centro" onClick={closeMenu}>Centro</a>
           <a href="#contacto" onClick={closeMenu}>Contacto</a>
           <a href={AGENDA_URL} onClick={closeMenu} className="mobile-menu__book">
             Reservar cita <span>↗</span>
@@ -397,9 +397,9 @@ export default function Home() {
           <p>EL PRIMER PASO ES SENCILLO</p>
 
           <h2>
-            Tú cuéntame
+            Cuéntanos
             <br />
-            <em>qué te ocurre.</em>
+            <em>qué necesitas valorar.</em>
           </h2>
 
           <div className="statement-bottom">
@@ -596,9 +596,7 @@ export default function Home() {
             </p>
 
             <p>
-              El trabajo de Alberto parte de una atención cercana e
-              individualizada, integrando distintas herramientas según las
-              necesidades de cada caso.
+              Alberto Matamoros desarrolla su trabajo desde una valoración individualizada y una atención cercana. Su enfoque integra osteopatía, acupuntura, moxibustión y conocimientos de dietética para adaptar cada sesión a las necesidades concretas de la persona, priorizando siempre la escucha, el criterio profesional y un acompañamiento claro durante todo el proceso.
             </p>
 
             <div className="credentials">
@@ -621,44 +619,59 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CLINIC */}
-      <section id="clinica" className="clinic-section">
+      {/* CENTRO */}
+      <section id="centro" className="clinic-section">
         <div className="lux-container">
           <div className="clinic-heading" data-reveal>
             <div>
               <div className="section-index section-index--dark">
                 <span>05</span>
                 <i />
-                <span>EL ESPACIO</span>
+                <span>CENTRO</span>
               </div>
 
               <h2 className="display-title">
-                Serenidad desde
+                Un espacio para
                 <br />
-                <em>que entras.</em>
+                <em>atenderte con calma.</em>
               </h2>
             </div>
 
             <p>
-              Un entorno pensado para que la experiencia empiece antes de la
-              sesión: calma, privacidad, atención y tiempo.
+              Un espacio profesional orientado a una atención individualizada, con privacidad y el tiempo necesario para valorar cada consulta con calma.
             </p>
           </div>
 
           <div className="clinic-gallery" data-reveal>
-            <div className="clinic-shot clinic-shot--large">
-              <div className="photo-space">
-                <span>CLÍNICA</span>
-                <small>Vista principal</small>
+            <div className="clinic-shot clinic-shot--large clinic-shot--photo">
+              <Image
+                src="/centro-consulta.jpg"
+                alt="Sala de tratamiento del Centro de Osteopatía Alberto Matamoros"
+                fill
+                sizes="(max-width: 900px) 100vw, 65vw"
+                className="clinic-real-photo"
+              />
+              <div className="clinic-photo-overlay" />
+              <div className="clinic-photo-caption">
+                <span>CENTRO</span>
+                <small>Zona de atención</small>
               </div>
               <span className="shot-number">01</span>
             </div>
 
             <div className="clinic-gallery__right">
-              <div className="clinic-shot">
-                <div className="photo-space">
+              <div className="clinic-shot clinic-shot--photo">
+                <Image
+                  src="/centro-buda.jpg"
+                  alt="Detalle del Centro de Osteopatía Alberto Matamoros"
+                  fill
+                  sizes="(max-width: 900px) 100vw, 35vw"
+                  className="clinic-real-photo"
+                />
+                <div className="clinic-photo-overlay" />
+                <div className="clinic-photo-caption">
                   <span>DETALLE</span>
-                  <small>Espacio</small>
+                  <small>Un espacio cuidado</small>
                 </div>
                 <span className="shot-number">02</span>
               </div>
@@ -673,12 +686,37 @@ export default function Home() {
         </div>
       </section>
 
+      {/* HORARIO */}
+      <section id="horario" className="schedule-section">
+        <div className="lux-container schedule-grid" data-reveal>
+          <div>
+            <div className="section-index section-index--dark">
+              <span>06</span><i /><span>HORARIO</span>
+            </div>
+            <h2 className="display-title">
+              Organiza tu visita.
+              <br /><em>Reserva con tranquilidad.</em>
+            </h2>
+            <p className="schedule-intro">
+              Atención de lunes a viernes, en horario de mañana de 09:00 a 14:00 y de tarde de 16:00 a 21:00. Consulta la agenda online para conocer la disponibilidad actualizada.
+            </p>
+          </div>
+          <div className="schedule-card">
+            <div><strong>Lunes — Viernes</strong><span>Horario de atención</span></div>
+            <div><strong>Mañanas</strong><span>09:00 — 14:00</span></div>
+            <div><strong>Tardes</strong><span>16:00 — 21:00</span></div>
+            <div><strong>Sábado — Domingo</strong><span>Cerrado</span></div>
+            <a href={AGENDA_URL}>Consultar citas disponibles <span>↗</span></a>
+          </div>
+        </div>
+      </section>
+
       {/* FAQ */}
       <section className="faq-section">
         <div className="lux-container faq-grid">
           <div data-reveal>
             <div className="section-index section-index--dark">
-              <span>06</span>
+              <span>07</span>
               <i />
               <span>ANTES DE VENIR</span>
             </div>
@@ -738,7 +776,7 @@ export default function Home() {
           </h2>
 
           <p className="final-description">
-            Cuéntanos qué te ocurre y reserva tu cita.
+            Indica el motivo de tu consulta y reserva tu cita.
             <br />
             No necesitas saber qué técnica elegir.
           </p>
@@ -772,7 +810,7 @@ export default function Home() {
               </div>
 
               <div>
-                <span>CLÍNICA DE OSTEOPATÍA</span>
+                <span>CENTRO DE OSTEOPATÍA</span>
                 <h3>Alberto Matamoros</h3>
                 <p>Terapias Naturales y Equilibrio</p>
               </div>
@@ -784,12 +822,13 @@ export default function Home() {
                 <a href="#filosofia">Filosofía</a>
                 <a href="#servicios">Servicios</a>
                 <a href="#alberto">Alberto</a>
-                <a href="#clinica">La clínica</a>
+                <a href="#centro">Centro</a>
+                <a href="#horario">Horario</a>
               </div>
 
               <div>
                 <span className="footer-label">CONTACTO</span>
-                <p>Dirección de la clínica</p>
+                <p>Dirección del centro</p>
                 <p>Teléfono</p>
                 <p>Email</p>
                 <p>WhatsApp</p>
@@ -797,7 +836,7 @@ export default function Home() {
 
               <div>
                 <span className="footer-label">CITA</span>
-                <p>Cuéntanos qué te ocurre.</p>
+                <p>Consulta disponibilidad y reserva online.</p>
                 <a href={AGENDA_URL} className="footer-book">
                   Reservar online <span>↗</span>
                 </a>
@@ -806,7 +845,7 @@ export default function Home() {
           </div>
 
           <div className="footer-bottom">
-            <span>© 2026 Clínica de Osteopatía Alberto Matamoros</span>
+            <span>© 2026 Centro de Osteopatía Alberto Matamoros</span>
             <span className="footer-kanji">和</span>
             <span>Terapias Naturales y Equilibrio</span>
           </div>
@@ -845,7 +884,7 @@ export default function Home() {
 
                 <div>
                   <strong>Reseñas de Google</strong>
-                  <p>Opiniones publicadas en la ficha de la clínica.</p>
+                  <p>Opiniones publicadas en la ficha del centro.</p>
                 </div>
               </div>
 
