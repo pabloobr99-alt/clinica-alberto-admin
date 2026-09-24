@@ -70,6 +70,10 @@ export async function crearEventoGoogle(cita: {
   id: string;
   fecha: string;
   hora: string;
+  nombre: string;
+  motivo: string;
+  telefono: string;
+  email: string;
 }) {
   const { calendar, calendarId } =
     await obtenerCalendario();
@@ -83,7 +87,13 @@ export async function crearEventoGoogle(cita: {
 
   const requestBody = {
     id: eventId,
-    summary: "Cita reservada - Clínica Alberto Matamoros",
+    summary: `Cita - ${cita.nombre}`,
+    description: [
+      `Paciente: ${cita.nombre}`,
+      `Motivo: ${cita.motivo}`,
+      `Teléfono: ${cita.telefono}`,
+      `Email: ${cita.email}`,
+    ].join("\\n"),
     start: {
       dateTime: `${cita.fecha}T${cita.hora.slice(0, 5)}:00`,
       timeZone: ZONA,

@@ -166,7 +166,7 @@ export async function POST(request: Request) {
         motivo,
         fecha,
         hora,
-        estado: "pendiente",
+        estado: "confirmada",
       })
       .select("id,fecha,hora")
       .single();
@@ -202,6 +202,10 @@ export async function POST(request: Request) {
         id: String(data.id),
         fecha: data.fecha,
         hora: data.hora,
+        nombre,
+        motivo,
+        telefono,
+        email,
       });
 
       const privado = obtenerSupabasePrivado();
