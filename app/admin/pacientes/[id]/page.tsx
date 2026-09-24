@@ -404,6 +404,14 @@ export default function PacientePage() {
   const proximaCita =
     obtenerProximaCita();
 
+  const historialCitas = citas
+    .filter((cita) => cita.estado !== "cancelada")
+    .sort((a, b) => {
+      const fechaA = `${a.fecha}T${a.hora}`;
+      const fechaB = `${b.fecha}T${b.hora}`;
+      return fechaB.localeCompare(fechaA);
+    });
+
   return (
     <main className="min-h-screen bg-[#F4F7F9] text-[#0A3653]">
 
@@ -719,7 +727,62 @@ export default function PacientePage() {
 
           </section>
 
-          {/* COLUMNA DERECHA */}
+          
+            {/* CITAS DEL PACIENTE */}
+            <section className="rounded-[2rem] bg-white p-6 shadow-sm sm:p-8">
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#B1263A]">
+                  Historial
+                </p>
+
+                <h2 className="mt-2 text-2xl font-bold">
+                  Citas y motivos
+                </h2>
+
+                <p className="mt-1 text-sm text-slate-400">
+                  Sesiones reservadas por este paciente.
+                </p>
+              </div>
+
+              {historialCitas.length === 0 ? (
+                <div className="mt-6 rounded-2xl bg-[#F4F7F9] p-6 text-center">
+                  <p className="text-sm font-semibold">
+                    No hay citas registradas
+                  </p>
+                </div>
+              ) : (
+                <div className="mt-6 space-y-3">
+                  {historialCitas.map((cita) => (
+                    <article
+                      key={cita.id}
+                      className="rounded-2xl border border-slate-100 bg-[#F9FBFC] p-5"
+                    >
+                      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                        <strong className="capitalize text-[#0A3653]">
+                          {formatearFechaLarga(cita.fecha)}
+                        </strong>
+
+                        <span className="w-fit rounded-full bg-[#0A3653]/10 px-3 py-1 text-xs font-bold text-[#0A3653]">
+                          {cita.hora.slice(0, 5)}
+                        </span>
+                      </div>
+
+                      <div className="mt-4 border-t border-slate-200 pt-4">
+                        <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                          Motivo de la consulta
+                        </p>
+
+                        <p className="mt-1 text-sm leading-relaxed text-slate-600">
+                          {cita.motivo || "Sin motivo indicado"}
+                        </p>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              )}
+            </section>
+
+            {/* COLUMNA DERECHA */}
 
           <aside className="space-y-6">
 

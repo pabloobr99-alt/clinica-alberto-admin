@@ -8525,3 +8525,231 @@ body {
     font-size: 12px;
   }
 }
+
+/* =========================================================
+   PORTADA · DISEÑO MÓVIL
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+  .reference-hero {
+    min-height: auto !important;
+    overflow: hidden !important;
+    padding-top: 78px !important;
+  }
+
+  .reference-hero__inner {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    min-height: auto !important;
+    padding: 22px 20px 0 !important;
+    gap: 28px !important;
+  }
+
+  /* CONTENIDO */
+  .reference-hero__content {
+    position: relative !important;
+    z-index: 5 !important;
+    width: 100% !important;
+    max-width: none !important;
+    padding: 0 !important;
+  }
+
+  /* LOGO */
+  .reference-hero__logo {
+    width: 88px !important;
+    height: 88px !important;
+    margin: 0 0 18px !important;
+  }
+
+  .reference-hero__logo img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+  }
+
+  /* SUBTÍTULO */
+  .reference-hero__eyebrow {
+    gap: 9px !important;
+    margin-bottom: 14px !important;
+    font-size: 9px !important;
+    letter-spacing: .12em !important;
+    white-space: normal !important;
+  }
+
+  .reference-hero__eyebrow span {
+    width: 25px !important;
+    flex: 0 0 25px !important;
+  }
+
+  /* TITULAR */
+  .reference-hero h1 {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    font-size: clamp(48px, 14vw, 64px) !important;
+    line-height: .91 !important;
+    letter-spacing: -.055em !important;
+    overflow-wrap: normal !important;
+  }
+
+  .reference-hero h1 em,
+  .reference-hero h1 strong {
+    display: inline !important;
+    font-size: inherit !important;
+    line-height: inherit !important;
+  }
+
+  .reference-hero h1 strong {
+    white-space: nowrap !important;
+  }
+
+  /* DESCRIPCIÓN */
+  .reference-hero__description {
+    width: 100% !important;
+    max-width: 340px !important;
+    margin: 24px 0 0 !important;
+    font-size: 15px !important;
+    line-height: 1.65 !important;
+  }
+
+  /* BOTONES */
+  .reference-hero__actions {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    width: 100% !important;
+    gap: 10px !important;
+    margin-top: 24px !important;
+  }
+
+  .reference-button {
+    width: 100% !important;
+    min-height: 56px !important;
+    padding: 0 18px !important;
+    justify-content: space-between !important;
+  }
+
+  /* SERVICIOS 01 / 02 / 03 */
+  .reference-hero__meta {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    width: 100% !important;
+    gap: 8px !important;
+    margin-top: 26px !important;
+  }
+
+  .reference-hero__meta > div {
+    min-width: 0 !important;
+  }
+
+  .reference-hero__meta small {
+    font-size: 9px !important;
+  }
+
+  .reference-hero__meta span {
+    font-size: 8px !important;
+    letter-spacing: .05em !important;
+  }
+
+  /* FOTO: debajo del contenido, nunca encima */
+  .reference-hero__visual {
+    position: relative !important;
+    inset: auto !important;
+    width: calc(100% + 40px) !important;
+    height: 390px !important;
+    min-height: 390px !important;
+    margin: 0 -20px !important;
+    overflow: hidden !important;
+  }
+
+  .reference-hero__photo {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  .reference-hero__back-image {
+    object-fit: cover !important;
+    object-position: center 42% !important;
+  }
+
+  .reference-hero__photo-shade {
+    background:
+      linear-gradient(
+        to bottom,
+        rgba(5, 30, 44, .12),
+        rgba(5, 30, 44, .03) 45%,
+        rgba(5, 30, 44, .40)
+      ) !important;
+  }
+
+  /* TARJETA SOBRE LA FOTO */
+  .reference-hero__card {
+    position: absolute !important;
+    z-index: 6 !important;
+    left: 20px !important;
+    right: 20px !important;
+    bottom: 20px !important;
+    width: auto !important;
+    max-width: 310px !important;
+  }
+
+  /* Decoración que en móvil molestaba */
+  .reference-hero__circle,
+  .reference-hero__red-arc,
+  .reference-hero__spine,
+  .reference-hero__vertical {
+    display: none !important;
+  }
+
+  .reference-hero__glow {
+    opacity: .35 !important;
+  }
+
+  /* PIE DEL HERO */
+  .reference-hero__bottom {
+    position: relative !important;
+    width: 100% !important;
+    min-height: auto !important;
+    padding: 15px 20px !important;
+    gap: 10px !important;
+  }
+
+  .reference-hero__bottom span {
+    font-size: 7px !important;
+    letter-spacing: .07em !important;
+  }
+
+  .reference-hero__bottom i {
+    flex: 1 !important;
+    min-width: 15px !important;
+  }
+}
+
+/* iPhone estrecho */
+@media (max-width: 390px) {
+
+  .reference-hero__inner {
+    padding-left: 17px !important;
+    padding-right: 17px !important;
+  }
+
+  .reference-hero h1 {
+    font-size: clamp(44px, 13.5vw, 53px) !important;
+  }
+
+  .reference-hero__visual {
+    width: calc(100% + 34px) !important;
+    margin-left: -17px !important;
+    margin-right: -17px !important;
+    height: 360px !important;
+    min-height: 360px !important;
+  }
+
+  .reference-hero__card {
+    left: 17px !important;
+    right: 17px !important;
+  }
+}
