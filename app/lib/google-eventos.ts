@@ -139,6 +139,13 @@ export async function crearEventoGoogle(cita: {
         "Existe un conflicto con otro evento."
       );
     }
+
+    // Si el evento ya existía, actualizamos sus datos.
+    await calendar.events.update({
+      calendarId,
+      eventId,
+      requestBody,
+    });
   }
 
   return eventId;
