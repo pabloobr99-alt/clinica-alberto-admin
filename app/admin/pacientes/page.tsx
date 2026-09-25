@@ -32,6 +32,17 @@ export default function PacientesPage() {
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState("");
 
+  const [mostrarNuevoPaciente, setMostrarNuevoPaciente] =
+    useState(false);
+
+  const [guardandoPaciente, setGuardandoPaciente] =
+    useState(false);
+
+  const [nuevoNombre, setNuevoNombre] = useState("");
+  const [nuevoTelefono, setNuevoTelefono] = useState("");
+  const [nuevoEmail, setNuevoEmail] = useState("");
+  const [nuevasNotas, setNuevasNotas] = useState("");
+
   useEffect(() => {
     comprobarAcceso();
   }, []);
@@ -71,10 +82,17 @@ export default function PacientesPage() {
     ]);
 
     if (pacientesError) {
-      console.error(pacientesError);
+      console.error("ERROR PACIENTES:", {
+        message: pacientesError.message,
+        code: pacientesError.code,
+        details: pacientesError.details,
+        hint: pacientesError.hint,
+      });
+
       setError(
-        "No se han podido cargar los pacientes."
+        `Error pacientes: ${pacientesError.message || "desconocido"} · Código: ${pacientesError.code || "sin código"}`
       );
+
       setCargando(false);
       return;
     }
@@ -110,6 +128,61 @@ export default function PacientesPage() {
       );
     }
   );
+
+  async function crearPaciente() {
+    const nombre = nuevoNombre.trim();
+    const telefono = nuevoTelefono.trim();
+    const email = nuevoEmail.trim().toLowerCase();
+    const notas = nuevasNotas.trim();
+
+    if (
+      email &&
+      (!email.includes("@") ||
+        !email.split("@")[1]?.includes("."))
+    ) {
+      alert("El email introducido no es válido.");
+      return;
+    }
+
+    setGuardandoPaciente(true);
+
+    const { data, error: insertarError } = await supabase
+      .from("pacientes")
+      .insert({
+        nombre,
+        telefono: telefono || null,
+        email: email || null,
+        notas_generales: notas || null,
+      })
+      .select(
+        "id,nombre,telefono,email,notas_generales,created_at"
+      )
+      .single();
+
+    if (insertarError) {
+      console.error(insertarError);
+      alert(
+        "No se ha podido crear el paciente. Revisa los permisos de Supabase."
+      );
+      setGuardandoPaciente(false);
+      return;
+    }
+
+    setPacientes((actual) =>
+      [...actual, data as Paciente].sort((a, b) =>
+        a.nombre.localeCompare(b.nombre, "es")
+      )
+    );
+
+    setNuevoNombre("");
+    setNuevoTelefono("");
+    setNuevoEmail("");
+    setNuevasNotas("");
+    setMostrarNuevoPaciente(false);
+    setGuardandoPaciente(false);
+
+    router.push(`/admin/pacientes/${data.id}`);
+  }
 
   function numeroSesiones(pacienteId: number) {
     return historial.filter(
@@ -158,12 +231,21 @@ export default function PacientesPage() {
               </p>
             </div>
 
-            <button
-              onClick={cargarDatos}
-              className="rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-600 shadow-sm transition hover:border-[#0A3653] hover:text-[#0A3653]"
-            >
-              Actualizar
-            </button>
+            <div className="flex flex-wrap gap-3">
+              <button
+                onClick={() => setMostrarNuevoPaciente(true)}
+                className="rounded-xl bg-[#B1263A] px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5"
+              >
+                + Nuevo paciente
+              </button>
+
+              <button
+                onClick={cargarDatos}
+                className="rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-600 shadow-sm transition hover:border-[#0A3653] hover:text-[#0A3653]"
+              >
+                Actualizar
+              </button>
+            </div>
           </div>
         </div>
       </header>
@@ -295,6 +377,118 @@ export default function PacientesPage() {
           </div>
         )}
       </section>
+
+      {mostrarNuevoPaciente && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-[#0A3653]/50 p-4 backdrop-blur-sm"
+          onClick={() => setMostrarNuevoPaciente(false)}
+        >
+          <div
+            className="w-full max-w-xl rounded-[2rem] bg-white p-6 shadow-2xl sm:p-8"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="flex items-start justify-between gap-5">
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#B1263A]">
+                  Archivador clínico
+                </p>
+
+                <h2 className="mt-2 text-2xl font-bold text-[#0A3653]">
+                  Nuevo paciente
+                </h2>
+
+                <p className="mt-2 text-sm text-slate-400">
+                  Crea manualmente una nueva ficha.
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setMostrarNuevoPaciente(false)}
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-xl text-slate-500"
+              >
+                ×
+              </button>
+            </div>
+
+            <div className="mt-7 space-y-4">
+              <div>
+                <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-500">
+                  Nombre y apellidos *
+                </label>
+                <input
+                  value={nuevoNombre}
+                  onChange={(e) => setNuevoNombre(e.target.value)}
+                  placeholder="Ej. Juan Pérez García"
+                  className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-sm outline-none focus:border-[#0A3653] focus:bg-white"
+                />
+              </div>
+
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-500">
+                    Teléfono
+                  </label>
+                  <input
+                    type="tel"
+                    value={nuevoTelefono}
+                    onChange={(e) => setNuevoTelefono(e.target.value)}
+                    placeholder="600 000 000"
+                    className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-sm outline-none focus:border-[#0A3653] focus:bg-white"
+                  />
+                </div>
+
+                <div>
+                  <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-500">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    value={nuevoEmail}
+                    onChange={(e) => setNuevoEmail(e.target.value)}
+                    placeholder="paciente@email.com"
+                    className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-sm outline-none focus:border-[#0A3653] focus:bg-white"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-500">
+                  Notas generales
+                </label>
+                <textarea
+                  value={nuevasNotas}
+                  onChange={(e) => setNuevasNotas(e.target.value)}
+                  rows={4}
+                  placeholder="Información inicial del paciente..."
+                  className="w-full resize-none rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm outline-none focus:border-[#0A3653] focus:bg-white"
+                />
+              </div>
+            </div>
+
+            <div className="mt-7 flex gap-3">
+              <button
+                type="button"
+                onClick={() => setMostrarNuevoPaciente(false)}
+                className="flex-1 rounded-xl border border-slate-200 px-4 py-3.5 text-sm font-bold text-slate-600"
+              >
+                Cancelar
+              </button>
+
+              <button
+                type="button"
+                onClick={crearPaciente}
+                disabled={guardandoPaciente}
+                className="flex-1 rounded-xl bg-[#0A3653] px-4 py-3.5 text-sm font-bold text-white disabled:opacity-50"
+              >
+                {guardandoPaciente
+                  ? "Creando..."
+                  : "Crear ficha"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 }

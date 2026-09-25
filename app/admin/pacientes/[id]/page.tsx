@@ -34,6 +34,33 @@ type Cita = {
   estado: string | null;
 };
 
+type Bono = {
+  id: number;
+  paciente_id: number;
+  nombre: string;
+  sesiones_totales: number;
+  sesiones_usadas: number;
+  precio: number;
+  fecha_compra: string;
+  estado: "activo" | "completado" | "cancelado";
+  notas: string | null;
+};
+
+type Cobro = {
+  id: number;
+  paciente_id: number;
+  bono_id: number | null;
+  cita_id: number | null;
+  concepto: string;
+  importe: number;
+  importe_pagado: number;
+  estado: "pendiente" | "parcial" | "pagado" | "cancelado";
+  metodo_pago: string | null;
+  fecha: string;
+  fecha_pago: string | null;
+  notas: string | null;
+};
+
 export default function PacientePage() {
   const [paciente, setPaciente] =
     useState<Paciente | null>(null);
@@ -74,6 +101,19 @@ export default function PacientePage() {
   const [guardandoNotas, setGuardandoNotas] =
     useState(false);
 
+  // Gestión económica
+  const [bonos, setBonos] = useState<Bono[]>([]);
+  const [cobros, setCobros] = useState<Cobro[]>([]);
+  const [totalCobrado, setTotalCobrado] = useState(0);
+  const [totalPendiente, setTotalPendiente] = useState(0);
+  const [cargandoEconomia, setCargandoEconomia] =
+    useState(false);
+  const [errorEconomia, setErrorEconomia] =
+    useState("");
+
+  const [accionEconomica, setAccionEconomica] =
+    useState(false);
+
   const obtenerId = () => {
     const partes = window.location.pathname.split("/");
     return Number(partes[partes.length - 1]);
@@ -94,6 +134,292 @@ export default function PacientePage() {
     }
 
     await cargarPaciente();
+  };
+
+  const obtenerTokenAdmin = async () => {
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+
+    return session?.access_token || null;
+  };
+
+  const cargarEconomia = async (pacienteId: number) => {
+    setCargandoEconomia(true);
+    setErrorEconomia("");
+
+    try {
+      const token = await obtenerTokenAdmin();
+
+      if (!token) {
+        window.location.href = "/login";
+        return;
+      }
+
+      const response = await fetch(
+        `/api/admin/pacientes?pacienteId=${pacienteId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const resultado = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          resultado.error ||
+            "No se ha podido cargar la información económica."
+        );
+      }
+
+      setBonos(resultado.bonos || []);
+      setCobros(resultado.cobros || []);
+      setTotalCobrado(Number(resultado.totalCobrado || 0));
+      setTotalPendiente(Number(resultado.totalPendiente || 0));
+    } catch (error) {
+      console.error(error);
+      setErrorEconomia(
+        "No se ha podido cargar la información económica."
+      );
+    } finally {
+      setCargandoEconomia(false);
+    }
+  };
+
+  const ejecutarAccionEconomica = async (
+    datos: Record<string, unknown>
+  ) => {
+    if (!paciente) return false;
+
+    setAccionEconomica(true);
+
+    try {
+      const token = await obtenerTokenAdmin();
+
+      if (!token) {
+        window.location.href = "/login";
+        return false;
+      }
+
+      const response = await fetch("/api/admin/pacientes", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(datos),
+      });
+
+      const resultado = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          resultado.error || "No se ha podido realizar la operación."
+        );
+      }
+
+      await cargarEconomia(paciente.id);
+      return true;
+    } catch (error) {
+      console.error(error);
+      alert(
+        error instanceof Error
+          ? error.message
+          : "No se ha podido realizar la operación."
+      );
+      return false;
+    } finally {
+      setAccionEconomica(false);
+    }
+  };
+
+  const crearBono = async () => {
+    if (!paciente) return;
+
+    const nombre =
+      window.prompt("Nombre del bono:", "Bono de sesiones")?.trim();
+
+    if (!nombre) return;
+
+    const sesionesTexto = window.prompt(
+      "¿Cuántas sesiones incluye?",
+      "5"
+    );
+
+    if (sesionesTexto === null) return;
+
+    const sesionesTotales = Number(sesionesTexto);
+
+    if (
+      !Number.isInteger(sesionesTotales) ||
+      sesionesTotales <= 0
+    ) {
+      alert("Introduce un número válido de sesiones.");
+      return;
+    }
+
+    const precioTexto = window.prompt(
+      "Precio total del bono (€):",
+      "175"
+    );
+
+    if (precioTexto === null) return;
+
+    const precio = Number(
+      precioTexto.replace(",", ".")
+    );
+
+    if (!Number.isFinite(precio) || precio < 0) {
+      alert("Introduce un precio válido.");
+      return;
+    }
+
+    await ejecutarAccionEconomica({
+      accion: "crear_bono",
+      action: "crear_bono",
+      pacienteId: paciente.id,
+      paciente_id: paciente.id,
+      nombre,
+      sesionesTotales,
+      sesiones_totales: sesionesTotales,
+      precio,
+    });
+  };
+
+  const consumirBono = async (bono: Bono) => {
+    if (bono.sesiones_usadas >= bono.sesiones_totales) {
+      alert("Este bono ya está completado.");
+      return;
+    }
+
+    const restantes =
+      bono.sesiones_totales - bono.sesiones_usadas;
+
+    const confirmar = window.confirm(
+      `¿Consumir una sesión de "${bono.nombre}"?\n\n` +
+        `Quedan ${restantes} sesiones antes de registrar esta.`
+    );
+
+    if (!confirmar) return;
+
+    await ejecutarAccionEconomica({
+      accion: "consumir_bono",
+      action: "consumir_bono",
+      pacienteId: paciente?.id,
+      paciente_id: paciente?.id,
+      bonoId: bono.id,
+      bono_id: bono.id,
+    });
+  };
+
+  const marcarCobroPagado = async (cobro: Cobro) => {
+    const metodo = window.prompt(
+      "Método de pago: efectivo, tarjeta, bizum, transferencia u otro",
+      "efectivo"
+    );
+
+    if (metodo === null) return;
+
+    const metodoNormalizado = metodo
+      .trim()
+      .toLowerCase();
+
+    const permitidos = [
+      "efectivo",
+      "tarjeta",
+      "bizum",
+      "transferencia",
+      "otro",
+    ];
+
+    if (!permitidos.includes(metodoNormalizado)) {
+      alert(
+        "Método no válido. Usa efectivo, tarjeta, bizum, transferencia u otro."
+      );
+      return;
+    }
+
+    await ejecutarAccionEconomica({
+      accion: "marcar_pagado",
+      action: "marcar_pagado",
+      pacienteId: paciente?.id,
+      paciente_id: paciente?.id,
+      cobroId: cobro.id,
+      cobro_id: cobro.id,
+      metodoPago: metodoNormalizado,
+      metodo_pago: metodoNormalizado,
+    });
+  };
+
+  const crearCobroManual = async () => {
+    if (!paciente) return;
+
+    const concepto =
+      window.prompt("Concepto del cobro:", "Sesión")?.trim();
+
+    if (!concepto) return;
+
+    const importeTexto = window.prompt(
+      "Importe (€):",
+      "35"
+    );
+
+    if (importeTexto === null) return;
+
+    const importe = Number(
+      importeTexto.replace(",", ".")
+    );
+
+    if (!Number.isFinite(importe) || importe <= 0) {
+      alert("Introduce un importe válido.");
+      return;
+    }
+
+    const pagado = window.confirm(
+      "¿Este cobro ya está pagado?\n\nAceptar = Pagado\nCancelar = Pendiente"
+    );
+
+    let metodoPago: string | null = null;
+
+    if (pagado) {
+      const metodo = window.prompt(
+        "Método de pago:",
+        "efectivo"
+      );
+
+      if (metodo === null) return;
+
+      metodoPago = metodo.trim().toLowerCase();
+
+      const permitidos = [
+        "efectivo",
+        "tarjeta",
+        "bizum",
+        "transferencia",
+        "otro",
+      ];
+
+      if (!permitidos.includes(metodoPago)) {
+        alert(
+          "Método no válido. Usa efectivo, tarjeta, bizum, transferencia u otro."
+        );
+        return;
+      }
+    }
+
+    await ejecutarAccionEconomica({
+      accion: "crear_cobro",
+      action: "crear_cobro",
+      pacienteId: paciente.id,
+      paciente_id: paciente.id,
+      concepto,
+      importe,
+      pagado,
+      metodoPago,
+      metodo_pago: metodoPago,
+    });
   };
 
   const cargarPaciente = async () => {
@@ -177,6 +503,8 @@ export default function PacientePage() {
     setCitas(
       (citasResponse.data || []) as Cita[]
     );
+
+    await cargarEconomia(pacienteId);
 
     setCargando(false);
   };
@@ -785,6 +1113,310 @@ export default function PacientePage() {
             {/* COLUMNA DERECHA */}
 
           <aside className="space-y-6">
+
+
+            {/* PANEL ECONOMICO VISIBLE */}
+            <section className="overflow-hidden rounded-[2rem] bg-white shadow-sm">
+
+              <div className="bg-[#0A3653] p-6 text-white">
+                <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-white/50">
+                  Gestión económica
+                </p>
+
+                <div className="mt-2 flex items-center justify-between">
+                  <h3 className="text-xl font-bold">
+                    Bonos y cobros
+                  </h3>
+
+                  <span className="rounded-xl bg-white/10 px-3 py-2 font-bold">
+                    €
+                  </span>
+                </div>
+
+                <div className="mt-5 grid grid-cols-2 gap-3">
+
+                  <div className="rounded-2xl bg-white/10 p-4">
+                    <p className="text-[9px] font-bold uppercase tracking-wider text-white/50">
+                      Cobrado
+                    </p>
+
+                    <p className="mt-1 text-xl font-bold">
+                      {totalCobrado.toFixed(2)} €
+                    </p>
+                  </div>
+
+                  <div className="rounded-2xl bg-[#B1263A] p-4">
+                    <p className="text-[9px] font-bold uppercase tracking-wider text-white/60">
+                      Pendiente
+                    </p>
+
+                    <p className="mt-1 text-xl font-bold">
+                      {totalPendiente.toFixed(2)} €
+                    </p>
+                  </div>
+
+                </div>
+              </div>
+
+              <div className="p-6">
+
+                {errorEconomia && (
+                  <div className="mb-4 rounded-xl bg-red-50 p-3 text-xs font-bold text-red-600">
+                    {errorEconomia}
+                  </div>
+                )}
+
+                {/* BONOS */}
+                <div className="flex items-center justify-between gap-3">
+                  <div>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#B1263A]">
+                      Bonos
+                    </p>
+
+                    <p className="mt-1 text-sm font-bold">
+                      Sesiones contratadas
+                    </p>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={crearBono}
+                    disabled={accionEconomica}
+                    className="rounded-xl bg-[#0A3653] px-3 py-2 text-[11px] font-bold text-white disabled:opacity-50"
+                  >
+                    + Bono
+                  </button>
+                </div>
+
+                {cargandoEconomia ? (
+                  <p className="mt-5 text-center text-xs text-slate-400">
+                    Cargando...
+                  </p>
+                ) : bonos.length === 0 ? (
+
+                  <div className="mt-4 rounded-2xl border border-dashed border-slate-200 p-5 text-center">
+                    <p className="text-sm font-bold text-slate-500">
+                      Sin bonos activos
+                    </p>
+
+                    <p className="mt-1 text-xs text-slate-400">
+                      Pulsa + Bono para crear uno.
+                    </p>
+                  </div>
+
+                ) : (
+
+                  <div className="mt-4 space-y-3">
+
+                    {bonos.map((bono) => {
+
+                      const restantes = Math.max(
+                        0,
+                        bono.sesiones_totales -
+                          bono.sesiones_usadas
+                      );
+
+                      return (
+                        <div
+                          key={bono.id}
+                          className="rounded-2xl border border-slate-100 bg-[#F9FBFC] p-4"
+                        >
+
+                          <div className="flex items-start justify-between gap-3">
+
+                            <div>
+                              <p className="text-sm font-bold">
+                                {bono.nombre}
+                              </p>
+
+                              <p className="mt-1 text-xs text-slate-400">
+                                {Number(bono.precio).toFixed(2)} €
+                              </p>
+                            </div>
+
+                            <span
+                              className={`rounded-full px-2 py-1 text-[9px] font-bold uppercase ${
+                                bono.estado === "activo"
+                                  ? "bg-emerald-50 text-emerald-700"
+                                  : "bg-slate-100 text-slate-500"
+                              }`}
+                            >
+                              {bono.estado}
+                            </span>
+
+                          </div>
+
+                          {/* CÍRCULOS DE SESIONES */}
+                          <div className="mt-4 flex flex-wrap gap-2">
+
+                            {Array.from({
+                              length: bono.sesiones_totales,
+                            }).map((_, index) => (
+
+                              <div
+                                key={index}
+                                className={`flex h-7 w-7 items-center justify-center rounded-full text-[9px] font-bold ${
+                                  index < bono.sesiones_usadas
+                                    ? "bg-[#0A3653] text-white"
+                                    : "border border-slate-300 bg-white text-slate-400"
+                                }`}
+                              >
+                                {index + 1}
+                              </div>
+
+                            ))}
+
+                          </div>
+
+                          <div className="mt-4 flex items-end justify-between gap-3">
+
+                            <div>
+                              <p className="text-2xl font-bold">
+                                {restantes}
+                              </p>
+
+                              <p className="text-[9px] font-bold uppercase tracking-wider text-slate-400">
+                                sesiones restantes
+                              </p>
+                            </div>
+
+                            {bono.estado === "activo" &&
+                              restantes > 0 && (
+
+                                <button
+                                  type="button"
+                                  onClick={() =>
+                                    consumirBono(bono)
+                                  }
+                                  disabled={accionEconomica}
+                                  className="rounded-xl border border-[#0A3653] px-3 py-2 text-[10px] font-bold text-[#0A3653] transition hover:bg-[#0A3653] hover:text-white disabled:opacity-50"
+                                >
+                                  Consumir sesión
+                                </button>
+
+                              )}
+
+                          </div>
+
+                        </div>
+                      );
+                    })}
+
+                  </div>
+
+                )}
+
+                {/* COBROS */}
+                <div className="mt-7 border-t border-slate-100 pt-6">
+
+                  <div className="flex items-center justify-between gap-3">
+
+                    <div>
+                      <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#B1263A]">
+                        Cobros
+                      </p>
+
+                      <p className="mt-1 text-sm font-bold">
+                        Pagos del paciente
+                      </p>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={crearCobroManual}
+                      disabled={accionEconomica}
+                      className="rounded-xl border border-slate-200 px-3 py-2 text-[11px] font-bold disabled:opacity-50"
+                    >
+                      + Cobro
+                    </button>
+
+                  </div>
+
+                  {cobros.length === 0 ? (
+
+                    <div className="mt-4 rounded-xl bg-[#F4F7F9] p-4 text-center">
+                      <p className="text-xs text-slate-400">
+                        No hay cobros registrados.
+                      </p>
+                    </div>
+
+                  ) : (
+
+                    <div className="mt-4 space-y-2">
+
+                      {cobros.map((cobro) => (
+
+                        <div
+                          key={cobro.id}
+                          className="rounded-xl border border-slate-100 p-4"
+                        >
+
+                          <div className="flex items-start justify-between gap-3">
+
+                            <div className="min-w-0">
+                              <p className="text-xs font-bold">
+                                {cobro.concepto}
+                              </p>
+
+                              <p className="mt-1 text-[10px] text-slate-400">
+                                {formatearFecha(cobro.fecha)}
+                                {cobro.metodo_pago
+                                  ? ` · ${cobro.metodo_pago}`
+                                  : ""}
+                              </p>
+                            </div>
+
+                            <div className="text-right">
+
+                              <p className="text-sm font-bold">
+                                {Number(cobro.importe).toFixed(2)} €
+                              </p>
+
+                              <span
+                                className={`mt-1 inline-block rounded-full px-2 py-1 text-[9px] font-bold uppercase ${
+                                  cobro.estado === "pagado"
+                                    ? "bg-emerald-50 text-emerald-700"
+                                    : cobro.estado === "cancelado"
+                                    ? "bg-slate-100 text-slate-400"
+                                    : "bg-red-50 text-red-600"
+                                }`}
+                              >
+                                {cobro.estado}
+                              </span>
+
+                            </div>
+
+                          </div>
+
+                          {cobro.estado !== "pagado" &&
+                            cobro.estado !== "cancelado" && (
+
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  marcarCobroPagado(cobro)
+                                }
+                                disabled={accionEconomica}
+                                className="mt-3 w-full rounded-xl bg-emerald-600 px-3 py-2.5 text-[10px] font-bold text-white disabled:opacity-50"
+                              >
+                                ✓ Marcar como pagado
+                              </button>
+
+                            )}
+
+                        </div>
+
+                      ))}
+
+                    </div>
+
+                  )}
+
+                </div>
+
+              </div>
+
+            </section>
 
             {/* PROXIMA CITA */}
 
