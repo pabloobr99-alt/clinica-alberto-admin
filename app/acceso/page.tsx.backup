@@ -1,0 +1,150 @@
+import Link from "next/link";
+
+export default function AccesoPage() {
+  return (
+    <main className="min-h-screen bg-[#F4F7F9] text-[#0A3653]">
+      <div className="mx-auto flex min-h-screen max-w-6xl flex-col justify-center px-5 py-16 sm:px-8">
+
+        <Link
+          href="/"
+          className="mb-10 w-fit text-sm font-bold text-slate-500 transition hover:text-[#0A3653]"
+        >
+          ← Volver al Centro
+        </Link>
+
+        <div className="mb-10 max-w-2xl">
+          <p className="text-xs font-bold uppercase tracking-[0.3em] text-[#B1263A]">
+            Centro de Osteopatía Alberto Matamoros
+          </p>
+
+          <h1 className="mt-4 text-4xl font-bold tracking-tight sm:text-5xl">
+            Tu espacio en el Centro
+          </h1>
+
+          <p className="mt-4 text-base leading-7 text-slate-500">
+            Accede al área correspondiente para gestionar tu información,
+            citas y servicios del Centro.
+          </p>
+        </div>
+
+        <div className="grid gap-6 lg:grid-cols-2">
+
+          {/* PACIENTE */}
+          <section className="group overflow-hidden rounded-[2rem] bg-white shadow-sm">
+            <div className="p-7 sm:p-9">
+              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#0A3653]/10 text-2xl">
+                ♙
+              </div>
+
+              <p className="mt-8 text-[10px] font-bold uppercase tracking-[0.25em] text-[#B1263A]">
+                Pacientes
+              </p>
+
+              <h2 className="mt-2 text-2xl font-bold">
+                Área paciente
+              </h2>
+
+              <p className="mt-3 leading-7 text-slate-500">
+                Tu espacio privado para consultar citas, bonos,
+                sesiones y pagos.
+              </p>
+
+              <div className="mt-7 grid grid-cols-2 gap-3">
+                {[
+                  ["📅", "Mis citas"],
+                  ["◉", "Mis bonos"],
+                  ["€", "Mis pagos"],
+                  ["＋", "Reservar"],
+                ].map(([icono, texto]) => (
+                  <div
+                    key={texto}
+                    className="rounded-2xl bg-[#F4F7F9] p-4"
+                  >
+                    <span className="text-lg">{icono}</span>
+                    <p className="mt-2 text-xs font-bold">
+                      {texto}
+                    </p>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-7 rounded-2xl border border-[#0A3653]/10 bg-[#0A3653]/5 p-4">
+                <p className="text-xs font-bold">
+                  Área privada en preparación
+                </p>
+                <p className="mt-1 text-xs leading-5 text-slate-500">
+                  Estamos preparando el acceso personal de pacientes
+                  con todas las garantías de privacidad.
+                </p>
+              </div>
+
+              <Link
+                href="/reservar"
+                className="mt-5 block rounded-xl bg-[#0A3653] px-5 py-3.5 text-center text-sm font-bold text-white transition hover:-translate-y-0.5"
+              >
+                Reservar una cita
+              </Link>
+            </div>
+          </section>
+
+          {/* PROFESIONAL */}
+          <section className="overflow-hidden rounded-[2rem] bg-[#0A3653] text-white shadow-lg">
+            <div className="p-7 sm:p-9">
+              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/10 text-2xl">
+                ⚕
+              </div>
+
+              <p className="mt-8 text-[10px] font-bold uppercase tracking-[0.25em] text-white/50">
+                Acceso restringido
+              </p>
+
+              <h2 className="mt-2 text-2xl font-bold">
+                Área profesional
+              </h2>
+
+              <p className="mt-3 leading-7 text-white/60">
+                Acceso al panel privado de administración del
+                Centro de Osteopatía Alberto Matamoros.
+              </p>
+
+              <div className="mt-7 space-y-3">
+                {[
+                  "Agenda y solicitudes",
+                  "Fichas de pacientes",
+                  "Historial de sesiones",
+                  "Bonos y cobros",
+                ].map((texto) => (
+                  <div
+                    key={texto}
+                    className="flex items-center gap-3 rounded-xl bg-white/5 px-4 py-3"
+                  >
+                    <span className="text-[#B1263A]">●</span>
+                    <span className="text-sm font-semibold">
+                      {texto}
+                    </span>
+                  </div>
+                ))}
+              </div>
+
+              <Link
+                href="/login"
+                className="mt-7 block rounded-xl bg-white px-5 py-3.5 text-center text-sm font-bold text-[#0A3653] transition hover:-translate-y-0.5"
+              >
+                Acceso profesional →
+              </Link>
+
+              <p className="mt-4 text-center text-[10px] text-white/40">
+                Acceso exclusivo para personal autorizado
+              </p>
+            </div>
+          </section>
+
+        </div>
+
+        <p className="mt-10 text-center text-xs text-slate-400">
+          Centro de Osteopatía Alberto Matamoros
+        </p>
+      </div>
+    </main>
+  );
+}

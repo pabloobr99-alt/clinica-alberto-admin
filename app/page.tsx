@@ -1,4 +1,6 @@
 "use client";
+
+import Link from "next/link";
 import ServiciosPremium from "./components/ServiciosPremium";
 import QueNecesitas from "./components/QueNecesitas";
 
@@ -162,6 +164,8 @@ export default function Home() {
 
   return (
     <main>
+
+
       <div className="scroll-progress" aria-hidden="true" />
       {/* NAV */}
       <header className={`lux-nav ${scrolled ? "lux-nav--scrolled" : ""}`}>
@@ -184,6 +188,9 @@ export default function Home() {
             <a href="#centro" className={activeSection === "centro" ? "is-active" : ""}>Centro</a>
             <a href="#contacto">Contacto</a>
               <a href="#resenas">Reseñas</a>
+            <Link href="/acceso" className="nav-private">
+              Área privada
+            </Link>
           </nav>
 
           <a href={AGENDA_URL} className="nav-book">
@@ -209,6 +216,9 @@ export default function Home() {
           <a href="#alberto" onClick={closeMenu}>Alberto</a>
           <a href="#centro" onClick={closeMenu}>Centro</a>
           <a href="#contacto" onClick={closeMenu}>Contacto</a>
+          <Link href="/acceso" onClick={closeMenu} className="mobile-menu__private">
+            Área privada
+          </Link>
           <a href={AGENDA_URL} onClick={closeMenu} className="mobile-menu__book">
             Reservar cita <span>↗</span>
           </a>
@@ -824,6 +834,7 @@ export default function Home() {
                 <a href="#alberto">Alberto</a>
                 <a href="#centro">Centro</a>
                 <a href="#horario">Horario</a>
+                <Link href="/acceso">Área privada</Link>
               </div>
 
               <div>

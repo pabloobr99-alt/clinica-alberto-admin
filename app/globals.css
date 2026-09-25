@@ -8753,3 +8753,57 @@ body {
     right: 17px !important;
   }
 }
+
+/* =========================================================
+   ÁREA PRIVADA — NAVEGACIÓN
+   ========================================================= */
+
+.desktop-nav .nav-private {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 5px;
+  padding: 9px 14px;
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 999px;
+  color: rgba(255,255,255,.92);
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background .25s ease,
+    border-color .25s ease,
+    transform .25s ease;
+}
+
+.desktop-nav .nav-private::before {
+  content: "♙";
+  font-size: 12px;
+  color: #c12b43;
+}
+
+.desktop-nav .nav-private:hover {
+  background: rgba(255,255,255,.08);
+  border-color: rgba(255,255,255,.32);
+  transform: translateY(-1px);
+}
+
+.mobile-menu__private {
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mobile-menu__private::after {
+  content: "Área paciente · Profesional →";
+  font-size: 9px;
+  letter-spacing: .08em;
+  opacity: .45;
+}
+
+@media (max-width: 1150px) and (min-width: 701px) {
+  .desktop-nav .nav-private {
+    padding: 8px 10px;
+    font-size: 11px;
+  }
+}
