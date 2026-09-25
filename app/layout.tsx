@@ -13,6 +13,23 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  manifest: "/manifest.webmanifest",
+  applicationName: "Centro Alberto",
+  appleWebApp: {
+    capable: true,
+    title: "Centro Alberto",
+    statusBarStyle: "default",
+  },
+  icons: {
+    icon: [
+      { url: "/icons/icon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/icons/icon-192.png", sizes: "192x192", type: "image/png" },
+    ],
+    apple: [
+      { url: "/icons/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+  },
+
   title: "Alberto Matamoros | Osteopatía y Terapias Naturales",
   description: "Clínica de Osteopatía Alberto Matamoros. Terapias naturales, equilibrio y atención personalizada.",
 };
