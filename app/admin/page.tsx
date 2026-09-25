@@ -244,6 +244,8 @@ export default function Admin() {
     pathname === "/admin/solicitudes";
   const pacientesActivos =
     pathname.startsWith("/admin/pacientes");
+  const cobrosActivos =
+    pathname.startsWith("/admin/cobros");
 
   return (
     <main className="min-h-screen bg-slate-50">
@@ -336,6 +338,20 @@ export default function Admin() {
           >
             <span className="text-lg">♙</span>
             <span>Pacientes</span>
+          </button>
+
+          <button
+            onClick={() =>
+              router.push("/admin/cobros")
+            }
+            className={`mt-2 flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition ${
+              cobrosActivos
+                ? "bg-[#0A3653] text-white shadow-sm"
+                : "text-slate-600 hover:bg-slate-50 hover:text-[#0A3653]"
+            }`}
+          >
+            <span className="text-lg">€</span>
+            <span>Cobros</span>
           </button>
 
           <div className="my-6 border-t border-slate-100" />
@@ -440,6 +456,16 @@ export default function Admin() {
                   >
                     ♙
                     <span>Pacientes</span>
+                  </button>
+
+                  <button
+                    onClick={() =>
+                      router.push("/admin/cobros")
+                    }
+                    className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-medium text-slate-700 hover:bg-slate-50"
+                  >
+                    <span className="text-lg">€</span>
+                    <span>Cobros</span>
                   </button>
 
                   <div className="my-2 border-t border-slate-100" />
@@ -674,6 +700,22 @@ export default function Admin() {
                     →
                   </button>
                 </div>
+              </div>
+
+              <div className="mt-5 flex justify-end">
+                <button
+                  type="button"
+                  onClick={() =>
+                    router.push("/admin/citas/nueva")
+                  }
+                  style={{
+                    color: "#ffffff",
+                    WebkitTextFillColor: "#ffffff",
+                  }}
+                  className="rounded-xl bg-[#B1263A] px-5 py-3 text-sm font-bold shadow-sm transition hover:-translate-y-0.5 hover:bg-[#982033]"
+                >
+                  + Nueva cita
+                </button>
               </div>
 
               {/* FILTROS */}
