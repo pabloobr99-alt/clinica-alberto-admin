@@ -393,8 +393,89 @@ export default function Admin() {
         </div>
       </aside>
 
+
+      {/* NAVEGACIÓN INFERIOR - APP MÓVIL */}
+      <div className="fixed inset-x-0 bottom-0 z-[60] border-t border-slate-200 bg-white/95 pb-[env(safe-area-inset-bottom)] shadow-[0_-8px_30px_rgba(15,23,42,0.08)] backdrop-blur-xl lg:hidden">
+        <nav className="mx-auto grid h-[68px] max-w-lg grid-cols-4 px-2">
+
+          <button
+            onClick={() => router.push("/admin")}
+            className={`flex flex-col items-center justify-center gap-1 rounded-xl text-[11px] font-semibold transition ${
+              dashboardActivo
+                ? "text-[#0A3653]"
+                : "text-slate-400"
+            }`}
+          >
+            <span className={`flex h-8 w-8 items-center justify-center rounded-xl text-lg ${
+              dashboardActivo ? "bg-[#0A3653]/10" : ""
+            }`}>
+              ▦
+            </span>
+            Inicio
+          </button>
+
+          <button
+            onClick={() => router.push("/agenda")}
+            className={`flex flex-col items-center justify-center gap-1 rounded-xl text-[11px] font-semibold transition ${
+              agendaActiva
+                ? "text-[#0A3653]"
+                : "text-slate-400"
+            }`}
+          >
+            <span className={`flex h-8 w-8 items-center justify-center rounded-xl text-lg ${
+              agendaActiva ? "bg-[#0A3653]/10" : ""
+            }`}>
+              ◷
+            </span>
+            Agenda
+          </button>
+
+          <button
+            onClick={() => router.push("/admin/pacientes")}
+            className={`flex flex-col items-center justify-center gap-1 rounded-xl text-[11px] font-semibold transition ${
+              pacientesActivos
+                ? "text-[#0A3653]"
+                : "text-slate-400"
+            }`}
+          >
+            <span className={`flex h-8 w-8 items-center justify-center rounded-xl text-lg ${
+              pacientesActivos ? "bg-[#0A3653]/10" : ""
+            }`}>
+              ♙
+            </span>
+            Pacientes
+          </button>
+
+          <button
+            onClick={() => router.push("/admin/cobros")}
+            className={`flex flex-col items-center justify-center gap-1 rounded-xl text-[11px] font-semibold transition ${
+              cobrosActivos
+                ? "text-[#0A3653]"
+                : "text-slate-400"
+            }`}
+          >
+            <span className={`flex h-8 w-8 items-center justify-center rounded-xl text-base font-bold ${
+              cobrosActivos ? "bg-[#0A3653]/10" : ""
+            }`}>
+              €
+            </span>
+            Cobros
+          </button>
+
+        </nav>
+      </div>
+
+      {/* BOTÓN FLOTANTE NUEVA CITA - APP MÓVIL */}
+      <button
+        onClick={() => router.push("/admin/citas/nueva")}
+        className="fixed bottom-[88px] right-5 z-[55] flex h-14 items-center gap-2 rounded-full bg-[#B1263A] px-5 text-sm font-bold text-white shadow-[0_10px_30px_rgba(177,38,58,0.35)] transition active:scale-95 lg:hidden"
+      >
+        <span className="text-xl font-light leading-none">＋</span>
+        Nueva cita
+      </button>
+
       {/* CONTENIDO PRINCIPAL */}
-      <section className="lg:pl-64">
+      <section className="pb-28 lg:pb-0 lg:pl-64">
         {/* HEADER */}
         <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/95 backdrop-blur">
           <div className="flex h-20 items-center justify-between px-4 sm:px-6 lg:px-10">
