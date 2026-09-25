@@ -144,6 +144,13 @@ export default function PacientePage() {
     return session?.access_token || null;
   };
 
+  const [mostrarCobro, setMostrarCobro] = useState(false);
+  const [conceptoCobro, setConceptoCobro] = useState("Consulta");
+  const [importeCobro, setImporteCobro] = useState("");
+  const [pagadoCobro, setPagadoCobro] = useState("");
+  const [metodoCobro, setMetodoCobro] = useState("efectivo");
+  const [guardandoCobro, setGuardandoCobro] = useState(false);
+
   const cargarEconomia = async (pacienteId: number) => {
     setCargandoEconomia(true);
     setErrorEconomia("");
@@ -315,9 +322,44 @@ export default function PacientePage() {
   };
 
   const marcarCobroPagado = async (cobro: Cobro) => {
+    const total = Number(cobro.importe || 0);
+    const yaPagado = Number(cobro.importe_pagado || 0);
+    const pendiente = Math.max(0, total - yaPagado);
+
+    if (pendiente <= 0) {
+      alert("Este cobro ya está pagado.");
+      return;
+    }
+
+    const cantidadTexto = window.prompt(
+      `Total: ${total.toFixed(2)} €\\nYa pagado: ${yaPagado.toFixed(2)} €\\nPendiente: ${pendiente.toFixed(2)} €\\n\\n¿Cuánto paga ahora?`,
+      ""
+    );
+
+    if (cantidadTexto === null) return;
+
+    const cantidad = Number(
+      cantidadTexto.replace(",", ".")
+    );
+
+    if (
+      !Number.isFinite(cantidad) ||
+      cantidad <= 0
+    ) {
+      alert("Introduce una cantidad válida.");
+      return;
+    }
+
+    if (cantidad > pendiente) {
+      alert(
+        `No puede pagar más de lo pendiente (${pendiente.toFixed(2)} €).`
+      );
+      return;
+    }
+
     const metodo = window.prompt(
       "Método de pago: efectivo, tarjeta, bizum, transferencia u otro",
-      "efectivo"
+      cobro.metodo_pago || "efectivo"
     );
 
     if (metodo === null) return;
@@ -342,12 +384,13 @@ export default function PacientePage() {
     }
 
     await ejecutarAccionEconomica({
-      accion: "marcar_pagado",
-      action: "marcar_pagado",
+      accion: "registrar_pago_parcial",
+      action: "registrar_pago_parcial",
       pacienteId: paciente?.id,
       paciente_id: paciente?.id,
       cobroId: cobro.id,
       cobro_id: cobro.id,
+      cantidad,
       metodoPago: metodoNormalizado,
       metodo_pago: metodoNormalizado,
     });
@@ -420,6 +463,107 @@ export default function PacientePage() {
       metodoPago,
       metodo_pago: metodoPago,
     });
+  };
+
+  const registrarCobroManual = async () => {
+    if (!paciente) return;
+
+    const importe = Number(importeCobro.replace(",", "."));
+    const pagado = Number(
+      (pagadoCobro || "0").replace(",", ".")
+    );
+
+    if (!conceptoCobro.trim()) {
+      alert("Indica el concepto.");
+      return;
+    }
+
+    if (!Number.isFinite(importe) || importe <= 0) {
+      alert("Introduce un importe total válido.");
+      return;
+    }
+
+    if (
+      !Number.isFinite(pagado) ||
+      pagado < 0 ||
+      pagado > importe
+    ) {
+      alert(
+        "La cantidad pagada debe estar entre 0 € y el importe total."
+      );
+      return;
+    }
+
+    setGuardandoCobro(true);
+
+    try {
+      const token = await obtenerTokenAdmin();
+
+      if (!token) {
+        window.location.href = "/login";
+        return;
+      }
+
+      const estado =
+        pagado <= 0
+          ? "pendiente"
+          : pagado < importe
+          ? "parcial"
+          : "pagado";
+
+      const response = await fetch(
+        "/api/admin/pacientes",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            accion: "crear_cobro",
+            pacienteId: paciente.id,
+            paciente_id: paciente.id,
+            concepto: conceptoCobro.trim(),
+            importe,
+            importePagado: pagado,
+            importe_pagado: pagado,
+            estado,
+            metodoPago:
+              pagado > 0 ? metodoCobro : null,
+            metodo_pago:
+              pagado > 0 ? metodoCobro : null,
+          }),
+        }
+      );
+
+      const resultado = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          resultado.error ||
+            "No se ha podido registrar el cobro."
+        );
+      }
+
+      await cargarEconomia(paciente.id);
+
+      setMostrarCobro(false);
+      setConceptoCobro("Consulta");
+      setImporteCobro("");
+      setPagadoCobro("");
+      setMetodoCobro("efectivo");
+
+    } catch (error) {
+      console.error(error);
+
+      alert(
+        error instanceof Error
+          ? error.message
+          : "No se ha podido registrar el cobro."
+      );
+    } finally {
+      setGuardandoCobro(false);
+    }
   };
 
   const cargarPaciente = async () => {
@@ -893,6 +1037,17 @@ export default function PacientePage() {
             </a>
           )}
 
+          <a
+            href={`/admin/citas/nueva?pacienteId=${paciente.id}`}
+            style={{
+              color: "#ffffff",
+              WebkitTextFillColor: "#ffffff",
+            }}
+            className="rounded-xl bg-[#0A3653] px-5 py-3 text-xs font-bold text-white shadow-sm transition hover:-translate-y-0.5"
+          >
+            + Nueva cita
+          </a>
+
           <button
             onClick={() =>
               setMostrarFormulario(true)
@@ -900,6 +1055,18 @@ export default function PacientePage() {
             className="rounded-xl bg-[#B1263A] px-5 py-3 text-xs font-bold text-white shadow-sm transition hover:-translate-y-0.5"
           >
             + Añadir sesión
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setMostrarCobro(true)}
+            className="rounded-xl bg-emerald-600 px-5 py-3 text-xs font-bold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-emerald-700"
+            style={{
+              color: "#ffffff",
+              WebkitTextFillColor: "#ffffff",
+            }}
+          >
+            € Registrar cobro
           </button>
 
         </section>
@@ -1376,6 +1543,8 @@ export default function PacientePage() {
                                 className={`mt-1 inline-block rounded-full px-2 py-1 text-[9px] font-bold uppercase ${
                                   cobro.estado === "pagado"
                                     ? "bg-emerald-50 text-emerald-700"
+                                    : cobro.estado === "parcial"
+                                    ? "bg-amber-50 text-amber-700"
                                     : cobro.estado === "cancelado"
                                     ? "bg-slate-100 text-slate-400"
                                     : "bg-red-50 text-red-600"
@@ -1399,7 +1568,7 @@ export default function PacientePage() {
                                 disabled={accionEconomica}
                                 className="mt-3 w-full rounded-xl bg-emerald-600 px-3 py-2.5 text-[10px] font-bold text-white disabled:opacity-50"
                               >
-                                ✓ Marcar como pagado
+                                € Registrar pago
                               </button>
 
                             )}
@@ -1728,6 +1897,214 @@ export default function PacientePage() {
 
       )}
 
-    </main>
+          {/* MODAL REGISTRAR COBRO */}
+      {mostrarCobro && paciente && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/50 p-4 backdrop-blur-sm"
+          onClick={() => setMostrarCobro(false)}
+        >
+          <div
+            className="w-full max-w-lg overflow-hidden rounded-[2rem] bg-white shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="bg-[#0A3653] p-6 text-white">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-white/50">
+                    Gestión económica
+                  </p>
+
+                  <h2 className="mt-2 text-2xl font-bold">
+                    Registrar cobro
+                  </h2>
+
+                  <p className="mt-1 text-sm text-white/60">
+                    {paciente.nombre}
+                  </p>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => setMostrarCobro(false)}
+                  className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-xl"
+                >
+                  ×
+                </button>
+              </div>
+            </div>
+
+            <div className="space-y-5 p-6">
+
+              <div>
+                <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-400">
+                  Concepto
+                </label>
+
+                <input
+                  value={conceptoCobro}
+                  onChange={(e) =>
+                    setConceptoCobro(e.target.value)
+                  }
+                  placeholder="Consulta, tratamiento, bono..."
+                  className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-[#0A3653]"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+
+                <div>
+                  <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-400">
+                    Importe total
+                  </label>
+
+                  <div className="relative">
+                    <input
+                      inputMode="decimal"
+                      value={importeCobro}
+                      onChange={(e) =>
+                        setImporteCobro(e.target.value)
+                      }
+                      placeholder="60"
+                      className="w-full rounded-xl border border-slate-200 px-4 py-3 pr-9 text-lg font-bold outline-none focus:border-[#0A3653]"
+                    />
+
+                    <span className="absolute right-4 top-1/2 -translate-y-1/2 font-bold text-slate-400">
+                      €
+                    </span>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-400">
+                    Ha pagado
+                  </label>
+
+                  <div className="relative">
+                    <input
+                      inputMode="decimal"
+                      value={pagadoCobro}
+                      onChange={(e) =>
+                        setPagadoCobro(e.target.value)
+                      }
+                      placeholder="0"
+                      className="w-full rounded-xl border border-slate-200 px-4 py-3 pr-9 text-lg font-bold outline-none focus:border-[#0A3653]"
+                    />
+
+                    <span className="absolute right-4 top-1/2 -translate-y-1/2 font-bold text-slate-400">
+                      €
+                    </span>
+                  </div>
+                </div>
+
+              </div>
+
+              {importeCobro &&
+                Number(importeCobro.replace(",", ".")) > 0 && (
+                  <div
+                    className={`rounded-2xl p-4 ${
+                      Number(
+                        (pagadoCobro || "0").replace(",", ".")
+                      ) <= 0
+                        ? "bg-red-50 text-red-700"
+                        : Number(
+                            (pagadoCobro || "0").replace(",", ".")
+                          ) <
+                          Number(
+                            importeCobro.replace(",", ".")
+                          )
+                        ? "bg-amber-50 text-amber-700"
+                        : "bg-emerald-50 text-emerald-700"
+                    }`}
+                  >
+                    <p className="font-bold">
+                      {Number(
+                        (pagadoCobro || "0").replace(",", ".")
+                      ) <= 0
+                        ? "🔴 Pendiente"
+                        : Number(
+                            (pagadoCobro || "0").replace(",", ".")
+                          ) <
+                          Number(
+                            importeCobro.replace(",", ".")
+                          )
+                        ? "🟠 Pago parcial"
+                        : "🟢 Pagado"}
+                    </p>
+
+                    <p className="mt-1 text-sm font-semibold">
+                      Faltan{" "}
+                      {Math.max(
+                        0,
+                        Number(
+                          importeCobro.replace(",", ".")
+                        ) -
+                          Number(
+                            (pagadoCobro || "0").replace(",", ".")
+                          )
+                      ).toFixed(2)}{" "}
+                      €
+                    </p>
+                  </div>
+                )}
+
+              <div>
+                <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-400">
+                  Método de pago
+                </label>
+
+                <select
+                  value={metodoCobro}
+                  onChange={(e) =>
+                    setMetodoCobro(e.target.value)
+                  }
+                  disabled={
+                    Number(
+                      (pagadoCobro || "0").replace(",", ".")
+                    ) <= 0
+                  }
+                  className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 font-semibold outline-none disabled:bg-slate-50"
+                >
+                  <option value="efectivo">Efectivo</option>
+                  <option value="bizum">Bizum</option>
+                  <option value="tarjeta">Tarjeta</option>
+                  <option value="transferencia">
+                    Transferencia
+                  </option>
+                  <option value="otro">Otro</option>
+                </select>
+              </div>
+
+              <div className="flex gap-3 border-t border-slate-100 pt-5">
+
+                <button
+                  type="button"
+                  onClick={() => setMostrarCobro(false)}
+                  className="flex-1 rounded-xl border border-slate-200 px-4 py-3 text-sm font-bold text-slate-500"
+                >
+                  Cancelar
+                </button>
+
+                <button
+                  type="button"
+                  disabled={guardandoCobro}
+                  onClick={registrarCobroManual}
+                  className="flex-1 rounded-xl bg-[#0A3653] px-4 py-3 text-sm font-bold text-white disabled:opacity-50"
+                  style={{
+                    color: "#ffffff",
+                    WebkitTextFillColor: "#ffffff",
+                  }}
+                >
+                  {guardandoCobro
+                    ? "Guardando..."
+                    : "Registrar cobro"}
+                </button>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+</main>
   );
 }
