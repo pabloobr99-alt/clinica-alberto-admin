@@ -822,7 +822,7 @@ export default function Home() {
               <div>
                 <span>CENTRO DE OSTEOPATÍA</span>
                 <h3>Alberto Matamoros</h3>
-                <p>Terapias Naturales y Equilibrio</p>
+                <p>Osteopatía · Acupuntura · Moxibustión</p>
               </div>
             </div>
 
@@ -839,10 +839,31 @@ export default function Home() {
 
               <div>
                 <span className="footer-label">CONTACTO</span>
-                <p>Dirección del centro</p>
-                <p>Teléfono</p>
-                <p>Email</p>
-                <p>WhatsApp</p>
+
+                <a
+                  href="https://www.google.com/maps/search/?api=1&query=Calle%20Administrador%20Gutierrez%20Anaya%205%2C%2041020%20Sevilla"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  📍 C/ Administrador Gutiérrez Anaya, 5
+                  <span className="block">Oficina 246 · 41020 Sevilla</span>
+                </a>
+
+                <a href="tel:+34617257256">
+                  ☎ 617 257 256
+                </a>
+
+                <a href="mailto:albertommtrabajo@gmail.com">
+                  ✉ albertommtrabajo@gmail.com
+                </a>
+
+                <a
+                  href="https://wa.me/34617257256"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  WhatsApp · Escríbenos
+                </a>
               </div>
 
               <div>
@@ -858,7 +879,7 @@ export default function Home() {
           <div className="footer-bottom">
             <span>© 2026 Centro de Osteopatía Alberto Matamoros</span>
             <span className="footer-kanji">和</span>
-            <span>Terapias Naturales y Equilibrio</span>
+            <span>Atención personalizada y bienestar corporal</span>
           </div>
         </div>
       </footer>
