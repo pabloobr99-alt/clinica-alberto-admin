@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { obtenerSupabasePrivado } from "@/app/lib/google-calendar-security";
-import { crearEventoGoogle } from "@/app/lib/google-eventos";
 import { consultarHorasOcupadas } from "@/app/lib/google-disponibilidad";
 import { obtenerHorarios } from "@/app/lib/horario";
 
@@ -203,46 +202,6 @@ export async function POST(request: Request) {
       throw citaError;
     }
 
-    try {
-      const eventId = await crearEventoGoogle({
-        id: String(cita.id),
-        fecha: cita.fecha,
-        hora: cita.hora,
-        nombre: paciente.nombre,
-        motivo,
-        telefono: paciente.telefono,
-        email: paciente.email,
-      });
-
-      const { error: syncError } =
-        await supabase
-          .from("citas")
-          .update({
-            google_event_id: eventId,
-            google_sync_status: "sincronizado",
-          })
-          .eq("id", cita.id);
-
-      if (syncError) throw syncError;
-    } catch (error) {
-      console.error("Sincronización Google:", error);
-
-      await supabase
-        .from("citas")
-        .update({
-          google_sync_status: "error",
-        })
-        .eq("id", cita.id);
-
-      return NextResponse.json(
-        {
-          error:
-            "La cita se ha guardado, pero necesita revisar la sincronización con Google Calendar.",
-          citaCreada: true,
-        },
-        { status: 503 }
-      );
-    }
 
     return NextResponse.json({
       ok: true,

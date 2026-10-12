@@ -5,10 +5,6 @@ import {
   obtenerSupabasePrivado,
 } from "@/app/lib/google-calendar-security";
 
-import {
-  eliminarEventoGoogle,
-} from "@/app/lib/google-eventos";
-
 export const dynamic = "force-dynamic";
 
 export async function POST(request: Request) {
@@ -72,40 +68,7 @@ export async function POST(request: Request) {
       );
     }
 
-    if (estado === "cancelada") {
-      // Si una sincronización anterior falló,
-      // hay que revisar si Google llegó a crear
-      // el evento antes de permitir la cancelación.
-      if (
-        cita.google_sync_status === "error" ||
-        (
-          cita.google_sync_status === "pendiente" &&
-          cita.google_event_id
-        )
-      ) {
-        return NextResponse.json(
-          {
-            error:
-              "Esta cita necesita una revisión de sincronización antes de cancelarse.",
-          },
-          { status: 409 }
-        );
-      }
-
-      if (cita.google_event_id) {
-        // Solo eliminamos eventos vinculados
-        // expresamente a esta cita.
-        await eliminarEventoGoogle(String(id));
-      }
-    }
-
-    const actualizacion =
-      estado === "cancelada"
-        ? {
-            estado,
-            google_sync_status: "cancelado",
-          }
-        : { estado };
+    const actualizacion = { estado };
 
     const { data: actualizada, error: updateError } =
       await supabase

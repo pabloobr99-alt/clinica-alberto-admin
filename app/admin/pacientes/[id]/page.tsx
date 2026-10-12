@@ -216,7 +216,7 @@ export default function PacientePage() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(datos),
+        body: JSON.stringify({ ...datos, solicitud_id: crypto.randomUUID() }),
       });
 
       const resultado = await response.json();

@@ -287,7 +287,7 @@ export default function Admin() {
           </button>
 
           <button
-            onClick={() => router.push("/agenda")}
+            onClick={() => router.push("/admin/control")}
             className={`mt-2 flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition ${
               agendaActiva
                 ? "bg-[#0A3653] text-white shadow-sm"
@@ -415,7 +415,7 @@ export default function Admin() {
           </button>
 
           <button
-            onClick={() => router.push("/agenda")}
+            onClick={() => router.push("/admin/control")}
             className={`flex flex-col items-center justify-center gap-1 rounded-xl text-[11px] font-semibold transition ${
               agendaActiva
                 ? "text-[#0A3653]"
@@ -506,7 +506,7 @@ export default function Admin() {
                   </button>
 
                   <button
-                    onClick={() => router.push("/agenda")}
+                    onClick={() => router.push("/admin/control")}
                     className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-medium text-slate-700 hover:bg-slate-50"
                   >
                     ◷

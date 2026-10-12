@@ -1,8 +1,7 @@
 import { google } from "googleapis";
 
 export const GOOGLE_SCOPES = [
-  "https://www.googleapis.com/auth/calendar.events",
-  "https://www.googleapis.com/auth/calendar.events.freebusy",
+  "https://www.googleapis.com/auth/calendar.readonly",
 ];
 
 export function getGoogleOAuthClient() {

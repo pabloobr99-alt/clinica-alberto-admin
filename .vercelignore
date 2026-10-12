@@ -1,0 +1,8 @@
+.env*
+tests/
+db/
+*.tsbuildinfo
+.backups/
+**/*.pre-*
+*.bak
+CONTROL-DIARIO.md

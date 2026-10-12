@@ -1,7 +1,5 @@
-import { crearEventoGoogle } from "@/app/lib/google-eventos";
 import { obtenerSupabasePrivado } from "@/app/lib/google-calendar-security";
 import { NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
 import { obtenerHorarios } from "@/app/lib/horario";
 import {
   consultarHorasOcupadas,
@@ -196,69 +194,8 @@ export async function POST(request: Request) {
       );
     }
 
-    // Crear el evento de Google para la cita registrada.
-    try {
-      const eventId = await crearEventoGoogle({
-        id: String(data.id),
-        fecha: data.fecha,
-        hora: data.hora,
-        nombre,
-        motivo,
-        telefono,
-        email,
-      });
+    return NextResponse.json({ ok: true, cita: data });
 
-      const privado = obtenerSupabasePrivado();
-
-      const { error: syncError } = await privado
-        .from("citas")
-        .update({
-          google_event_id: eventId,
-          google_sync_status: "sincronizado",
-        })
-        .eq("id", data.id);
-
-      if (syncError) {
-        throw new Error(
-          "El evento existe, pero falta actualizar Supabase."
-        );
-      }
-
-      return NextResponse.json({
-        ok: true,
-        cita: data,
-      });
-    } catch (error) {
-      console.error(
-        "Sincronización con Google:",
-        error instanceof Error ? error.message : "Error"
-      );
-
-      // Conservamos la reserva por si Google creó
-      // el evento antes de producirse el error.
-      const privado = obtenerSupabasePrivado();
-
-      const { error: estadoError } = await privado
-        .from("citas")
-        .update({
-          google_sync_status: "error",
-        })
-        .eq("id", data.id);
-
-      if (estadoError) {
-        console.error(
-          "No se pudo registrar el error de sincronización."
-        );
-      }
-
-      return NextResponse.json(
-        {
-          error:
-            "La cita se ha registrado, pero necesita verificación. Contacta con la clínica antes de repetir la reserva.",
-        },
-        { status: 503 }
-      );
-    }
   } catch (error) {
     console.error(error);
 
