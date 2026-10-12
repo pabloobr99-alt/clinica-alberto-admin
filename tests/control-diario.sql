@@ -3,9 +3,11 @@ DO $$
 DECLARE
  k text:='manual:'||gen_random_uuid(); k2 text:='manual:'||gen_random_uuid();
  req uuid:=gen_random_uuid(); payreq uuid:=gen_random_uuid();
- payload jsonb; r jsonb; c bigint; pid bigint; bid bigint; n integer; old numeric;
+ payload jsonb; r jsonb; c bigint; pid bigint; bid bigint; n integer; old numeric; cash_a numeric; cash_b numeric; result_a numeric; result_b numeric;
 BEGIN
  SELECT sum(importe_pagado) INTO old FROM public.cobros;
+ SELECT coalesce(sum((m->>'importe')::numeric),0) INTO cash_a FROM jsonb_array_elements(public.control_finanzas('2026-10-10','2026-10-10')->'movimientos') m;
+ SELECT coalesce(sum((m->>'importe')::numeric),0) INTO cash_b FROM jsonb_array_elements(public.control_finanzas('2026-10-11','2026-10-11')->'movimientos') m;
  payload:=jsonb_build_object('accion','crear_cobro','clave',k,'nombre_agenda','Prueba transaccional','fecha_cita','2026-10-15','hora','10:00','importe',60,'cantidad',20,'metodo','efectivo','cobrado_local','2026-10-10T23:59');
  r:=public.control_diario_accion(req,payload);c:=(r->>'cobro_id')::bigint;
  PERFORM public.control_diario_accion(req,payload);
@@ -29,6 +31,9 @@ BEGIN
  EXCEPTION WHEN raise_exception THEN NULL; END;
  r:=public.control_diario_accion(gen_random_uuid(),jsonb_build_object('accion','crear_bono','paciente_id',pid,'importe',100,'cantidad',30,'metodo','bizum','cobrado_local','2026-10-11T10:00','sesiones',2,'concepto','Bono prueba'));
  bid:=(r->>'bono_id')::bigint;
+ SELECT coalesce(sum((m->>'importe')::numeric),0) INTO result_a FROM jsonb_array_elements(public.control_finanzas('2026-10-10','2026-10-10')->'movimientos') m;
+ SELECT coalesce(sum((m->>'importe')::numeric),0) INTO result_b FROM jsonb_array_elements(public.control_finanzas('2026-10-11','2026-10-11')->'movimientos') m;
+ IF result_a-cash_a<>20 OR result_b-cash_b<>70 THEN RAISE EXCEPTION 'Caja por fecha de ingreso incorrecta'; END IF;
  payload:=jsonb_build_object('accion','consumir_bono','clave',k2,'paciente_id',pid,'bono_id',bid,'nombre_agenda','Prueba bono','fecha_cita','2026-10-12','hora','11:00');
  PERFORM public.control_diario_accion(gen_random_uuid(),payload);PERFORM public.control_diario_accion(gen_random_uuid(),payload);
  IF (SELECT sesiones_usadas FROM public.bonos WHERE id=bid)<>1 OR (SELECT count(*) FROM public.bono_sesiones WHERE clave_cita=k2)<>1 THEN RAISE EXCEPTION 'Consumo duplicado'; END IF;
