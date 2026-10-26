@@ -10,7 +10,7 @@ export async function GET(request: Request) {
   }
 
   const { fecha, hora } = horaLocal();
-  if (hora !== 7) return NextResponse.json({ skipped: true });
+  if (hora !== 7 && hora !== 8) return NextResponse.json({ skipped: true });
 
   try {
     await enviarAgenda(fecha, "Resumen diario");
