@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { enviarAgenda } from "@/app/lib/notificaciones-agenda";
 
 import {
   verificarAdministrador,
@@ -39,7 +40,7 @@ export async function POST(request: Request) {
       await supabase
         .from("citas")
         .select(
-          "id,estado,google_event_id,google_sync_status"
+          "id,fecha,estado,google_event_id,google_sync_status"
         )
         .eq("id", id)
         .single();
@@ -87,6 +88,12 @@ export async function POST(request: Request) {
         },
         { status: 503 }
       );
+    }
+
+    try {
+      await enviarAgenda(cita.fecha, estado === "cancelada" ? "Cita cancelada" : "Cita confirmada");
+    } catch (emailError) {
+      console.error("Estado actualizado, fallo enviando agenda", emailError);
     }
 
     return NextResponse.json({
