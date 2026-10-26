@@ -9,7 +9,7 @@ export function horaLocal() {
 }
 
 export async function enviarAgenda(fecha: string, motivo: string) {
-  if (!/^\\d{4}-\\d{2}-\\d{2}$/.test(fecha)) throw new Error("Fecha inválida");
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(fecha)) throw new Error("Fecha inválida");
   const db = obtenerSupabasePrivado();
   const { data, error } = await db.from("citas").select("id,nombre,fecha,hora,estado").eq("fecha", fecha).neq("estado", "cancelada").order("hora");
   if (error) throw error;
