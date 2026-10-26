@@ -1,6 +1,7 @@
 import { obtenerSupabasePrivado } from "@/app/lib/google-calendar-security";
 import { NextResponse } from "next/server";
 import { crearEventoGoogle } from "@/app/lib/google-eventos";
+import { enviarAgenda } from "@/app/lib/notificaciones-agenda";
 import { obtenerHorarios } from "@/app/lib/horario";
 import {
   consultarHorasOcupadas,
@@ -207,6 +208,12 @@ export async function POST(request: Request) {
         citaId: data.id,
         error: syncError instanceof Error ? syncError.message : "Error desconocido",
       });
+    }
+
+    try {
+      await enviarAgenda(fecha, "Nueva reserva");
+    } catch (emailError) {
+      console.error("Reserva guardada, fallo enviando agenda", emailError);
     }
 
     return NextResponse.json({ ok: true, cita: data, calendarioSincronizado });
