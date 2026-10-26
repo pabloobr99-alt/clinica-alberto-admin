@@ -1,4 +1,5 @@
 import { obtenerSupabasePrivado } from "@/app/lib/google-calendar-security";
+import { crearEventoGoogle } from "@/app/lib/google-eventos";
 import { NextResponse } from "next/server";
 import { obtenerHorarios } from "@/app/lib/horario";
 import {
@@ -194,7 +195,36 @@ export async function POST(request: Request) {
       );
     }
 
-    return NextResponse.json({ ok: true, cita: data });
+    // La cita se conserva en Supabase aunque Google no esté disponible.
+    // Nunca se devuelve un error que induzca al paciente a reservar otra vez.
+    let calendarioSincronizado = false;
+    try {
+      const googleEventId = await crearEventoGoogle({
+        id: String(data.id), fecha, hora, nombre, telefono, email, motivo,
+      });
+      const { error: vinculacionError } = await supabase
+        .from("citas")
+        .update({ google_event_id: googleEventId })
+        .eq("id", data.id);
+      if (vinculacionError) {
+        console.error("Reserva guardada pero sin vínculo Google:", data.id, vinculacionError.code);
+      } else {
+        calendarioSincronizado = true;
+      }
+    } catch (googleError) {
+      console.error(
+        "Reserva guardada pero falló Google Calendar. Cita:",
+        data.id,
+        googleError instanceof Error ? googleError.message : "Error desconocido"
+      );
+    }
+
+    return NextResponse.json({
+      ok: true,
+      cita: data,
+      calendarioSincronizado,
+      ...(!calendarioSincronizado ? { aviso: "Reserva registrada; sincronización con calendario pendiente." } : {}),
+    });
 
   } catch (error) {
     console.error(error);
