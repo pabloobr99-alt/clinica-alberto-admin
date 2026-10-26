@@ -1,6 +1,7 @@
 import { google } from "googleapis";
 
 export const GOOGLE_SCOPES = [
+  "https://www.googleapis.com/auth/calendar.events",
   "https://www.googleapis.com/auth/calendar.readonly",
 ];
 
@@ -10,14 +11,7 @@ export function getGoogleOAuthClient() {
   const redirectUri = process.env.GOOGLE_REDIRECT_URI?.trim();
 
   if (!clientId || !clientSecret || !redirectUri) {
-    throw new Error(
-      "Faltan credenciales de Google Calendar."
-    );
+    throw new Error("Faltan credenciales de Google Calendar.");
   }
-
-  return new google.auth.OAuth2(
-    clientId,
-    clientSecret,
-    redirectUri
-  );
+  return new google.auth.OAuth2(clientId, clientSecret, redirectUri);
 }

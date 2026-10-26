@@ -286,6 +286,14 @@ export default function Admin() {
             <span>Dashboard</span>
           </button>
 
+          <a
+            href="/api/google/auth"
+            className="mt-2 flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 transition hover:bg-slate-50 hover:text-[#0A3653]"
+          >
+            <span className="text-lg">▣</span>
+            <span>Conectar Google Calendar</span>
+          </a>
+
           <button
             onClick={() => router.push("/admin/control")}
             className={`mt-2 flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition ${
