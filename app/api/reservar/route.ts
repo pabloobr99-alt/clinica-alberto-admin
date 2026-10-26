@@ -1,5 +1,6 @@
 import { obtenerSupabasePrivado } from "@/app/lib/google-calendar-security";
 import { NextResponse } from "next/server";
+import { crearEventoGoogle } from "@/app/lib/google-eventos";
 import { obtenerHorarios } from "@/app/lib/horario";
 import {
   consultarHorasOcupadas,
@@ -194,7 +195,21 @@ export async function POST(request: Request) {
       );
     }
 
-    return NextResponse.json({ ok: true, cita: data });
+    // La reserva permanece registrada aunque Google falle: nunca ocultar una cita confirmada.
+    let calendarioSincronizado = false;
+    try {
+      await crearEventoGoogle({
+        id: String(data.id), fecha, hora, nombre, motivo, telefono, email,
+      });
+      calendarioSincronizado = true;
+    } catch (syncError) {
+      console.error("Cita guardada pero no sincronizada con Google Calendar", {
+        citaId: data.id,
+        error: syncError instanceof Error ? syncError.message : "Error desconocido",
+      });
+    }
+
+    return NextResponse.json({ ok: true, cita: data, calendarioSincronizado });
 
   } catch (error) {
     console.error(error);
